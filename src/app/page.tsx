@@ -2,11 +2,13 @@ import { Footer, Header } from "@/components/site-shell";
 import {
   AboutSection,
   CompetenciesSection,
+  CertificationsSection,
   ContactSection,
   HeroSection,
   HomelabSection,
   ProjectsSection,
   RoadmapSection,
+  TechnologiesSection,
 } from "@/components/portfolio-sections";
 
 export default function Home() {
@@ -20,7 +22,9 @@ export default function Home() {
         <HeroSection />
         <AboutSection />
         <CompetenciesSection />
+        <TechnologiesSection />
         <ProjectsSection />
+        <CertificationsSection />
         <HomelabSection />
         <RoadmapSection />
         <ContactSection />

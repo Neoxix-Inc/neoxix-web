@@ -1,22 +1,25 @@
 import { navigation } from "@/data/portfolio";
+import { MobileNavigation } from "./mobile-navigation";
+import Link from "next/link";
 
 export function Header() {
   return (
     <header className="site-header">
       <div className="container header-inner">
-        <a className="wordmark" href="#top" aria-label="Neoxix, back to top">
+        <Link className="wordmark" href="/" aria-label="Neoxix home">
           NEOXIX<span aria-hidden="true">.</span>
-        </a>
-        <nav aria-label="Primary navigation">
+        </Link>
+        <nav className="desktop-navigation" aria-label="Primary navigation">
           <ul className="nav-list">
             {navigation.map((item) => (
               <li key={item.href}>
-                <a href={item.href}>{item.label}</a>
+                <Link href={item.href}>{item.label}</Link>
               </li>
             ))}
           </ul>
         </nav>
-        <a className="header-cta" href="#contact">Let&apos;s connect</a>
+        <Link className="header-cta" href="/#contact">Let&apos;s connect</Link>
+        <MobileNavigation />
       </div>
     </header>
   );
@@ -27,7 +30,7 @@ export function Footer() {
     <footer className="site-footer">
       <div className="container footer-inner">
         <div>
-          <a className="wordmark footer-wordmark" href="#top">NEOXIX<span aria-hidden="true">.</span></a>
+          <Link className="wordmark footer-wordmark" href="/">NEOXIX<span aria-hidden="true">.</span></Link>
           <p>Technical portfolio of Kodjo Mathias Akah.</p>
         </div>
         <p>Built with care in Canada · © {new Date().getFullYear()} Neoxix Inc.</p>

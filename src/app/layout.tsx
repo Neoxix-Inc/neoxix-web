@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Source_Sans_3, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { siteConfig } from "@/data/portfolio";
 
 const sourceSans = Source_Sans_3({
   variable: "--font-source-sans",
@@ -15,6 +16,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.canonicalUrl),
+  alternates: { canonical: "/" },
   title: "Kodjo Mathias Akah | Network & Systems Portfolio",
   description:
     "The technical portfolio of Kodjo Mathias Akah and project showcase of Neoxix Inc., focused on practical networking, systems, security, and automation.",
@@ -35,6 +38,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_CA",
     siteName: "Neoxix",
+    url: "/",
   },
   twitter: {
     card: "summary",
@@ -43,6 +47,7 @@ export const metadata: Metadata = {
       "Practical networking, systems, security, and automation projects.",
   },
   robots: { index: true, follow: true },
+  category: "technology",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

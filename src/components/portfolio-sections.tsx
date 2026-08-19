@@ -1,13 +1,21 @@
 import {
   competencies,
+  certifications,
   homelabLayers,
   profile,
+  portfolioTechnologies,
   projects,
   roadmap,
-  socialLinks,
+  siteConfig,
   type Status,
 } from "@/data/portfolio";
 import { ArrowUpRight, CheckIcon, GithubIcon } from "./icons";
+import { TechnologyList } from "@/data/technologies";
+import { ProjectFilter } from "./project-filter";
+import { CertificationCard } from "./certification-card";
+import { Reveal } from "./reveal";
+import { TechnologyTabs } from "./technology-tabs";
+import Link from "next/link";
 
 function SectionHeading({ eyebrow, title, intro }: { eyebrow: string; title: string; intro?: string }) {
   return (
@@ -25,7 +33,7 @@ function StatusBadge({ status }: { status: Status }) {
 
 function SocialLink() {
   return (
-    <a className="social-link" href={socialLinks.github} target="_blank" rel="noreferrer">
+    <a className="social-link" href={siteConfig.githubUrl} target="_blank" rel="noopener noreferrer">
       <GithubIcon />
       <span>GitHub</span>
       <ArrowUpRight className="link-arrow" />
@@ -91,10 +99,14 @@ export function CompetenciesSection() {
         <SectionHeading eyebrow="02 / CORE COMPETENCIES" title="Foundations for dependable infrastructure." intro="Current experience developed through study, hands-on labs, and documented personal projects." />
         <div className="competency-grid">
           {competencies.map((item) => (
+            <Reveal key={item.title}>
             <article className="competency-card" key={item.title}>
-              <span className="card-number">{item.number}</span><h3>{item.title}</h3><p>{item.description}</p>
+              <span className="card-number">{item.number}</span><h3><Link className="card-primary-link" href={`/projects/category/${item.projectCategory.toLowerCase()}`}>{item.title}</Link></h3><p>{item.description}</p>
               <ul>{item.skills.map((skill) => <li key={skill}><CheckIcon />{skill}</li>)}</ul>
+              <TechnologyList technologies={item.technologies} compact />
+              <span className="card-action" aria-hidden="true">View {item.projectCategory} projects →</span>
             </article>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -106,16 +118,36 @@ export function ProjectsSection() {
   return (
     <section className="section" id="projects" aria-labelledby="projects-title">
       <div className="container">
-        <SectionHeading eyebrow="03 / SELECTED PROJECTS" title="Learning made visible." intro="A selection of practical work, shown with transparent status and scope." />
-        <div className="project-list">
-          {projects.map((project, index) => (
-            <article className="project-card" key={project.title}>
-              <div className="project-index">{String(index + 1).padStart(2, "0")}</div>
-              <div className="project-body"><div className="project-title-row"><h3>{project.title}</h3><StatusBadge status={project.status} /></div><p>{project.description}</p><div className="tag-list">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div>
-              <div className="project-outcome"><span>Learning outcome</span><p>{project.outcome}</p></div>
-            </article>
-          ))}
-        </div>
+        <SectionHeading eyebrow="04 / SELECTED PROJECTS" title="Learning made visible." intro="A selection of practical work, shown with transparent status and scope." />
+        <ProjectFilter projects={projects} />
+      </div>
+    </section>
+  );
+}
+
+export function TechnologiesSection() {
+  const groups = {
+    Experience: portfolioTechnologies.filter((technology) => technology.level === "Experience"),
+    Learning: portfolioTechnologies.filter((technology) => technology.level === "Learning"),
+    Planned: portfolioTechnologies.filter((technology) => technology.level === "Planned"),
+  };
+
+  return (
+    <section className="section technologies-section" id="technologies" aria-labelledby="technologies-title">
+      <div className="container">
+        <SectionHeading eyebrow="03 / TECHNOLOGIES" title="Tools used and skills in development." intro="Levels describe current portfolio exposure, not professional mastery or production-scale use." />
+        <TechnologyTabs groups={groups} />
+      </div>
+    </section>
+  );
+}
+
+export function CertificationsSection() {
+  return (
+    <section className="section section-tint" id="certifications" aria-labelledby="certifications-title">
+      <div className="container">
+        <SectionHeading eyebrow="05 / CERTIFICATIONS" title="Certification goals, reported honestly." intro="No completed certification is currently claimed. Dates, IDs, links, and evidence are shown only when verified and available." />
+        <div className="certification-list">{certifications.map((certification) => <CertificationCard key={certification.name} certification={certification} />)}</div>
       </div>
     </section>
   );
@@ -126,7 +158,7 @@ export function HomelabSection() {
     <section className="section homelab" id="homelab" aria-labelledby="homelab-title">
       <div className="container homelab-grid">
         <div>
-          <p className="eyebrow eyebrow-light">04 / HOMELAB OVERVIEW</p><h2 id="homelab-title">A controlled environment for testing, breaking, and understanding.</h2>
+          <p className="eyebrow eyebrow-light">06 / HOMELAB OVERVIEW</p><h2 id="homelab-title">A controlled environment for testing, breaking, and understanding.</h2>
           <p className="homelab-intro">The Neoxix Homelab supports practical exploration across the infrastructure stack. It is a personal learning environment—not a claim of production-scale operations.</p>
           <StatusBadge status="Deployed and improving" />
         </div>
@@ -142,7 +174,7 @@ export function RoadmapSection() {
   return (
     <section className="section section-tint" id="roadmap" aria-labelledby="roadmap-title">
       <div className="container">
-        <SectionHeading eyebrow="05 / LEARNING ROADMAP" title="Progress with a clear next step." intro="Training and certification goals are reported as goals until they are completed and verified." />
+        <SectionHeading eyebrow="07 / LEARNING ROADMAP" title="Progress with a clear next step." intro="Training and certification goals are reported as goals until they are completed and verified." />
         <div className="roadmap-list">
           {roadmap.map((item, index) => <article key={item.title}><div className="roadmap-marker"><span>{index + 1}</span></div><div className="roadmap-content"><p className="roadmap-phase">{item.phase}</p><div className="roadmap-title"><h3>{item.title}</h3><StatusBadge status={item.status} /></div><p>{item.description}</p></div></article>)}
         </div>
@@ -155,7 +187,7 @@ export function ContactSection() {
   return (
     <section className="contact" id="contact" aria-labelledby="contact-title">
       <div className="container contact-grid">
-        <div><p className="eyebrow eyebrow-light">06 / CONTACT</p><h2 id="contact-title">Let&apos;s build something reliable.</h2></div>
+        <div><p className="eyebrow eyebrow-light">08 / CONTACT</p><h2 id="contact-title">Let&apos;s build something reliable.</h2></div>
         <div><p className="contact-copy">I&apos;m open to conversations about junior network and systems roles, infrastructure projects, and thoughtful technical collaboration in Canada.</p><div className="socials"><SocialLink /></div></div>
       </div>
     </section>
