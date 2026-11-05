@@ -49,7 +49,7 @@ export const fr: Contenu = {
       etapes: [
         { numero: "01", libelle: "Votre site reçoit une demande", detail: "Courriel ou formulaire, selon la configuration", etiquette: "Site" },
         { numero: "02", libelle: "Elle est classée", detail: "Type de besoin, urgence, marché", etiquette: "Automatisation" },
-        { numero: "03", libelle: "Elle est enregistrée dans votre CRM", detail: "Contact et suivi créés", etiquette: "Intégration" },
+        { numero: "03", libelle: "Elle serait enregistrée dans votre CRM", detail: "Contact et suivi créés", etiquette: "Intégration" },
         { numero: "04", libelle: "Vous décidez de la suite", detail: "Aucune réponse commerciale automatique", etiquette: "Humain", humain: true },
       ],
       legende: ["étape automatisée", "décision humaine", "Schéma illustratif"],
@@ -162,7 +162,7 @@ export const fr: Contenu = {
         titre: "Infrastructure et sécurité",
         titreCourt: "Infrastructure et sécurité",
         resume:
-          "Réseau et VLAN, accès à distance chiffré, pare-feu, Windows Server et Linux, sauvegardes dont la restauration est testée.",
+          "Réseau et VLAN, accès à distance chiffré, pare-feu, Windows Server et Linux, sauvegardes, dont les modalités sont précisées dans chaque proposition.",
         etiquettes: ["Réseau", "Pare-feu", "Windows Server", "Linux"],
         probleme:
           "« Mes employés travaillent à distance, mon serveur a dix ans et je ne suis pas sûr que mes sauvegardes fonctionnent. »",
@@ -238,7 +238,7 @@ export const fr: Contenu = {
       items: [
         "Une proposition écrite avant tout travail facturé.",
         "Des accès, codes et documents qui vous appartiennent.",
-        "Des sauvegardes dont la restauration est testée.",
+        "Des sauvegardes, dont les modalités sont précisées dans chaque proposition.",
         "Un langage clair, sans jargon inutile.",
       ],
     },
@@ -248,7 +248,7 @@ export const fr: Contenu = {
         "Une sécurité absolue : personne ne peut la garantir honnêtement.",
         "Une certification ou un partenariat que nous n'avons pas.",
         "Une disponibilité 24/7 sans contrat qui la prévoit.",
-        "Des résultats chiffrés pour un client : aucun n'est publié à ce jour.",
+        "Des résultats chiffrés pour un client : nous ne publions pas de résultats clients à ce jour.",
       ],
     },
   },

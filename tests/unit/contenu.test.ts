@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { contenu, lienCourriel, trouverPole } from "@/content";
 
 const MAQUETTE_CHEMIN = "design/v3/index.html";
-const MAQUETTE_SHA256 = "29f16280025be245596bc46a3f766f175132011c2a0b251d0230821ecef729d1";
+const MAQUETTE_SHA256 = "66621c78ba247d179fd35e9d1e1f3a7f31da409c0cfa228142e81e3949dfb1c8";
 
 const maquetteBrute = readFileSync(MAQUETTE_CHEMIN, "utf8");
 
