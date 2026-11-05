@@ -12,7 +12,15 @@ export const PAGES_VITRINE = [
   "/confidentialite",
 ] as const;
 
-export const PAGES_PORTFOLIO = ["/portfolio", "/projects/neoxix-homelab", "/technologies/cisco"] as const;
+/** Anciennes adresses du portfolio : redirection 301 vers l'accueil. */
+export const ANCIENNES_ADRESSES = [
+  "/portfolio",
+  "/projects/neoxix-homelab",
+  "/projects/fortigate-ikev2-vpn-lab",
+  "/projects/category/networking",
+  "/technologies/cisco",
+  "/technologies/fortinet",
+] as const;
 
 export const BANDEAU = "Maquette / prévisualisation, non publiée";
 

@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { BANDEAU, PAGES_PORTFOLIO, PAGES_VITRINE, debordement, defilerTout, surveiller } from "./outils";
+import { ANCIENNES_ADRESSES, BANDEAU, PAGES_VITRINE, debordement, defilerTout, surveiller } from "./outils";
 
 test.describe("pages de la vitrine", () => {
   for (const chemin of PAGES_VITRINE) {
@@ -65,14 +65,15 @@ test.describe("textes entre crochets conservés", () => {
   });
 });
 
-test.describe("pages du portfolio (fast-forward du 4 novembre)", () => {
-  for (const chemin of PAGES_PORTFOLIO) {
-    test(`${chemin} : accessible et sans erreur`, async ({ page }) => {
-      const { erreurs } = surveiller(page);
-      const reponse = await page.goto(chemin, { waitUntil: "networkidle" });
-      expect(reponse?.status()).toBe(200);
-      await expect(page.locator("h1").first()).toBeVisible();
-      expect(erreurs).toEqual([]);
+test.describe("anciennes adresses du portfolio", () => {
+  for (const chemin of ANCIENNES_ADRESSES) {
+    test(`${chemin} : redirection 301 vers l'accueil`, async ({ request, page }) => {
+      const reponse = await request.get(chemin, { maxRedirects: 0 });
+      expect(reponse.status()).toBe(301);
+      expect(reponse.headers()["location"]).toBe("/");
+      await page.goto(chemin);
+      await expect(page).toHaveURL(/\/$/);
+      await expect(page.getByRole("heading", { level: 1 })).toContainText("Votre site, vos outils");
     });
   }
 });
