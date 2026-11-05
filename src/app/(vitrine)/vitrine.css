@@ -141,7 +141,7 @@ main:focus { outline: none; }
 @keyframes allume { 0%, 100% { box-shadow: 0 0 0 0 rgba(79, 209, 197, 0); background: var(--nuit-2); } 6%, 40% { box-shadow: 0 0 22px 2px rgba(79, 209, 197, 0.45); background: rgba(79, 209, 197, 0.16); } 50% { box-shadow: none; background: var(--nuit-2); } }
 .flux li.humain .noeud { border-color: var(--ambre-vif); color: var(--ambre-vif); border-style: dashed; animation: attente 8s 7; animation-delay: 2.4s; }
 @keyframes attente { 0%, 100% { box-shadow: none; } 6%, 40% { box-shadow: 0 0 0 6px rgba(255, 139, 71, 0.12); } }
-.flux.en-pause ol::after, .flux.en-pause .noeud { animation-play-state: paused; }
+.flux.en-pause ol::after, .flux.en-pause .noeud, .flux.en-pause li.humain .noeud { animation-play-state: paused; }
 .lbl { font-weight: 600; line-height: 1.3; color: #fff; min-width: 0; }
 .lbl small { display: block; font-weight: 400; color: #9aabb2; font-size: 0.875rem; }
 .etiq { font: 500 0.66rem var(--mono); text-transform: uppercase; letter-spacing: 0.07em; padding: 3px 7px; border: 1px solid var(--filet-nuit); border-radius: 3px; color: #9aabb2; }
@@ -177,7 +177,7 @@ section.bloc { padding: 96px 0; position: relative; }
 /* Trois questions */
 .questions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .questions article { background: var(--surface); border: 1px solid var(--filet); border-radius: 14px; padding: 28px; transition: transform 0.4s var(--ease), border-color 0.3s, box-shadow 0.4s var(--ease); }
-.questions article:hover { transform: translateY(-4px); border-color: var(--ambre); box-shadow: 0 24px 40px -28px rgba(180, 77, 41, 0.5); }
+.questions article:hover, .js .questions article.revele.visible:hover { transform: translateY(-4px); border-color: var(--ambre); box-shadow: 0 24px 40px -28px rgba(180, 77, 41, 0.5); }
 .ico { width: 40px; height: 40px; border-radius: 10px; background: var(--lavis); color: var(--ambre-fonce); display: grid; place-items: center; margin-bottom: 18px; font: 600 1rem var(--mono); }
 .questions h3 { font-size: 1.3rem; margin-bottom: 10px; }
 .questions p { color: var(--encre-2); }
@@ -186,7 +186,7 @@ section.bloc { padding: 96px 0; position: relative; }
 .services { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 .service { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 30px; background: var(--surface); border: 1px solid var(--filet); border-radius: 14px; color: var(--texte); text-decoration: none; overflow: hidden; transition: border-color 0.3s, transform 0.4s var(--ease), box-shadow 0.4s var(--ease); }
 .service::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(var(--ambre-vif), var(--ambre-fonce)); transform: scaleY(0); transform-origin: top; transition: transform 0.5s var(--ease); }
-.service:hover, .service:focus-visible { transform: translateY(-3px); border-color: var(--ambre); box-shadow: 0 30px 50px -34px rgba(16, 23, 26, 0.45); color: var(--texte); }
+.service:hover, .service:focus-visible, .js .service.revele.visible:hover, .js .service.revele.visible:focus-visible { transform: translateY(-3px); border-color: var(--ambre); box-shadow: 0 30px 50px -34px rgba(16, 23, 26, 0.45); color: var(--texte); }
 .service:hover::before, .service:focus-visible::before { transform: scaleY(1); }
 .service:hover h3, .service:focus-visible h3 { color: var(--ambre-fonce); }
 .service .num { font: 500 0.8125rem var(--mono); color: var(--encre-2); display: flex; justify-content: space-between; }
