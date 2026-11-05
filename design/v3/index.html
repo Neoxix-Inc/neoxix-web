@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#10171A">
+<title>NEOXIX · Maquette v3</title>
+<meta name="description" content="NEOXIX conçoit, sécurise et automatise les systèmes numériques des PME au Canada et en Côte d'Ivoire. Maquette v3, non définitive.">
+<style>
+/* Tokens : direction NEOXIX Ambre Motion (C) */
+:root{
+  --nuit:#10171A;--nuit-2:#18242A;--nuit-3:#22323A;
+  --ambre-vif:#FF8B47;--ambre:#E87436;--ambre-fonce:#B44D29;--ambre-presse:#973F21;
+  --signal:#4FD1C5;--signal-fonce:#1F7A71;
+  --lavis:#FFF0E5;--fond:#FAF8F5;--surface:#FFFFFF;
+  --texte:#1B2528;--encre-2:#56636A;--filet:#E4DED6;--filet-nuit:#2C3D45;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --titre:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;
+  --max:1200px;--gout:24px;--rayon:8px;--cible:44px;
+  --ease:cubic-bezier(.2,.7,.2,1);--duree:.7s;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--fond);color:var(--texte);font:400 1.0625rem/1.65 var(--sans);overflow-x:hidden}
+h1,h2,h3{margin:0;font-family:var(--titre);font-weight:700;line-height:1.1;letter-spacing:-.02em}
+p{margin:0}ul,ol{margin:0;padding:0;list-style:none}
+a{color:var(--ambre-fonce);text-underline-offset:3px}
+a:hover{color:var(--ambre-presse)}
+:focus-visible{outline:3px solid var(--ambre-vif);outline-offset:3px;border-radius:3px}
+.enveloppe{max-width:var(--max);margin:0 auto;padding-inline:var(--gout)}
+.saut{position:absolute;left:16px;top:-80px;background:var(--nuit);color:#fff;padding:10px 16px;border-radius:var(--rayon);z-index:200}
+.saut:focus{top:12px}
+.surtitre{font:500 .8125rem/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ambre-fonce)}
+.surtitre::before{content:"";display:inline-block;width:22px;height:2px;background:currentColor;vertical-align:middle;margin-right:10px}
+.mot{background:linear-gradient(100deg,var(--ambre-fonce),var(--ambre-vif));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nuit .mot{background:linear-gradient(100deg,var(--ambre-vif),#FFC08F);-webkit-background-clip:text;background-clip:text}
+
+/* Bandeau statut */
+.bandeau{background:var(--nuit-2);color:#B9C6CB;font:500 .78rem/1.4 var(--mono);border-bottom:1px solid var(--filet-nuit)}
+.bandeau .enveloppe{display:flex;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;padding-block:7px}
+.bandeau b{color:var(--ambre-vif);font-weight:600}
+.pastille{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--signal);margin-right:8px;vertical-align:middle;box-shadow:0 0 0 0 rgba(79,209,197,.6);animation:pouls 2.4s infinite}
+@keyframes pouls{0%{box-shadow:0 0 0 0 rgba(79,209,197,.55)}70%{box-shadow:0 0 0 9px rgba(79,209,197,0)}100%{box-shadow:0 0 0 0 rgba(79,209,197,0)}}
+
+/* En-tête */
+.entete{position:sticky;top:0;z-index:60;background:rgba(250,248,245,.92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--filet);transition:box-shadow .3s var(--ease)}
+.entete.defile{box-shadow:0 6px 24px -12px rgba(16,23,26,.25)}
+.entete .enveloppe{display:flex;align-items:center;gap:20px;min-height:72px}
+.logo{display:inline-flex;align-items:center;gap:10px;color:var(--nuit);text-decoration:none;font:700 1.15rem/1 var(--titre);letter-spacing:.08em}
+.logo svg{width:32px;height:32px;flex:none}
+.provisoire{font:500 .6875rem var(--mono);color:var(--ambre-fonce);border:1px solid var(--ambre-fonce);border-radius:3px;padding:2px 5px;letter-spacing:.04em}
+.nav{display:flex;gap:2px;margin-left:auto}
+.nav a{display:inline-flex;align-items:center;min-height:var(--cible);padding:0 12px;color:var(--nuit);text-decoration:none;font-weight:500;position:relative}
+.nav a::after{content:"";position:absolute;left:12px;right:12px;bottom:8px;height:2px;background:var(--ambre);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.nav a:hover::after,.nav a:focus-visible::after{transform:scaleX(1)}
+/* Menu mobile (details natif, accessible au clavier) */
+.menu-mobile{display:none;margin-left:auto;position:relative}
+.menu-mobile summary{list-style:none;display:inline-flex;align-items:center;gap:8px;min-height:var(--cible);padding:0 12px;border:1.5px solid var(--nuit);border-radius:var(--rayon);cursor:pointer;font-weight:600;color:var(--nuit)}
+.menu-mobile summary::-webkit-details-marker{display:none}
+.menu-mobile[open] summary{background:var(--nuit);color:#fff}
+.menu-mobile .panneau{position:absolute;right:0;top:calc(100% + 10px);width:min(280px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--filet);border-radius:12px;padding:8px;box-shadow:0 24px 48px -16px rgba(16,23,26,.35);animation:surgir .35s var(--ease)}
+.menu-mobile .panneau a{display:flex;min-height:var(--cible);align-items:center;padding:0 12px;border-radius:8px;color:var(--nuit);text-decoration:none;font-weight:500}
+.menu-mobile .panneau a:hover{background:var(--lavis)}
+@keyframes surgir{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* Boutons */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:var(--cible);padding:0 20px;border-radius:var(--rayon);font-weight:600;text-decoration:none;border:2px solid transparent;white-space:nowrap;overflow:hidden;transition:transform .25s var(--ease),background-color .2s,color .2s,box-shadow .3s}
+.btn .fleche{transition:transform .3s var(--ease)}
+.btn:hover .fleche{transform:translateX(4px)}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn-primaire{background:var(--ambre-fonce);color:#fff;box-shadow:0 10px 24px -12px rgba(180,77,41,.8)}
+.btn-primaire:hover{background:var(--ambre-presse);color:#fff;box-shadow:0 16px 30px -12px rgba(180,77,41,.9)}
+.btn-ambre-vif{background:var(--ambre-vif);color:var(--nuit);box-shadow:0 10px 30px -10px rgba(255,139,71,.7)}
+.btn-ambre-vif:hover{background:#FFA066;color:var(--nuit)}
+.btn-secondaire{background:transparent;color:var(--nuit);border-color:var(--nuit)}
+.btn-secondaire:hover{background:var(--nuit);color:#fff}
+.btn-nuit-secondaire{background:transparent;color:#fff;border-color:rgba(255,255,255,.35)}
+.btn-nuit-secondaire:hover{border-color:#fff;background:rgba(255,255,255,.06);color:#fff}
+.btn-grand{min-height:54px;padding:0 26px;font-size:1.0625rem}
+
+/* Accueil nuit */
+.hero{position:relative;background:var(--nuit);color:#EEF3F4;padding:84px 0 96px;isolation:isolate;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto auto;width:70vw;height:70vw;max-width:880px;max-height:880px;background:radial-gradient(closest-side,rgba(255,139,71,.28),rgba(255,139,71,0) 70%);z-index:-1;animation:derive 18s ease-in-out infinite alternate}
+.hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 70% 60% at 70% 40%,#000,transparent);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 70% 40%,#000,transparent);z-index:-1}
+@keyframes derive{from{transform:translate(0,0) scale(1)}to{transform:translate(-6%,8%) scale(1.08)}}
+.hero .enveloppe{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+.hero .surtitre{color:var(--ambre-vif)}
+.hero h1{font-size:3.6rem;line-height:1.04;letter-spacing:-.03em;margin:18px 0 22px;max-width:15ch}
+.hero .chapo{font-size:1.1875rem;color:#B9C6CB;max-width:46ch}
+.actions{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+.pour{margin-top:30px;display:flex;gap:8px 20px;flex-wrap:wrap;color:#8FA0A7;font-size:.9375rem}
+.pour span::before{content:"";display:inline-block;width:6px;height:6px;background:var(--signal);margin-right:8px;vertical-align:middle;border-radius:1px}
+
+/* Flux animé */
+.flux{background:linear-gradient(180deg,var(--nuit-2),#131D22);border:1px solid var(--filet-nuit);border-radius:14px;padding:24px;box-shadow:0 40px 80px -40px rgba(0,0,0,.7)}
+.flux-titre{display:flex;justify-content:space-between;gap:12px;font:500 .72rem var(--mono);letter-spacing:.09em;text-transform:uppercase;color:#8FA0A7;margin-bottom:12px}
+.flux ol{position:relative}
+.flux ol::before{content:"";position:absolute;left:19px;top:24px;bottom:24px;width:2px;background:var(--filet-nuit)}
+.flux ol::after{content:"";position:absolute;left:19px;top:24px;width:2px;height:calc(100% - 48px);background:linear-gradient(var(--signal),var(--ambre-vif));transform-origin:top;animation:trace 8s var(--ease) infinite}
+@keyframes trace{0%{transform:scaleY(0)}45%,85%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.flux li{position:relative;display:grid;grid-template-columns:40px 1fr auto;gap:14px;align-items:center;padding:12px 0}
+.noeud{position:relative;z-index:1;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--nuit-2);border:2px solid var(--signal);color:var(--signal);font:600 .8rem var(--mono);animation:allume 8s infinite}
+.flux li:nth-child(2) .noeud{animation-delay:.8s}
+.flux li:nth-child(3) .noeud{animation-delay:1.6s}
+.flux li:nth-child(4) .noeud{animation-delay:2.4s}
+@keyframes allume{0%,100%{box-shadow:0 0 0 0 rgba(79,209,197,0);background:var(--nuit-2)}6%,40%{box-shadow:0 0 22px 2px rgba(79,209,197,.45);background:rgba(79,209,197,.16)}50%{box-shadow:none;background:var(--nuit-2)}}
+.flux li.humain .noeud{border-color:var(--ambre-vif);color:var(--ambre-vif);border-style:dashed;animation:attente 8s infinite}
+.flux li:nth-child(4) .noeud{animation-delay:2.4s}
+@keyframes attente{0%,100%{box-shadow:none}6%,40%{box-shadow:0 0 0 6px rgba(255,139,71,.12)}}
+.lbl{font-weight:600;line-height:1.3;color:#fff}
+.lbl small{display:block;font-weight:400;color:#9AABB2;font-size:.875rem}
+.etiq{font:500 .66rem var(--mono);text-transform:uppercase;letter-spacing:.07em;padding:3px 7px;border:1px solid var(--filet-nuit);border-radius:3px;color:#9AABB2}
+.flux li.humain .etiq{color:var(--ambre-vif);border-color:rgba(255,139,71,.4)}
+.legende{margin-top:12px;padding-top:12px;border-top:1px solid var(--filet-nuit);font-size:.8125rem;color:#8FA0A7;display:flex;gap:16px;flex-wrap:wrap}
+.legende i{font-style:normal;color:var(--signal)}
+.legende i.h{color:var(--ambre-vif)}
+
+/* Bande */
+.bande{background:var(--nuit-2);border-top:1px solid var(--filet-nuit);color:#B9C6CB}
+.bande ul{display:flex;flex-wrap:wrap;gap:10px 28px;padding-block:18px;font-size:.9375rem}
+.bande li::before{content:"";display:inline-block;width:6px;height:6px;background:var(--ambre-vif);margin-right:8px;vertical-align:middle;transform:rotate(45deg)}
+
+/* Sections claires */
+section.bloc{padding:96px 0;position:relative}
+.tete{display:grid;grid-template-columns:1.1fr .9fr;gap:24px 64px;align-items:end;margin-bottom:48px}
+.tete h2{font-size:2.5rem;margin-top:14px}
+.tete p{color:var(--encre-2);max-width:50ch}
+.fond-lavis{background:linear-gradient(180deg,var(--fond),#FFF6EE 60%,var(--fond))}
+
+/* Trois questions */
+.questions{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.questions article{background:var(--surface);border:1px solid var(--filet);border-radius:14px;padding:28px;transition:transform .4s var(--ease),border-color .3s,box-shadow .4s var(--ease)}
+.questions article:hover{transform:translateY(-4px);border-color:var(--ambre);box-shadow:0 24px 40px -28px rgba(180,77,41,.5)}
+.questions .ico{width:40px;height:40px;border-radius:10px;background:var(--lavis);color:var(--ambre-fonce);display:grid;place-items:center;margin-bottom:18px;font:600 1rem var(--mono)}
+.questions h3{font-size:1.3rem;margin-bottom:10px}
+.questions p{color:var(--encre-2)}
+
+/* Services */
+.services{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.service{position:relative;display:flex;flex-direction:column;gap:12px;padding:30px;background:var(--surface);border:1px solid var(--filet);border-radius:14px;color:var(--texte);text-decoration:none;overflow:hidden;transition:border-color .3s,transform .4s var(--ease),box-shadow .4s var(--ease)}
+.service::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--ambre-vif),var(--ambre-fonce));transform:scaleY(0);transform-origin:top;transition:transform .5s var(--ease)}
+.service:hover{transform:translateY(-3px);border-color:var(--ambre);box-shadow:0 30px 50px -34px rgba(16,23,26,.45)}
+.service:hover::before{transform:scaleY(1)}
+.service:hover h3{color:var(--ambre-fonce)}
+.service .num{font:500 .8125rem var(--mono);color:var(--encre-2);display:flex;justify-content:space-between}
+.service .go{color:var(--ambre-fonce);transition:transform .35s var(--ease)}
+.service:hover .go{transform:translateX(6px)}
+.service h3{font-size:1.5rem;transition:color .25s}
+.service p{color:var(--encre-2)}
+.service ul{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.service li{font:500 .75rem var(--mono);padding:4px 8px;border-radius:4px;background:var(--fond);border:1px solid var(--filet);color:var(--encre-2)}
+
+/* Méthode */
+.methode{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:e}
+.methode::before{content:"";position:absolute;left:0;right:0;top:19px;height:2px;background:var(--filet)}
+.methode::after{content:"";position:absolute;left:0;right:0;top:19px;height:2px;background:linear-gradient(90deg,var(--ambre-fonce),var(--ambre-vif));transform:scaleX(0);transform-origin:left;transition:transform 1.6s var(--ease) .2s}
+.methode.visible::after{transform:scaleX(1)}
+.methode li{position:relative;padding-right:20px}
+.methode .point{width:40px;height:40px;border-radius:50%;background:var(--fond);border:2px solid var(--ambre-fonce);display:grid;place-items:center;font:600 .85rem var(--mono);color:var(--ambre-fonce);margin-bottom:18px;position:relative;z-index:1}
+.methode h3{font-size:1.2rem;margin-bottom:8px}
+.methode p{color:var(--encre-2);font-size:.9375rem}
+
+/* Nuit : engagements */
+.nuit{background:var(--nuit);color:#EEF3F4;position:relative;overflow:hidden}
+.nuit .surtitre{color:var(--ambre-vif)}
+.nuit .tete p{color:#B9C6CB}
+.engagements{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.carte-nuit{border:1px solid var(--filet-nuit);border-radius:14px;padding:32px;background:rgba(255,255,255,.02)}
+.carte-nuit h3{font-size:1.25rem;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.carte-nuit h3 span{width:10px;height:10px;border-radius:50%;display:inline-block}
+.oui h3 span{background:var(--signal);box-shadow:0 0 14px var(--signal)}
+.non h3 span{background:var(--ambre-vif);box-shadow:0 0 14px var(--ambre-vif)}
+.carte-nuit li{padding:14px 0;border-top:1px solid var(--filet-nuit);color:#D4DEE1;display:flex;gap:12px}
+.carte-nuit li::before{content:"";flex:none;width:8px;height:8px;margin-top:9px;border-radius:2px;transform:rotate(45deg)}
+.oui li::before{background:var(--signal)}
+.non li::before{background:var(--ambre-vif)}
+
+/* Chronologie : exemple illustratif */
+.chrono{margin-top:56px;background:var(--surface);border:1px solid var(--filet);border-radius:14px;padding:32px}
+.chrono-entete{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font:500 .78rem var(--mono);color:var(--encre-2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:24px}
+.chrono ol{position:relative;display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.chrono ol::before{content:"";position:absolute;left:0;right:0;top:9px;height:2px;background:var(--filet)}
+.chrono li{position:relative;padding-top:30px;font-size:.875rem}
+.chrono li::before{content:"";position:absolute;left:0;top:2px;width:16px;height:16px;border-radius:50%;background:var(--fond);border:2px solid var(--ambre-fonce)}
+.chrono li.alerte::before{background:var(--ambre-vif);border-color:var(--ambre-vif)}
+.chrono time{display:block;font:600 .8rem var(--mono);color:var(--nuit);margin-bottom:4px}
+.chrono li span{color:var(--encre-2);line-height:1.4;display:block}
+.chrono .note{margin-top:22px;padding-top:16px;border-top:1px dashed var(--filet);font-size:.875rem;color:var(--encre-2)}
+
+/* FAQ */
+.faq{max-width:820px;margin:0 auto;border-top:2px solid var(--nuit)}
+.faq details{border-bottom:1px solid var(--filet)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 4px;font-weight:600;font-size:1.1rem;min-height:var(--cible)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:300 1.6rem/1 var(--mono);color:var(--ambre-fonce);transition:transform .35s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 4px 22px;color:var(--encre-2);max-width:62ch;animation:surgir .4s var(--ease)}
+
+/* Contact */
+.contact{padding:96px 0;background:linear-gradient(135deg,#FFF0E5,#FFE3D0 60%,#FFD4B8);position:relative;overflow:hidden}
+.contact .boite{display:grid;grid-template-columns:1.25fr 1fr;gap:40px 64px;align-items:center}
+.contact h2{font-size:2.6rem;margin-top:14px}
+.contact p.lead{margin-top:16px;color:#4A3A30;max-width:46ch}
+.carte-contact{background:var(--surface);border-radius:16px;padding:32px;box-shadow:0 30px 60px -30px rgba(120,50,20,.45)}
+.carte-contact .actions{margin-top:0;flex-direction:column;align-items:stretch}
+.carte-contact small{display:block;margin-top:14px;color:var(--encre-2);font-size:.875rem}
+.attente{margin-top:16px;padding:12px 14px;background:#FBF0D9;color:#6E4A00;border-radius:var(--rayon);font-size:.875rem;border-left:3px solid #C98A00}
+
+/* Pied */
+.pied{background:var(--nuit);color:#B9C6CB;padding:56px 0 28px;font-size:.9375rem}
+.pied .grille{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+.pied h2{font:500 .75rem var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ambre-vif);margin-bottom:14px}
+.pied ul{display:grid;gap:8px}
+.pied a{color:#D4DEE1;text-decoration:none}
+.pied a:hover{color:#fff;text-decoration:underline}
+.pied .logo{color:#fff}
+.pied .bas{margin-top:40px;padding-top:18px;border-top:1px solid var(--filet-nuit);font-size:.8125rem;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#8FA0A7}
+
+/* Mouvements d'entrée (progressifs, seulement si JS actif) */
+.js .revele{opacity:0;transform:translateY(22px);transition:opacity var(--duree) var(--ease),transform var(--duree) var(--ease);transition-delay:var(--retard,0s)}
+.js .revele.visible{opacity:1;transform:none}
+.hero .enfant{animation:monte .9s var(--ease) both;animation-delay:var(--retard,0s)}
+@keyframes monte{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* Barre mobile */
+.barre{display:none;position:fixed;left:0;right:0;bottom:0;z-index:50;gap:8px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(16,23,26,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--filet-nuit)}
+.barre .btn{flex:1;padding:0 10px;min-height:48px}
+.barre .btn-nuit-secondaire{color:#fff}
+
+/* Responsive */
+@media (max-width:1100px){
+  .nav{display:none}
+  .menu-mobile{display:block}
+  .hero .enveloppe{grid-template-columns:1fr;gap:48px}
+  .hero h1{font-size:3.1rem}
+  .tete{grid-template-columns:1fr}
+  .questions{grid-template-columns:1fr}
+  .services{grid-template-columns:1fr}
+  .methode{grid-template-columns:1fr;gap:28px}
+  .methode::before,.methode::after{top:0;bottom:0;left:19px;right:auto;width:2px;height:auto}
+  .methode::after{transform:scaleY(0);transform-origin:top;transition-property:transform}
+  .methode.visible::after{transform:scaleY(1)}
+  .methode li{padding-right:0;padding-left:0}
+  .methode .point{margin-bottom:10px}
+  .chrono ol{grid-template-columns:1fr;gap:20px}
+  .chrono ol::before{top:0;bottom:0;left:7px;right:auto;width:2px;height:auto}
+  .chrono li{padding-top:0;padding-left:34px}
+  .chrono li::before{top:2px;left:0}
+  .engagements,.contact .boite{grid-template-columns:1fr}
+}
+@media (max-width:767px){
+  :root{--gout:16px;--duree:.55s}
+  body{font-size:1rem;padding-bottom:78px}
+  .hero{padding:52px 0 64px}
+  .hero h1{font-size:2.3rem}
+  .tete h2{font-size:1.9rem}
+  .contact h2{font-size:2rem}
+  section.bloc{padding:68px 0}
+  .contact{padding:68px 0}
+  .flux{padding:18px}
+  .barre{display:flex}
+  .btn-grand{width:100%}
+  .actions{flex-direction:column}
+  .pied .grille{grid-template-columns:1fr 1fr}
+  .chrono{padding:22px}
+  .carte-contact{padding:24px}
+  .carte-contact .actions{width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .revele,.hero .enfant{opacity:1!important;transform:none!important}
+  .methode::after{transform:scaleX(1)!important}
+  .methode.visible::after{transform:none}
+  @media (max-width:1100px){.methode::after{transform:scaleY(1)!important}}
+}
+</style>
+</head>
+<body class="js-attente">
+<script>document.body.classList.add('js');</script>
+
+<a class="saut" href="#contenu">Aller au contenu</a>
+
+<div class="bandeau" role="region" aria-label="Statut de la maquette">
+  <div class="enveloppe">
+    <span><b>MAQUETTE v3</b> · non définitive · éléments entre crochets à valider</span>
+    <span><span class="pastille" aria-hidden="true"></span>Non publiée · aucun formulaire actif</span>
+  </div>
+</div>
+
+<header class="entete" id="entete">
+  <div class="enveloppe">
+    <a class="logo" href="#accueil" aria-label="NEOXIX, accueil">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="7" fill="#10171A"/><path d="M9 23V9l14 14V9" fill="none" stroke="#FAF8F5" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="23" cy="9" r="3" fill="#FF8B47"/></svg>
+      NEOXIX
+    </a>
+    <span class="provisoire" title="Logo provisoire, non officiel">LOGO PROVISOIRE</span>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="#services">Services</a>
+      <a href="#methode">Méthode</a>
+      <a href="#engagements">Engagements</a>
+      <a href="#faq">Questions</a>
+    </nav>
+    <details class="menu-mobile">
+      <summary>Menu</summary>
+      <div class="panneau" role="navigation" aria-label="Navigation mobile">
+        <a href="#services">Services</a>
+        <a href="#methode">Méthode</a>
+        <a href="#engagements">Engagements</a>
+        <a href="#faq">Questions</a>
+        <a href="#contact">Nous écrire</a>
+      </div>
+    </details>
+    <a class="btn btn-primaire" href="#contact" style="margin-left:12px">Nous écrire</a>
+  </div>
+</header>
+
+<main id="contenu" tabindex="-1">
+
+<!-- ACCUEIL -->
+<section class="hero nuit" id="accueil" aria-labelledby="t-hero">
+  <div class="enveloppe">
+    <div>
+      <p class="surtitre enfant" style="--retard:.05s">Services numériques · Gatineau, Ottawa et Côte d'Ivoire</p>
+      <h1 id="t-hero" class="enfant" style="--retard:.15s">Votre site, vos outils et votre réseau, <span class="mot">avec un seul interlocuteur</span>.</h1>
+      <p class="chapo enfant" style="--retard:.3s">NEOXIX conçoit, sécurise et automatise les systèmes numériques des PME et des organisations. Une méthode écrite, des livrables qui vous appartiennent, et une personne qui répond.</p>
+      <div class="actions enfant" style="--retard:.45s">
+        <a class="btn btn-ambre-vif btn-grand" href="#contact">Nous écrire pour mon projet <span class="fleche" aria-hidden="true">→</span></a>
+        <a class="btn btn-nuit-secondaire btn-grand" href="#services">Voir les services</a>
+      </div>
+      <p class="pour enfant" style="--retard:.6s"><span>PME de 1 à 50 personnes</span><span>Travailleurs autonomes</span><span>Organisations</span></p>
+    </div>
+
+    <figure class="flux enfant" style="--retard:.35s;margin:0" aria-describedby="flux-legende">
+      <div class="flux-titre"><span>Exemple · une demande reçue</span><span>sans ressaisie</span></div>
+      <ol>
+        <li><span class="noeud" aria-hidden="true">01</span><span class="lbl">Votre site reçoit une demande<small>Courriel ou formulaire, selon la configuration</small></span><span class="etiq">Site</span></li>
+        <li><span class="noeud" aria-hidden="true">02</span><span class="lbl">Elle est classée<small>Type de besoin, urgence, marché</small></span><span class="etiq">Automatisation</span></li>
+        <li><span class="noeud" aria-hidden="true">03</span><span class="lbl">Elle est enregistrée dans votre CRM<small>Contact et suivi créés</small></span><span class="etiq">Intégration</span></li>
+        <li class="humain"><span class="noeud" aria-hidden="true">04</span><span class="lbl">Vous décidez de la suite<small>Aucune réponse commerciale automatique</small></span><span class="etiq">Humain</span></li>
+      </ol>
+      <figcaption class="legende" id="flux-legende"><span><i>●</i> étape automatisée</span><span><i class="h">◌</i> décision humaine</span><span>Schéma illustratif</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<div class="bande nuit">
+  <div class="enveloppe">
+    <ul aria-label="Repères">
+      <li>Basé à Gatineau, Québec</li>
+      <li>Clientèle à Ottawa–Gatineau et au Québec</li>
+      <li>Projets pour la Côte d'Ivoire</li>
+      <li>Français, anglais sur demande [à valider]</li>
+      <li>Réponse écrite sous [délai à valider]</li>
+    </ul>
+  </div>
+</div>
+
+<!-- QUESTIONS -->
+<section class="bloc" aria-labelledby="t-questions">
+  <div class="enveloppe">
+    <div class="tete">
+      <div class="revele"><p class="surtitre">Trois questions</p><h2 id="t-questions">Ce que vous vous demandez <span class="mot">avant d'écrire</span>.</h2></div>
+      <p class="revele" style="--retard:.1s">Des réponses courtes. Les détails sont dans chaque service.</p>
+    </div>
+    <div class="questions">
+      <article class="revele"><div class="ico" aria-hidden="true">01</div><h3>Que faites-vous exactement ?</h3><p>Sites WordPress et boutiques, automatisation de vos processus, réseau et sécurité, applications sur mesure. Quatre pôles, un seul interlocuteur.</p></article>
+      <article class="revele" style="--retard:.1s"><div class="ico" aria-hidden="true">02</div><h3>Pour qui ?</h3><p>Entrepreneurs, PME de 1 à 50 personnes, organisations et communautés au Canada et en Côte d'Ivoire.</p></article>
+      <article class="revele" style="--retard:.2s"><div class="ico" aria-hidden="true">03</div><h3>Combien ça coûte ?</h3><p>Chaque prestation est établie sur devis, après un échange. Aucun prix n'est affiché sans cadrage. [Fourchette indicative à valider.]</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="bloc fond-lavis" id="services" aria-labelledby="t-services">
+  <div class="enveloppe">
+    <div class="tete">
+      <div class="revele"><p class="surtitre">Services</p><h2 id="t-services">Quatre domaines, <span class="mot">une seule méthode</span>.</h2></div>
+      <p class="revele" style="--retard:.1s">Chaque service précise ce qui est inclus, ce qui ne l'est pas, et ce qu'il faut préparer pour recevoir une proposition.</p>
+    </div>
+    <div class="services">
+      <a class="service revele" href="#contact">
+        <span class="num"><span>01</span><span class="go" aria-hidden="true">→</span></span>
+        <h3>Sites web et WordPress</h3>
+        <p>Sites vitrines, boutiques WooCommerce, refontes, migrations, domaines, courriels professionnels et entretien.</p>
+        <ul><li>WordPress</li><li>WooCommerce</li><li>DNS</li><li>Courriel</li></ul>
+      </a>
+      <a class="service revele" href="#contact" style="--retard:.08s">
+        <span class="num"><span>02</span><span class="go" aria-hidden="true">→</span></span>
+        <h3>Automatisation des processus</h3>
+        <p>Formulaires qualifiés, CRM, rappels, suivi de devis et intégrations entre vos logiciels, avec validation humaine.</p>
+        <ul><li>n8n</li><li>CRM</li><li>API</li><li>Python</li></ul>
+      </a>
+      <a class="service revele" href="#contact" style="--retard:.16s">
+        <span class="num"><span>03</span><span class="go" aria-hidden="true">→</span></span>
+        <h3>Infrastructure et sécurité</h3>
+        <p>Réseau et VLAN, accès à distance chiffré, pare-feu, Windows Server et Linux, sauvegardes dont la restauration est testée.</p>
+        <ul><li>Réseau</li><li>Pare-feu</li><li>Windows Server</li><li>Linux</li></ul>
+      </a>
+      <a class="service revele" href="#contact" style="--retard:.24s">
+        <span class="num"><span>04</span><span class="go" aria-hidden="true">→</span></span>
+        <h3>Applications sur mesure</h3>
+        <p>Portails clients, outils internes et tableaux de bord, de la maquette jusqu'à la maintenance.</p>
+        <ul><li>Applications web</li><li>Outils internes</li><li>Tableaux de bord</li></ul>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MÉTHODE -->
+<section class="bloc" id="methode" aria-labelledby="t-methode">
+  <div class="enveloppe">
+    <div class="tete">
+      <div class="revele"><p class="surtitre">Méthode</p><h2 id="t-methode">Rien n'est construit avant d'être <span class="mot">validé avec vous</span>.</h2></div>
+      <p class="revele" style="--retard:.1s">Chaque étape produit un document que vous pouvez lire, commenter et conserver.</p>
+    </div>
+    <ol class="methode" data-trace>
+      <li class="revele"><span class="point">01</span><h3>Comprendre</h3><p>Un échange pour décrire votre situation, vos outils et vos contraintes.</p></li>
+      <li class="revele" style="--retard:.12s"><span class="point">02</span><h3>Proposer</h3><p>Une proposition écrite : périmètre, étapes, inclus, exclus, prix.</p></li>
+      <li class="revele" style="--retard:.24s"><span class="point">03</span><h3>Maquetter</h3><p>Vous voyez le résultat avant la construction.</p></li>
+      <li class="revele" style="--retard:.36s"><span class="point">04</span><h3>Réaliser et tester</h3><p>Construction par étapes, vérifications documentées.</p></li>
+      <li class="revele" style="--retard:.48s"><span class="point">05</span><h3>Livrer et suivre</h3><p>Mise en service, documentation remise, maintenance si vous le souhaitez.</p></li>
+    </ol>
+
+    <!-- Exemple illustratif : vocabulaire volontairement sans chiffre client -->
+    <figure class="chrono revele" style="margin-left:0;margin-right:0">
+      <div class="chrono-entete"><span>Exemple illustratif · une semaine type</span><span>Aucune donnée client</span></div>
+      <ol>
+        <li><time>Lun</time><span>Demande reçue et classée</span></li>
+        <li><time>Mar</time><span>Proposition envoyée par écrit</span></li>
+        <li class="alerte"><time>Mer</time><span>Alerte : certificat à renouveler</span></li>
+        <li><time>Jeu</time><span>Maquette validée par vous</span></li>
+        <li><time>Ven</time><span>Sauvegarde et restauration testées</span></li>
+        <li><time>Sam</time><span>Aucune intervention requise</span></li>
+        <li><time>Dim</time><span>Rapport de semaine disponible</span></li>
+      </ol>
+      <p class="note">Scénario fictif, présenté pour illustrer la méthode. Il ne représente pas un client réel ni un résultat mesuré.</p>
+    </figure>
+  </div>
+</section>
+
+<!-- ENGAGEMENTS -->
+<section class="bloc nuit" id="engagements" aria-labelledby="t-eng">
+  <div class="enveloppe">
+    <div class="tete">
+      <div class="revele"><p class="surtitre">Engagements</p><h2 id="t-eng">Ce que vous pouvez attendre, <span class="mot">et ce que nous ne promettons pas</span>.</h2></div>
+    </div>
+    <div class="engagements">
+      <div class="carte-nuit oui revele">
+        <h3><span aria-hidden="true"></span>Nous nous engageons à</h3>
+        <ul>
+          <li>Une proposition écrite avant tout travail facturé.</li>
+          <li>Des accès, codes et documents qui vous appartiennent.</li>
+          <li>Des sauvegardes dont la restauration est testée.</li>
+          <li>Un langage clair, sans jargon inutile.</li>
+        </ul>
+      </div>
+      <div class="carte-nuit non revele" style="--retard:.12s">
+        <h3><span aria-hidden="true"></span>Nous ne promettons pas</h3>
+        <ul>
+          <li>Une sécurité absolue : personne ne peut la garantir honnêtement.</li>
+          <li>Une certification ou un partenariat que nous n'avons pas.</li>
+          <li>Une disponibilité 24/7 sans contrat qui la prévoit.</li>
+          <li>Des résultats chiffrés pour un client : aucun n'est publié à ce jour.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="bloc" id="faq" aria-labelledby="t-faq">
+  <div class="enveloppe">
+    <div class="tete" style="grid-template-columns:1fr;margin-bottom:32px">
+      <div class="revele"><p class="surtitre">Questions fréquentes</p><h2 id="t-faq">Avant de nous écrire.</h2></div>
+    </div>
+    <div class="faq revele">
+      <details open>
+        <summary>Travaillez-vous avec des entreprises hors du Québec ?</summary>
+        <p>Oui, pour certains projets. Nos points d'ancrage sont Ottawa–Gatineau et le Québec, et nous suivons aussi des projets pour la Côte d'Ivoire. Précisez votre lieu dans votre message.</p>
+      </details>
+      <details>
+        <summary>Mes données sont-elles protégées ?</summary>
+        <p>Ce site ne collecte aucune donnée personnelle pour l'instant. Le traitement des demandes sera encadré par une politique de confidentialité conforme à la Loi 25, actuellement en révision juridique.</p>
+      </details>
+      <details>
+        <summary>Combien de temps avant une réponse ?</summary>
+        <p>Nous répondons par écrit sous [délai à valider]. Ce délai n'est pas garanti avant validation finale.</p>
+      </details>
+      <details>
+        <summary>Y a-t-il un engagement après une première demande ?</summary>
+        <p>Non. Une demande n'entraîne aucun engagement. Toute prestation fait l'objet d'une proposition écrite que vous pouvez accepter ou refuser.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact" aria-labelledby="t-contact">
+  <div class="enveloppe">
+    <div class="boite">
+      <div class="revele">
+        <p class="surtitre">Commencer</p>
+        <h2 id="t-contact">Décrivez votre situation en quelques lignes. <span class="mot" style="background:none;-webkit-text-fill-color:var(--ambre-fonce);color:var(--ambre-fonce)">Nous vous répondons par écrit.</span></h2>
+        <p class="lead">Aucun engagement de votre part. Une personne lit votre message et vous répond.</p>
+      </div>
+      <div class="carte-contact revele" style="--retard:.12s">
+        <div class="actions">
+          <a class="btn btn-primaire btn-grand" href="mailto:info@neoxix.ca?subject=Demande%20de%20consultation">Écrire à info@neoxix.ca <span class="fleche" aria-hidden="true">→</span></a>
+        </div>
+        <small>Nous répondons sous [délai à valider].</small>
+        <p class="attente" role="note">Formulaire de demande en préparation. En attendant, écrivez-nous directement : ce site ne collecte aucune donnée personnelle.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pied">
+  <div class="enveloppe">
+    <div class="grille">
+      <div>
+        <a class="logo" href="#accueil"><svg viewBox="0 0 32 32" aria-hidden="true" style="width:28px;height:28px"><rect x="1" y="1" width="30" height="30" rx="7" fill="#FAF8F5"/><path d="M9 23V9l14 14V9" fill="none" stroke="#10171A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="23" cy="9" r="3" fill="#E87436"/></svg>NEOXIX</a>
+        <p style="margin-top:14px;max-width:34ch">Services numériques pour PME, Canada et Côte d'Ivoire.</p>
+        <p style="margin-top:12px"><a href="mailto:info@neoxix.ca">info@neoxix.ca</a></p>
+      </div>
+      <div><h2>Services</h2><ul><li><a href="#services">Sites web et WordPress</a></li><li><a href="#services">Automatisation</a></li><li><a href="#services">Infrastructure et sécurité</a></li><li><a href="#services">Applications sur mesure</a></li></ul></div>
+      <div><h2>Légal</h2><ul><li><a href="#">Confidentialité (à venir)</a></li><li><span>Conditions (à venir)</span></li></ul></div>
+    </div>
+    <div class="bas"><span>© 2026 NEOXIX · Gatineau, Québec</span><span>Maquette v3 · non publiée</span></div>
+  </div>
+</footer>
+
+<div class="barre" aria-label="Actions rapides">
+  <a class="btn btn-ambre-vif" href="#contact">Nous écrire</a>
+  <a class="btn btn-nuit-secondaire" href="#services">Services</a>
+</div>
+
+<script>
+(function(){
+  var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var entete = document.getElementById('entete');
+  var onScroll = function(){ entete.classList.toggle('defile', window.scrollY > 8); };
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  var revele = document.querySelectorAll('.revele');
+  if (reduit || !('IntersectionObserver' in window)) {
+    revele.forEach(function(el){ el.classList.add('visible'); });
+    document.querySelectorAll('[data-trace]').forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entrees){
+    entrees.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, {threshold: 0.15, rootMargin: '0px 0px -8% 0px'});
+  revele.forEach(function(el){ io.observe(el); });
+  document.querySelectorAll('[data-trace]').forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>
