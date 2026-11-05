@@ -29,6 +29,7 @@ Base : Lot 0 `44365bc`, lui-même posé sur `787eeae` (`fix/reveal-safari`). Le 
 | `/methode` | Cinq étapes avec tracé, semaine illustrative, engagements | Maquette v3 |
 | `/contact` | `mailto:info@neoxix.ca`, éléments à préparer par pôle, FAQ | Maquette v3 et catalogue 03 |
 | `/confidentialite` | Texte provisoire, marqué « en révision juridique (Loi 25) » | Faits vérifiables seulement (voir section 7) |
+| `/portfolio`, `/projects/*`, `/technologies/*` | Redirection 301 vers `/` (commit `55f8921`), non déployée en production | — |
 | toute autre URL | 404 commune | — |
 
 Organisation technique :
@@ -36,6 +37,7 @@ Organisation technique :
 - **Polices :** IBM Plex Sans, IBM Plex Mono et Bricolage Grotesque, auto-hébergées via `next/font/local` (`src/app/fonts/`, licence OFL).
 - **Styles :** `src/app/(vitrine)/vitrine.css`, repris de la maquette.
 - **Composants :** `src/components/vitrine/`. Trois seulement sont des composants client : l'en-tête, le révélateur et le flux.
+- **Dépendances d'exécution :** `next`, `react` et `react-dom`, sans framework CSS. Tailwind et react-icons ont été retirés au commit `e5fd5a8`.
 
 Ce qui n'a pas été fait, conformément aux exclusions : aucun formulaire ni route `POST`, aucun témoin (cookie), aucun appel à n8n, HubSpot, Odoo, Proxmox ou Ivoire Connect. Les éléments conditionnels ou futurs ne sont pas affichés (hébergement géré, formules Suivi et Accompagnement, Kubernetes, agents IA, Terraform, Business Suite).
 
@@ -131,14 +133,12 @@ Les pages portent aussi `robots: noindex`.
 
 ## 7. Décisions à confirmer par la direction
 
-1. **Le portfolio passe à `/portfolio`.** Il existait deux façons de donner `/` à la vitrine sans supprimer le portfolio. J'ai choisi de le placer dans le groupe de routes `src/app/(portfolio)/`, avec son propre layout racine, sa feuille de style et sa police Google auto-hébergée au build.
-   - Les pages `/projects/*` et `/technologies/*` gardent leur URL.
-   - Les liens internes `/#section` deviennent `/portfolio#section`.
-   - La 404 commune utilise `global-not-found.tsx` (option `experimental.globalNotFound`), car il y a deux layouts racines.
-
-   La première mission demandait de tenir compte de ces pages dans les tests : c'est fait (3 pages testées). **À confirmer avant toute mise en ligne :** le domaine `neoxix.ca` sert aujourd'hui le portfolio à `/`.
-
-   **Décision du propriétaire, 5 novembre 2026 : confirmée.** Le portfolio reste à `/portfolio`. La bascule de `neoxix.ca` fera l'objet d'une autorisation distincte.
+1. **Portfolio : retiré de la branche (dépassé par la mission PORTFOLIO-ARCHIVE-001).**
+   - Pendant le Lot 1, le portfolio avait été placé à `/portfolio` (commit `2546121`). La confirmation consignée au commit `f718360` reposait sur une réponse donnée en session, pas sur une décision écrite vérifiable.
+   - Le portfolio a ensuite été retiré de `feat/services-platform` (commit `72b41bd`) et archivé sur `archive/portfolio-2026-11-04` (`2f5f4d6`).
+   - Ses anciennes adresses redirigent vers `/` en 301 (commit `55f8921`), sans déploiement en production.
+   - La 404 commune reste assurée par `global-not-found.tsx` (option `experimental.globalNotFound`).
+   - La mise en ligne sur `neoxix.ca`, qui sert toujours le portfolio depuis `main`, fera l'objet d'une autorisation distincte.
 2. **Mise à niveau de Next de 16.3.1 à 16.4.2.** Le critère de sécurité l'exigeait, et la mission n'exclut que les mises à niveau majeures.
 3. **Responsable de la protection des renseignements personnels.** Le texte provisoire de confidentialité affiche `[responsable à désigner]`, plutôt qu'un nom inventé. À compléter après la revue juridique.
 4. **Logo.** Le monogramme reste marqué « Logo provisoire » en attendant le fichier officiel (décision V6).
@@ -194,3 +194,23 @@ Vérifications sur l'URL (accès authentifié par `vercel curl`) :
 Production inchangée : `https://neoxix.ca/` sert toujours le portfolio (titre « Kodjo Mathias Akah | Network & Systems Portfolio »). Aucune modification DNS ni de domaine.
 
 Non réalisé sur l'URL de prévisualisation : la suite Playwright complète, parce que la protection bloque le navigateur de test. Elle a été exécutée sur le même code en local (section 5).
+
+## 12. Note du 5 novembre 2026 : retrait du portfolio et nettoyage
+
+Cette note complète le rapport. Les sections 1, 4 à 6, 8 et 11 décrivent l'état au moment du Lot 1, et leurs résultats de tests ne sont pas modifiés. Leurs mentions du portfolio (pages `/portfolio` et `/projects/*` testées, aperçu de `a7513c1`) et de Tailwind (avis `source-map-js`) sont donc historiques.
+
+| Commit | Changement |
+|---|---|
+| `72b41bd` | Retrait du portfolio de `feat/services-platform`, archivé sur `archive/portfolio-2026-11-04` (`2f5f4d6`) |
+| `55f8921` | Redirections 301 de `/portfolio`, `/projects/*` et `/technologies/*` vers `/` ; tests Playwright du portfolio remplacés par des tests de redirection |
+| `a0dfda5` | Favicon : accent lime `#b9f552` remplacé par l'ambre vif `#FF8B47` |
+| `e5fd5a8` | Retrait de `tailwindcss`, `@tailwindcss/postcss`, `react-icons` et `postcss.config.mjs` |
+
+Vérifications faites après ces commits (missions PORTFOLIO-ARCHIVE-001 et CLEANUP-001) :
+- build, `tsc`, ESLint et Vitest (20/20) réussis ;
+- Playwright : 180 réussis, 0 échec, 12 non réalisés (tests propres à une taille d'écran) ;
+- `pnpm audit` : 0 critique.
+
+Les branches `feat/services-platform` et `archive/portfolio-2026-11-04` sont publiées sur `origin`. L'aperçu Vercel de `e5fd5a8` est protégé par connexion et en `noindex`. Le jeton de contournement de la protection a été révoqué le 5 novembre 2026 (mission CLEANUP-002).
+
+La production n'a pas changé : `https://neoxix.ca/` sert toujours le portfolio depuis `main` (`cbcf7a1`). La revue du Lot 1 par le propriétaire est en cours ; aucune validation n'a été donnée.

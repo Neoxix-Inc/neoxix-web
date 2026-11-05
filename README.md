@@ -1,102 +1,75 @@
-# Neoxix Web Portfolio
+# NEOXIX · site vitrine v3 (prévisualisation)
 
-The second iteration of the Neoxix professional portfolio. It presents Kodjo Mathias Akah’s current network and systems experience, practical projects, homelab, and learning roadmap with transparent status and evidence handling.
+Site vitrine de NEOXIX (services numériques pour PME), direction visuelle « Ambre Motion » (C). Le contenu est en français.
 
-## Local development
+## État au 5 novembre 2026
 
-Requirements: Node.js 20.9 or newer and pnpm 11.
+- **Non publié.** Le site existe sur la branche `feat/services-platform` et dans un aperçu Vercel protégé par connexion et en `noindex`. Toutes les pages affichent le bandeau « Maquette / prévisualisation, non publiée ».
+- **Production inchangée.** `https://neoxix.ca/` sert toujours l'ancien portfolio, depuis `main` (`cbcf7a1`), déploiement `dpl_3Xcg…`. Vérifié le 5 novembre 2026 à 05 h 27 UTC. La mise en ligne demande une autorisation écrite distincte du propriétaire.
+- **Revue du Lot 1 par le propriétaire en cours.** Aucune validation n'a encore été donnée.
+- **Éléments provisoires :**
+  - le logo (monogramme marqué « Logo provisoire ») ;
+  - le texte de confidentialité (revue juridique Loi 25 en cours) ;
+  - les éléments entre crochets, comme `[délai à valider]`, qui restent tels quels tant qu'ils ne sont pas validés.
+
+## Ancien portfolio
+
+Le portfolio a été retiré de cette branche (commit `72b41bd`). Il est archivé sur la branche `archive/portfolio-2026-11-04` (`2f5f4d6`), publiée sur `origin`. Un nouveau portfolio sera traité dans un dépôt séparé.
+
+Les anciennes adresses de la branche (`/portfolio`, `/projects/*`, `/technologies/*`) redirigent vers `/` en 301 (commit `55f8921`). Ces redirections ne sont pas déployées en production.
+
+## Pages
+
+| URL | Contenu |
+|---|---|
+| `/` | Accueil |
+| `/services` | Les quatre pôles, tarification « Sur devis » |
+| `/services/sites-web`, `/services/automatisation`, `/services/infrastructure`, `/services/applications` | Pages de pôle |
+| `/methode` | Méthode et engagements |
+| `/contact` | Contact par `mailto:info@neoxix.ca` uniquement : aucun formulaire |
+| `/confidentialite` | Texte provisoire |
+
+## Développement local
+
+Versions utilisées pour les vérifications : Node.js 24.19 et pnpm 11.22. Next.js 16.4.2 exige Node.js 20.9 ou plus récent.
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Before handing off a change, run:
+Avant de livrer une modification :
 
 ```bash
 pnpm lint
+pnpm typecheck
+pnpm test
 pnpm build
-git diff --check
+pnpm test:e2e
 ```
 
-## Content architecture
+- `pnpm test` lance Vitest sur le contenu : empreinte de la maquette, textes repris tels quels, éléments interdits.
+- `pnpm test:e2e` lance Playwright à 1440, 768 et 390 px sur le build de production, servi sur le port 3101 (variable `PORT_TESTS`). Lancez `pnpm build` d'abord.
 
-- `src/data/portfolio.ts` is the typed source for site configuration, navigation, competencies, technologies, certifications, projects, categories, statuses, and roadmap content.
-- `src/data/technologies.tsx` is the technology catalog and icon presentation layer. Technology references carry an explicit `Experience`, `Learning`, or `Planned` level.
-- `src/components/technology-tabs.tsx` is the client-side accessibility boundary for the homepage technology tabs; the surrounding section remains server rendered.
-- `src/components/project-filter.tsx` renders reusable project lists and accessible links to the statically generated category pages.
-- `src/components/certification-card.tsx` renders all supported certification fields and an honest empty evidence state.
-- `src/app/projects/[slug]/page.tsx` turns every project record into a reusable, statically generated detail page.
-- `src/app/projects/category/[category]/page.tsx` statically generates every supported project category from centralized data.
-- `src/app/technologies/[technology]/page.tsx` statically generates a detail page for every catalog technology, including its honest exposure level and data-derived competency and project relationships.
-- `src/components/evidence-gallery.tsx` renders reviewed screenshots or a deliberate empty state.
-- `src/app/globals.css` contains the provisional brand tokens, responsive layout, focus states, and reduced-motion behavior.
+## Organisation
 
-The site has no database, CMS, authentication, analytics, or contact backend. Most of it remains server rendered; JavaScript is limited to mobile navigation, viewport reveal enhancement, and the homepage technology tabs.
+- `src/content/` : contenu typé (`types.ts`, `fr/index.ts`). Une version anglaise s'ajoutera dans `src/content/en/`, avec le même type.
+- `src/app/(vitrine)/` : layout, pages et feuille de style `vitrine.css`, qui reprend les tokens de la maquette.
+- `src/components/vitrine/` : composants du site.
+- `src/app/fonts/` : IBM Plex Sans, IBM Plex Mono et Bricolage Grotesque, auto-hébergées (SIL OFL, voir `LICENCES.md`).
+- `src/app/global-not-found.tsx` : page 404.
+- `src/app/icon.svg` : favicon, accent Ambre `#FF8B47` (commit `a0dfda5`).
+- `src/components/reveal.tsx` : correctif Safari conservé par décision. Il n'est plus importé.
+- `next.config.ts` : en-têtes de sécurité, `X-Robots-Tag: noindex, nofollow`, redirections des anciennes adresses.
+- `design/v3/index.html` : maquette source (SHA-256 `29f16280…ec729d1`), vérifiée par un test.
 
-## Add a project
+Dépendances d'exécution : `next`, `react` et `react-dom`. Il n'y a pas de framework CSS : Tailwind et react-icons ont été retirés au commit `e5fd5a8`. Le site n'a ni base de données, ni CMS, ni authentification, ni outil d'analyse, ni témoins (cookies), ni appel à un service tiers.
 
-Add one object to `projects` in `src/data/portfolio.ts`. TypeScript requires the complete detail-page model:
+## Règles de contenu
 
-1. Choose a unique URL-safe `slug`.
-2. Add an accurate `summary`, current `status`, and one or more supported `categories`.
-3. Reference catalog technology IDs and give each an honest level.
-4. Fill in objectives, topology, implementation, troubleshooting, results, and demonstrated skills. Empty arrays are acceptable when facts are not ready to publish.
-5. Add GitHub or documentation URLs only when they are verified and public.
-6. Leave `gallery` empty until reviewed evidence exists.
+- Aucun prix, délai, témoignage, certification, partenariat ni chiffre client non validé.
+- Aucun service conditionnel ou futur présenté comme disponible.
+- Le seul moyen de contact publié est `info@neoxix.ca`.
+- Aucune donnée personnelle n'est collectée tant que la revue juridique n'est pas terminée.
 
-The project automatically appears in the homepage list, at `/projects/<slug>`, and on every applicable category page.
-
-## Add a lab or category assignment
-
-Labs use the same `Project` model as other projects. Add the lab to `projects` and assign one or more values from `projectCategories` to its `categories` array. Category pages filter the centralized array at build time, so no route or component update is required when an existing category is assigned.
-
-To introduce a new category, add its display name to `projectCategories`. Its lower-case route is derived in `projectCategoryRoutes`; then assign that category to the relevant projects or labs. A category with no matching published entry renders an intentional empty state.
-
-## Add a technology
-
-Update the typed catalog pieces:
-
-1. Add its ID to `technologyIds` in `src/data/portfolio.ts`.
-2. Add its accessible name, conservative portfolio-role description, and an individually imported icon in `src/data/technologies.tsx`.
-3. Add it to `portfolioTechnologies` with the honest homepage-wide `Experience`, `Learning`, or `Planned` level.
-4. Reference that ID from a competency or project where relevant. Project-specific lists remain independent and should describe that project accurately.
-
-Only add technologies supported by current portfolio content. Keep icon rendering server-safe and do not turn static cards into Client Components solely for an icon.
-
-Cisco uses the recognizable `SiCisco` brand icon included in the installed `react-icons` Simple Icons set; it is not represented by a generic network symbol. Netmiko and Paramiko have no matching exports in the installed brand icon set: Netmiko deliberately uses the neutral Tabler network symbol `TbNetwork`, and Paramiko uses the neutral terminal symbol `TbTerminal2`. These are technology symbols, not claimed official logos. Wazuh similarly uses the neutral `FaShieldHalved`. Windows uses the recognizable Font Awesome mark, and PowerShell uses Tabler's brand mark because this Simple Icons version has no PowerShell export. Other catalog entries use matching brand exports where available.
-
-Technology levels describe portfolio exposure only. Do not use them to claim professional mastery or production use.
-
-Technology detail pages derive related projects and labs from each project's `technologies` array. To assign a project to a technology page, add an honest technology reference to that published project; do not maintain a separate relationship list. Competency relationships are derived in the same way from each competency's `technologies` array. A technology with no assigned project renders an intentional evidence-pending empty state.
-
-## Add a certification
-
-Add a typed record to `certifications` in `src/data/portfolio.ts`:
-
-1. Provide the accurate certification or training name, issuer, current status (`Earned`, `In progress`, or `Planned`), an explicit status statement, and supported skills.
-2. Add issue date, expiration date, credential ID, and verification URL only when each value is verified and appropriate to publish.
-3. Add `certificateImage` only after the image has been sanitized and reviewed. When it is omitted, the card intentionally states that no certificate image or evidence is available.
-4. Never infer completion from study activity, and never invent a badge, certificate, date, ID, or verification URL.
-
-## Add a sanitized certificate image
-
-1. Remove or obscure credential secrets, private identifiers, addresses, account details, QR codes that disclose unintended data, and any other information that should not be public.
-2. Review the pixels in the exported image; CSS cropping is not sanitization.
-3. Place the optimized image under `public/certifications/`.
-4. Add the `certificateImage` record with public `src`, intrinsic `width` and `height`, accurate replacement `alt` text, and a concise `caption`.
-5. Confirm that the accompanying dates, credential ID, and verification URL match the source before publishing.
-
-## Add a sanitized screenshot
-
-1. Remove or obscure credentials, tokens, private or internal addresses, endpoints, usernames, certificates, serial numbers, customer data, and other identifying information.
-2. Review the final image itself—cropping or CSS must not be the only protection.
-3. Place the optimized image under `public/evidence/<project-slug>/`.
-4. Add a gallery record with the public `src`, intrinsic `width` and `height`, concise replacement `alt` text, and a professional `caption`.
-5. Run the production build and inspect the detail page at mobile and desktop widths.
-
-Do not create illustrative “evidence” or use placeholder screenshots. An empty gallery is intentional and renders a clear publication-status message.
-
-## Before publishing
-
-Review professional claims, learning levels, links, project statuses, and all screenshot pixels. The favicon and metadata use provisional Neoxix styling; replace them only when final approved brand assets exist. The canonical origin is centralized in `siteConfig.canonicalUrl`.
+Documentation du projet : `docs/neoxix-services/LOT1-RAPPORT.md`.
