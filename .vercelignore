@@ -1,0 +1,8 @@
+# Fichiers de conception et de documentation : hors du site déployé.
+design/
+docs/
+tests/
+playwright-report/
+test-results/
+playwright.config.ts
+vitest.config.mts
