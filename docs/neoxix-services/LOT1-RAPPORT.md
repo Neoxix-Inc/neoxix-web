@@ -137,6 +137,8 @@ Les pages portent aussi `robots: noindex`.
    - La 404 commune utilise `global-not-found.tsx` (option `experimental.globalNotFound`), car il y a deux layouts racines.
 
    La première mission demandait de tenir compte de ces pages dans les tests : c'est fait (3 pages testées). **À confirmer avant toute mise en ligne :** le domaine `neoxix.ca` sert aujourd'hui le portfolio à `/`.
+
+   **Décision du propriétaire, 5 novembre 2026 : confirmée.** Le portfolio reste à `/portfolio`. La bascule de `neoxix.ca` fera l'objet d'une autorisation distincte.
 2. **Mise à niveau de Next de 16.3.1 à 16.4.2.** Le critère de sécurité l'exigeait, et la mission n'exclut que les mises à niveau majeures.
 3. **Responsable de la protection des renseignements personnels.** Le texte provisoire de confidentialité affiche `[responsable à désigner]`, plutôt qu'un nom inventé. À compléter après la revue juridique.
 4. **Logo.** Le monogramme reste marqué « Logo provisoire » en attendant le fichier officiel (décision V6).
