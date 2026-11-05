@@ -12,6 +12,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Maquettes et prototypes de conception (Lot 0), hors code applicatif :
+    "design/**",
+    "docs/**",
+    // Rapports de tests générés :
+    "playwright-report/**",
+    "test-results/**",
   ]),
 ]);
 
