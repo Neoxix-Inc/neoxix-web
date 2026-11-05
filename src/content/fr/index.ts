@@ -3,7 +3,7 @@ import type { Contenu } from "../types";
 /**
  * Contenu français du site vitrine.
  * Sources :
- * - `design/v3/index.html` (maquette v3, SHA-256 29f16280…ec729d1) pour tout le texte de l'accueil,
+ * - `design/v3/index.html` (maquette v3, SHA-256 66621c78…49dfb1c8) pour tout le texte de l'accueil,
  *   des services, de la méthode, des engagements, de la FAQ et du contact ;
  * - `docs/neoxix-services/03-SERVICES-CATALOG.md` (décision A3 du propriétaire) pour le détail des
  *   pages de pôle, limité aux prestations classées « commercialisables ».

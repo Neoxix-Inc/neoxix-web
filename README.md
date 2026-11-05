@@ -61,7 +61,7 @@ pnpm test:e2e
 - `src/app/icon.svg` : favicon, accent Ambre `#FF8B47` (commit `a0dfda5`).
 - `src/components/reveal.tsx` : correctif Safari conservé par décision. Il n'est plus importé.
 - `next.config.ts` : en-têtes de sécurité, `X-Robots-Tag: noindex, nofollow`, redirections des anciennes adresses.
-- `design/v3/index.html` : maquette source (SHA-256 `29f16280…ec729d1`), vérifiée par un test.
+- `design/v3/index.html` : maquette source (SHA-256 `66621c78…49dfb1c8`), vérifiée par un test.
 
 Dépendances d'exécution : `next`, `react` et `react-dom`. Il n'y a pas de framework CSS : Tailwind et react-icons ont été retirés au commit `e5fd5a8`. Le site n'a ni base de données, ni CMS, ni authentification, ni outil d'analyse, ni témoins (cookies), ni appel à un service tiers.
 
