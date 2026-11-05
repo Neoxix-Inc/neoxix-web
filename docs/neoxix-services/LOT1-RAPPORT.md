@@ -172,3 +172,25 @@ Pour annuler un seul commit du Lot 1, utiliser `git revert <sha>` : jamais `rese
 2. Déploiement de prévisualisation Vercel : autorisation écrite du propriétaire.
 3. Mise en ligne sur `neoxix.ca` : autorisation distincte.
 4. Lot 2 : formulaire de demande et flux vers le CRM, après la revue juridique Loi 25.
+
+## 11. Prévisualisation Vercel (5 novembre 2026)
+
+Autorisation : le propriétaire a choisi l'étape 1, prévisualisation seulement, puis a demandé « vercel deploy ».
+
+| Élément | Valeur |
+|---|---|
+| URL | https://neoxix-ouhi74yzp-admin-15752192s-projects.vercel.app |
+| Inspecteur | https://vercel.com/admin-15752192s-projects/neoxix-web/7Y82vvNwxhM3pWv3n44shhNHj7Uh |
+| Cible | `preview` (pas `production`), état `Ready` |
+| Commit déployé | `a7513c1`, depuis le worktree local, avec `vercel deploy` sans `--prod`. Rien n'a été poussé sur GitHub. |
+| Protection | Vercel Authentication : un visiteur anonyme est redirigé (302) vers la connexion Vercel |
+| CLI | `vercel@64.7.0`, compte `admin-15752192`, projet `neoxix-web` |
+
+Vérifications sur l'URL (accès authentifié par `vercel curl`) :
+- les 9 pages de la vitrine, `/portfolio` et `/projects/neoxix-homelab` renvoient 200 ; une URL inconnue renvoie 404 ;
+- le bandeau « Maquette / prévisualisation, non publiée » et `<meta name="robots" content="noindex, nofollow, nocache">` sont présents ;
+- les en-têtes de sécurité sont tous présents, et Vercel ajoute `Strict-Transport-Security`.
+
+Production inchangée : `https://neoxix.ca/` sert toujours le portfolio (titre « Kodjo Mathias Akah | Network & Systems Portfolio »). Aucune modification DNS ni de domaine.
+
+Non réalisé sur l'URL de prévisualisation : la suite Playwright complète, parce que la protection bloque le navigateur de test. Elle a été exécutée sur le même code en local (section 5).
