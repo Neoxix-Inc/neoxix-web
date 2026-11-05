@@ -78,13 +78,13 @@ export const siteConfig = {
 } as const;
 
 export const navigation = [
-  { label: "About", href: "/#about" },
-  { label: "Competencies", href: "/#competencies" },
-  { label: "Technologies", href: "/#technologies" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Certifications", href: "/#certifications" },
-  { label: "Homelab", href: "/#homelab" },
-  { label: "Roadmap", href: "/#roadmap" },
+  { label: "About", href: "/portfolio#about" },
+  { label: "Competencies", href: "/portfolio#competencies" },
+  { label: "Technologies", href: "/portfolio#technologies" },
+  { label: "Projects", href: "/portfolio#projects" },
+  { label: "Certifications", href: "/portfolio#certifications" },
+  { label: "Homelab", href: "/portfolio#homelab" },
+  { label: "Roadmap", href: "/portfolio#roadmap" },
 ] as const;
 
 export const profile = {

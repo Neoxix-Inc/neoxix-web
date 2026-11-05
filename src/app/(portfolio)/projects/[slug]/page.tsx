@@ -28,7 +28,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
     <a className="skip-link" href="#main-content">Skip to main content</a><Header />
     <main id="main-content" className="project-detail">
       <header className="project-detail-hero"><div className="container">
-        <Link className="back-link" href="/#projects">← All projects</Link>
+        <Link className="back-link" href="/portfolio#projects">← All projects</Link>
         <p className="eyebrow eyebrow-light">PROJECT / {project.categories.join(" · ")}</p>
         <h1>{project.title}</h1><p className="detail-summary">{project.summary}</p>
         <div className="detail-meta"><span className={`status status-${project.status.toLowerCase().replaceAll(" ", "-")}`}>{project.status}</span><TechnologyList technologies={project.technologies} /></div>

@@ -55,7 +55,7 @@ export default async function TechnologyPage({ params }: PageProps<"/technologie
     <Header />
     <main id="main-content" className="technology-detail">
       <header className="technology-detail-hero"><div className="container">
-        <Link className="back-link" href="/#technologies">← All technologies</Link>
+        <Link className="back-link" href="/portfolio#technologies">← All technologies</Link>
         <div className="technology-detail-heading">
           <Icon aria-hidden="true" focusable="false" />
           <div><p className="eyebrow eyebrow-light">TECHNOLOGY / {level}</p><h1>{technology.label}</h1></div>

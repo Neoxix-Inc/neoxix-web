@@ -17,7 +17,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.canonicalUrl),
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/portfolio" },
   title: "Kodjo Mathias Akah | Network & Systems Portfolio",
   description:
     "The technical portfolio of Kodjo Mathias Akah and project showcase of Neoxix Inc., focused on practical networking, systems, security, and automation.",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_CA",
     siteName: "Neoxix",
-    url: "/",
+    url: "/portfolio",
   },
   twitter: {
     card: "summary",

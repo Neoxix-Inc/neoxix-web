@@ -26,7 +26,7 @@ export function MobileNavigation() {
       <div className="mobile-menu" id="mobile-menu" hidden={!open}>
         <nav aria-label="Mobile navigation">
           <ul>{navigation.map((item) => <li key={item.href}><Link href={item.href} onClick={() => setOpen(false)}>{item.label}</Link></li>)}</ul>
-          <Link className="mobile-cta" href="/#contact" onClick={() => setOpen(false)}>Let&apos;s connect</Link>
+          <Link className="mobile-cta" href="/portfolio#contact" onClick={() => setOpen(false)}>Let&apos;s connect</Link>
         </nav>
       </div>
     </div>

@@ -27,7 +27,7 @@ export default async function CategoryPage({ params }: PageProps<"/projects/cate
     <Header />
     <main id="main-content" className="category-page">
       <header className="category-hero"><div className="container">
-        <Link className="back-link" href="/#projects">← All projects</Link>
+        <Link className="back-link" href="/portfolio#projects">← All projects</Link>
         <p className="eyebrow eyebrow-light">PROJECT CATEGORY</p>
         <h1>{category.name}</h1>
         <p>Labs and projects assigned to {category.name}. This page is generated from the centralized project data.</p>

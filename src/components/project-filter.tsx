@@ -9,7 +9,7 @@ export function ProjectList({ projects, emptyCategory }: { projects: readonly Pr
       <div className="project-empty" role="status">
         <h2>No published {emptyCategory} projects yet.</h2>
         <p>This category is ready for future labs. A project will appear here automatically when it is published with this category in the centralized portfolio data.</p>
-        <Link href="/#projects">View all projects</Link>
+        <Link href="/portfolio#projects">View all projects</Link>
       </div>
     );
   }
@@ -36,7 +36,7 @@ export function ProjectFilter({ projects }: { projects: readonly Project[] }) {
   return (
     <div>
       <nav className="project-filters" aria-label="Browse projects by category">
-        <Link className="is-active" href="/#projects" aria-current="page">All projects</Link>
+        <Link className="is-active" href="/portfolio#projects" aria-current="page">All projects</Link>
         {projectCategoryRoutes.map(({ name, slug }) => <Link key={slug} href={`/projects/category/${slug}`}>{name}</Link>)}
       </nav>
       <p className="filter-result">Showing all {projects.length} {projects.length === 1 ? "project" : "projects"}</p>
