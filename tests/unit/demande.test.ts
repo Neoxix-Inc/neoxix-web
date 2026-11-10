@@ -118,6 +118,17 @@ describe("mode et traitement", () => {
     expect(modeIntake({ INTAKE_MODE: "live", N8N_WEBHOOK_URL: "https://hooks.example.com/x", N8N_HMAC_SECRET: "0123456789abcdef0123456789abcdef" } as unknown as NodeJS.ProcessEnv)).toBe("live");
   });
 
+  it("production : jamais de démonstration ; live seulement avec consentement versionné et limite WAF", () => {
+    const e = (v: Record<string, string>) => v as unknown as NodeJS.ProcessEnv;
+    const live = { INTAKE_MODE: "live", N8N_WEBHOOK_URL: "https://hooks.example.com/x", N8N_HMAC_SECRET: "0123456789abcdef0123456789abcdef", VERCEL_ENV: "production" };
+    expect(modeIntake(e({ VERCEL_ENV: "production" }))).toBe("off");
+    expect(modeIntake(e({ VERCEL_ENV: "production", INTAKE_MODE: "mock" }))).toBe("off");
+    expect(modeIntake(e({ VERCEL_ENV: "preview" }))).toBe("mock");
+    expect(modeIntake(e(live))).toBe("indisponible");
+    expect(modeIntake(e({ ...live, INTAKE_VERSION_CONSENTEMENT: "2026-11-10" }))).toBe("indisponible");
+    expect(modeIntake(e({ ...live, INTAKE_VERSION_CONSENTEMENT: "2026-11-10", INTAKE_LIMITE_PARTAGEE: "waf" }))).toBe("live");
+  });
+
   it("live refusé si secret trop court ou webhook non HTTPS", () => {
     const base = { INTAKE_MODE: "live", N8N_WEBHOOK_URL: "https://hooks.example.com/x", N8N_HMAC_SECRET: "0123456789abcdef0123456789abcdef" };
     expect(modeIntake({ ...base, N8N_HMAC_SECRET: "court" } as unknown as NodeJS.ProcessEnv)).toBe("indisponible");

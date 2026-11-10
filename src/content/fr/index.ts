@@ -382,7 +382,7 @@ export const fr: Contenu = {
       {
         question: "Que se passe-t-il après une demande ?",
         reponse:
-          "Votre demande est examinée par une personne. Le délai dépend du périmètre et des informations fournies. Pour l'instant, le formulaire de ce site fonctionne en mode test et ne transmet aucune demande.",
+          "Votre demande est examinée par une personne. Le délai dépend du périmètre et des informations fournies.",
       },
     ],
   },
@@ -464,22 +464,37 @@ export const fr: Contenu = {
     },
     recommencer: "Recommencer",
     reference: "Référence",
-    desactive: "Le formulaire est momentanément indisponible. Écrivez-nous directement à info@neoxix.ca.",
+    desactive:
+      "Le formulaire en ligne n'est pas encore ouvert. Écrivez-nous à info@neoxix.ca en décrivant votre besoin : une personne lit chaque message et vous répond par écrit.",
   },
   confidentialite: {
     titre: "Confidentialité",
-    statut:
-      "Texte en révision juridique (Loi 25). La politique de confidentialité définitive remplacera ce texte avant l'ouverture du formulaire de demande.",
+    statut: "Politique en vigueur depuis le 10 novembre 2026. Elle sera mise à jour avant l'ouverture du formulaire en ligne.",
     sections: [
       {
-        titre: "Données collectées par ce site",
+        titre: "Responsable de la protection des renseignements personnels",
         texte:
-          "Ce site ne collecte aucune donnée personnelle : aucun témoin de mesure d'audience, aucun outil d'analyse tiers. Le formulaire de demande fonctionne en mode test : vos réponses sont vérifiées par le serveur, puis supprimées aussitôt, sans être enregistrées, journalisées ni transmises.",
+          "La personne responsable de la protection des renseignements personnels chez NEOXIX est la direction de l'entreprise. Pour toute question, demande d'accès, de rectification ou de retrait, écrivez à info@neoxix.ca.",
       },
       {
-        titre: "Courriels",
+        titre: "Ce que ce site collecte",
         texte:
-          "Vous pouvez nous écrire à info@neoxix.ca. Les règles de conservation et de traitement des messages reçus seront précisées dans la politique définitive, avec le nom de la personne responsable de la protection des renseignements personnels.",
+          "Ce site n'utilise aucun témoin (cookie) de mesure d'audience ni aucun outil d'analyse ou de publicité tiers. Le formulaire en ligne n'est pas encore ouvert : aucun renseignement saisi sur ce site n'est enregistré ni transmis.",
+      },
+      {
+        titre: "Journaux techniques de l'hébergeur",
+        texte:
+          "Le site est hébergé par Vercel. Comme tout hébergeur, Vercel traite des données techniques de connexion (adresse IP, navigateur, page demandée, date) pour acheminer les pages et protéger le service. Ces données peuvent être traitées hors du Québec. NEOXIX ne les utilise pas pour vous identifier ni pour du marketing.",
+      },
+      {
+        titre: "Messages envoyés par courriel",
+        texte:
+          "Si vous écrivez à info@neoxix.ca, nous utilisons votre nom, votre adresse et le contenu de votre message uniquement pour répondre à votre demande et préparer une éventuelle proposition. La messagerie est hébergée par un fournisseur de courriel qui peut traiter ces messages hors du Québec. Nous ne vendons ni ne partageons ces renseignements à des fins commerciales. Les messages sans suite sont supprimés au plus tard 24 mois après le dernier échange.",
+      },
+      {
+        titre: "Vos droits",
+        texte:
+          "Vous pouvez demander l'accès à vos renseignements, leur rectification ou leur suppression, et retirer votre consentement, en écrivant à info@neoxix.ca. Vous pouvez aussi vous adresser à la Commission d'accès à l'information du Québec.",
       },
     ],
   },

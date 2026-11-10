@@ -26,10 +26,26 @@ export function configurationLiveValide(env: NodeJS.ProcessEnv): boolean {
   return url.protocol === "https:" && secret.length >= LONGUEUR_MIN_SECRET;
 }
 
+/**
+ * Prérequis supplémentaires du mode `live` en production :
+ * - `INTAKE_VERSION_CONSENTEMENT` : version du texte de consentement affiché, transmise avec chaque demande ;
+ * - `INTAKE_LIMITE_PARTAGEE=waf` : atteste qu'une règle de limitation du pare-feu Vercel couvre
+ *   `POST /api/demandes` (le compteur en mémoire est propre à chaque instance).
+ */
+export function prerequisProductionLive(env: NodeJS.ProcessEnv): boolean {
+  return Boolean(env.INTAKE_VERSION_CONSENTEMENT?.trim()) && env.INTAKE_LIMITE_PARTAGEE === "waf";
+}
+
 export function modeIntake(env: NodeJS.ProcessEnv = process.env): ModeIntake {
-  const brut = (env.INTAKE_MODE ?? "mock").trim().toLowerCase();
-  if (brut === "off") return "off";
-  if (brut === "live") return configurationLiveValide(env) ? "live" : "indisponible";
+  const production = env.VERCEL_ENV === "production";
+  const brut = (env.INTAKE_MODE ?? "").trim().toLowerCase();
+  if (brut === "live") {
+    if (!configurationLiveValide(env)) return "indisponible";
+    if (production && !prerequisProductionLive(env)) return "indisponible";
+    return "live";
+  }
+  // En production, aucun formulaire de démonstration : le visiteur réel est dirigé vers le courriel.
+  if (brut === "off" || production) return "off";
   return "mock";
 }
 

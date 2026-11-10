@@ -95,3 +95,18 @@ test.describe("anciennes adresses du portfolio", () => {
     });
   }
 });
+
+test.describe("publication", () => {
+  test("hors production : robots.txt interdit l'indexation", async ({ request }) => {
+    const r = await request.get("/robots.txt");
+    expect(r.status()).toBe(200);
+    expect(await r.text()).toMatch(/Disallow: \/\s*$/m);
+  });
+
+  test("le pied de page mène à la politique de confidentialité", async ({ page }) => {
+    await page.goto("/");
+    await page.locator("footer").getByRole("link", { name: "Confidentialité" }).click();
+    await expect(page).toHaveURL(/\/confidentialite$/);
+    await expect(page.locator("h1")).toHaveText("Confidentialité");
+  });
+});

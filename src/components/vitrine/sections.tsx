@@ -338,7 +338,7 @@ export function Contact({ mode, Titre = "h2" }: { mode: "mock" | "live" | "off";
             <p>
               <strong>Courriel :</strong> <a href={lienCourriel()}>{site.courriel}</a>
             </p>
-            <p>{contact.coordonnees}</p>
+            {mode !== "off" && <p>{contact.coordonnees}</p>}
           </div>
         </div>
         <LeadFlow mode={mode} />
@@ -390,6 +390,7 @@ export function Pied() {
         </div>
         <div className="pied-bas">
           <span>{site.lieuPied}</span>
+          <Link href="/confidentialite">Confidentialité</Link>
         </div>
       </div>
     </footer>

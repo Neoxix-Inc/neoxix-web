@@ -31,9 +31,7 @@ const titre = (t: TitreMarque) => `${t.avant}${t.marque}${t.apres ?? ""}`;
 const texte = texteMaquette();
 
 /** Textes adaptés au site réel (la maquette parlait d'elle-même ou du formulaire simulé). */
-const ADAPTATIONS = new Set([
-  "Votre demande est examinée par une personne. Le délai dépend du périmètre et des informations fournies. Pour l'instant, le formulaire de ce site fonctionne en mode test et ne transmet aucune demande.",
-]);
+const ADAPTATIONS = new Set<string>([]);
 
 describe("maquette source V5", () => {
   it("a l'empreinte du dossier de transfert", () => {
