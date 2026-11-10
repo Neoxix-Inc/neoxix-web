@@ -54,20 +54,24 @@ test.describe("accueil : sections V5 dans l'ordre du dossier", () => {
     await page.goto("/");
     const titres = await page.locator("main h1, main h2").allInnerTexts();
     expect(titres.map((t) => t.replace(/\s+/g, " ").trim())).toEqual([
-      "Votre site, vos outils et votre réseau, avec un seul interlocuteur.",
-      "Partez de votre besoin réel.",
-      "Quatre pôles, une seule méthode.",
-      "Ce qui existe, présenté avec son statut.",
-      "Nous cadrons et validons avec vous avant la réalisation.",
+      "Des solutions informatiques adaptées à votre entreprise.",
+      "Quatre domaines d'intervention, un seul interlocuteur.",
+      "Partez de votre problème.",
+      "Un projet, un problème technique ou une simple question ?",
+      "Vous savez ce qui sera fait avant que nous commencions.",
+      "Des projets que vous pouvez vérifier.",
+      "Une jeune entreprise, un interlocuteur technique direct.",
       "Ce que vous pouvez attendre, et ce que nous ne promettons pas.",
-      "Trois façons de continuer après la livraison.",
+      "Trois façons de travailler ensemble.",
       "Avant de nous écrire.",
-      "Décrivez votre situation en quelques lignes.",
+      "Parlons de votre projet.",
     ]);
     await expect(page.locator(".etape")).toHaveCount(6);
-    await expect(page.locator(".etape.humain")).toContainText("Validation humaine");
+    await expect(page.locator(".etape.humain")).toContainText("Votre accord");
     await expect(page.locator(".grille-solutions .carte")).toHaveCount(6);
-    await expect(page.getByText("Concept en conception · non commercialisé")).toBeVisible();
+    await expect(page.locator(".grille-solutions .lien-fleche")).toHaveCount(6);
+    await expect(page.locator(".grille-services .scenario")).toHaveCount(4);
+    await expect(page.locator("body")).not.toContainText(/LeadFlow|non commercialisé/);
     await expect(page.locator(".grille-realisations .realisation")).toHaveCount(3);
     await expect(page.locator(".faq details")).toHaveCount(8);
     await expect(page.getByText("Livré", { exact: true })).toBeVisible();
@@ -80,7 +84,7 @@ test.describe("accueil : sections V5 dans l'ordre du dossier", () => {
     await detail.locator("summary").click();
     await expect(detail).toHaveAttribute("open", "");
     await expect(detail.getByText("Sauvegardes, selon le périmètre contractuel")).toBeVisible();
-    await detail.getByRole("link", { name: /Page complète du pôle/ }).click();
+    await page.locator("#pole-infrastructure").getByRole("link", { name: /Découvrir ce service/ }).click();
     await expect(page).toHaveURL(/\/services\/infrastructure$/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Infrastructure et sécurité");
   });

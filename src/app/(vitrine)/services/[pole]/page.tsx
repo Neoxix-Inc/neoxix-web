@@ -49,6 +49,11 @@ export default async function PagePole({ params }: PageProps<"/services/[pole]">
                   ))}
                 </ul>
               </div>
+              <div className="rubrique revele scenario scenario-page">
+                <h2>{pole.exemple.titre}</h2>
+                <p>{pole.exemple.texte}</p>
+                <p className="scenario-mention">Scénario type, adapté à chaque mandat.</p>
+              </div>
               {pole.paliers && (
                 <div className="rubrique revele">
                   <h2>Trois paliers d&apos;engagement</h2>

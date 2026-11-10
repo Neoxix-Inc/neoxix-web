@@ -5,6 +5,8 @@
 - **LeadFlow non collecteur en production.** Avec `VERCEL_ENV=production`, le formulaire est remplacé par le courriel `info@neoxix.ca` : l'adresse reçoit bien le courrier, car ses enregistrements MX pointent vers iCloud Mail. `POST /api/demandes` répond 503. Le mode démonstration (`mock`) reste en prévisualisation seulement.
 - **Indexation.** Seule la production est indexée (`robots.txt`, plan du site et balise meta `index, follow`, sans `X-Robots-Tag`). Les prévisualisations et le poste local restent en `noindex`.
 - **Confidentialité.** La page `/confidentialite` est liée depuis le pied de page. Elle décrit le traitement réel : aucun témoin, journaux de l'hébergeur, courriels. **Aucune validation juridique n'a été faite.**
+  - Responsable : la fonction est exercée par défaut par la personne ayant la plus haute autorité (art. 3.1 de la loi), sans nom publié. Décision du propriétaire : publier un nom ou un titre.
+  - Durée de conservation des courriels : **non publiée**. Décision du propriétaire à prendre, puis à ajouter à la politique.
 - **Variables Vercel.** Aucune n'est nécessaire en production. N'y ajoutez ni `INTAKE_MODE` ni `N8N_*`.
 
 ## Bascule (après autorisation)
@@ -34,7 +36,7 @@
 
 **Projet de texte de consentement (à valider) :**
 
-> J'accepte que NEOXIX utilise les renseignements de ce formulaire pour répondre à ma demande et préparer une proposition. Ils sont conservés au plus 24 mois sans suite, ne sont ni vendus ni partagés à des fins commerciales, et peuvent être traités hors du Québec par nos fournisseurs (hébergement, automatisation). Voir la politique de confidentialité.
+> J'accepte que NEOXIX utilise les renseignements de ce formulaire pour répondre à ma demande et préparer une proposition. Ils sont conservés au plus [durée à décider] sans suite, ne sont ni vendus ni partagés à des fins commerciales, et peuvent être traités hors du Québec par nos fournisseurs (hébergement, automatisation). Voir la politique de confidentialité.
 
 ## Recette manuelle (5 minutes, iPhone et iPad)
 
@@ -44,11 +46,19 @@
 4. Contact : le bouton « Écrire à info@neoxix.ca » ouvre Mail avec le sujet prérempli.
 5. Pied de page › Confidentialité : la page s'affiche.
 
+## Lancement SHIP-FINAL (10 novembre 2026)
+
+- Textes commerciaux réécrits : problème, prestation, scénario type, résultat, prise de contact.
+- Accueil réorganisé : services, solutions par besoin (avec lien vers le service), appel à l'action, méthode, réalisations vérifiables, à propos, engagements, formules, FAQ, contact.
+- LeadFlow retiré des pages publiques : c'est un concept non commercialisé.
+- Finitions visuelles en CSS : halos et entrée en cascade du héros, survol des cartes, tracé de la méthode, micro-interactions. Tout est désactivé en mouvement réduit, et le contenu reste visible sans JavaScript.
+
 ## Backlog après lancement
 
 - **P2**
   - Le test « /services/infrastructure » est instable sur 1440 px : un échec sur une exécution, puis 3 réussites sur 3.
   - Le texte de Réalisations sur LeadFlow (« traitement serveur pas encore réalisé ») sera à mettre à jour lors de l'activation.
+- **P2** Chaque carte de service affiche deux liens (« Découvrir ce service » et « Voir le périmètre ») : à simplifier si les retours le justifient.
 - **P3**
   - Logo institutionnel (candidat A non approuvé).
   - Inventaire des visuels Google Drive : le connecteur est à reconnecter.

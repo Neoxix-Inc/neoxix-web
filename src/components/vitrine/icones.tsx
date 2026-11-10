@@ -63,6 +63,18 @@ export function Apercu({ type }: { type: Realisation["apercu"] }) {
       </svg>
     );
   }
+  if (type === "site") {
+    return (
+      <svg {...commun}>
+        <rect x="14" y="12" width="172" height="86" rx="8" stroke="#4FD1C5" strokeWidth="2" />
+        <path d="M14 28h172" stroke="#2C3D45" strokeWidth="2" />
+        <circle cx="26" cy="20" r="2.5" fill="#FF8B47" />
+        <path d="M30 48h70M30 60h50" stroke="#FF8B47" strokeWidth="4" strokeLinecap="round" />
+        <rect x="120" y="42" width="50" height="40" rx="5" stroke="#4FD1C5" strokeWidth="2" strokeDasharray="4 4" />
+        <path d="M30 78h34" stroke="#2C3D45" strokeWidth="6" strokeLinecap="round" />
+      </svg>
+    );
+  }
   if (type === "laboratoire") {
     return (
       <svg {...commun}>

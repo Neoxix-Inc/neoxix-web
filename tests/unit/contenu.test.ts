@@ -2,23 +2,9 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { contenu, lienCourriel, trouverPole } from "@/content";
-import type { TitreMarque } from "@/content/types";
 
 const MAQUETTE_CHEMIN = "design/v5/index.html";
 const MAQUETTE_SHA256 = "5ad1cd451257280f66c8bcd070a19daf8951a578d44cfdd936ac0c96f245b62a";
-
-const maquetteBrute = readFileSync(MAQUETTE_CHEMIN, "utf8");
-
-/** Texte visible de la maquette : balises, styles et scripts retirés, espaces normalisés. */
-function texteMaquette(): string {
-  const corps = maquetteBrute.split("<body")[1] ?? "";
-  return corps
-    .replace(/<script[\s\S]*?<\/script>/g, " ")
-    .replace(/<!--[\s\S]*?-->/g, " ")
-    .replace(/<[^>]+>/g, "")
-    .replace(/&amp;/g, "&")
-    .replace(/\s+/g, " ");
-}
 
 function chaines(valeur: unknown): string[] {
   if (typeof valeur === "string") return [valeur];
@@ -27,73 +13,25 @@ function chaines(valeur: unknown): string[] {
   return [];
 }
 
-const titre = (t: TitreMarque) => `${t.avant}${t.marque}${t.apres ?? ""}`;
-const texte = texteMaquette();
-
-/** Textes adaptés au site réel (la maquette parlait d'elle-même ou du formulaire simulé). */
-const ADAPTATIONS = new Set<string>([]);
-
-describe("maquette source V5", () => {
-  it("a l'empreinte du dossier de transfert", () => {
-    const sha = createHash("sha256").update(readFileSync(MAQUETTE_CHEMIN)).digest("hex");
-    expect(sha).toBe(MAQUETTE_SHA256);
+describe("contenu de lancement", () => {
+  it("quatre pôles, chacun avec un scénario type et une page", () => {
+    expect(contenu.services.poles.map((p) => p.slug)).toEqual(["sites-web", "automatisation", "infrastructure", "applications"]);
+    for (const p of contenu.services.poles) expect(p.exemple.texte.length).toBeGreaterThan(80);
   });
-});
 
-describe("textes de l'accueil repris mot pour mot de la V5", () => {
-  const { accueil, solutions, services, realisations, methode, engagements, formules, faq, contact, leadflow } = contenu;
-  const sections: Record<string, string[]> = {
-    heros: [accueil.surtitre, titre(accueil.titre), accueil.chapo, accueil.actionSecondaire.libelle, ...accueil.publics],
-    schema: chaines({ ...accueil.schema, etapes: accueil.schema.etapes.map(({ humain: _h, ...e }) => e) }),
-    confiance: accueil.confiance,
-    solutions: [solutions.surtitre, titre(solutions.titre), solutions.intro!, solutions.note, ...chaines(solutions.items.map(({ icone: _i, concept: _c, ...s }) => s))],
-    services: [
-      services.surtitre,
-      titre(services.titre),
-      services.intro!,
-      ...services.poles.flatMap((p) => [p.titre, p.accroche, p.resultatRecherche, ...p.etiquettes, ...chaines(p.detail)]),
-    ],
-    realisations: [
-      realisations.surtitre,
-      titre(realisations.titre),
-      realisations.intro!,
-      ...chaines(realisations.items.map(({ apercu: _a, ...r }) => r)),
-      ...realisations.legende.map((l) => `${l.terme} · ${l.sens}`),
-    ],
-    methode: [methode.surtitre, titre(methode.titre), methode.intro!, ...chaines(methode.etapes), ...chaines(methode.encarts), methode.exemple.titre, ...methode.exemple.etapes, methode.exemple.note],
-    engagements: [engagements.surtitre, titre(engagements.titre), ...chaines(engagements.oui), ...chaines(engagements.non)],
-    formules: [formules.surtitre, titre(formules.titre), formules.intro!, formules.action, ...chaines(formules.items)],
-    faq: [faq.surtitre, titre(faq.titre), ...chaines(faq.entrees)],
-    contact: [contact.surtitre, titre(contact.titre), contact.intro!, contact.coordonnees],
-    leadflow: [
-      ...leadflow.etapes,
-      ...leadflow.services.map((s) => s.libelle),
-      leadflow.champs.service.placeholder,
-      leadflow.champs.objectif.libelle,
-      leadflow.champs.objectif.aide,
-      leadflow.champs.lieu.libelle,
-      leadflow.champs.lieu.aide,
-      leadflow.champs.description.libelle,
-      leadflow.champs.nom.libelle,
-      leadflow.champs.consentement,
-      leadflow.erreurs.service_requis,
-      leadflow.erreurs.description_courte,
-      leadflow.erreurs.nom_requis,
-      leadflow.erreurs.courriel_invalide,
-      leadflow.erreurs.consentement_requis,
-    ],
-  };
+  it("chaque solution mène à un pôle existant", () => {
+    for (const s of contenu.solutions.items) expect(trouverPole(s.pole ?? "")).toBeDefined();
+  });
 
-  for (const [nom, valeurs] of Object.entries(sections)) {
-    it(nom, () => {
-      const manquants = valeurs.filter((v) => v && !ADAPTATIONS.has(v) && !texte.includes(v));
-      expect(manquants).toEqual([]);
-    });
-  }
+  it("aucun produit non commercialisé présenté sur le site public", () => {
+    expect(chaines(contenu.solutions).join(" ")).not.toMatch(/LeadFlow/);
+    expect(chaines(contenu.realisations).join(" ")).not.toMatch(/LeadFlow/);
+    expect(contenu.realisations.items.find((r) => r.titre === "Ivoire Connect")?.statut).toBe("En développement");
+  });
 
-  it("les adaptations sont bien utilisées", () => {
-    const tout = chaines(contenu);
-    for (const a of ADAPTATIONS) expect(tout).toContain(a);
+  it("confidentialité : aucune durée de conservation ni validation juridique affirmées", () => {
+    const texte = chaines(contenu.confidentialite).join(" ");
+    expect(texte).not.toMatch(/\d+ mois|validée? juridiquement|avis juridique/i);
   });
 });
 

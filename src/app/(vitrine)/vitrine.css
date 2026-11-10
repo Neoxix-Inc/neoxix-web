@@ -418,6 +418,91 @@ main section.page-tete { padding: 72px 0 64px; }
   .entete .wrap { gap: 10px; }
 }
 
+/* ── Lancement : finitions visuelles (identité Ambre conservée) ── */
+
+/* Boutons : retour tactile */
+.btn:active:not(:disabled) { transform: translateY(0) scale(0.98); }
+.btn-principal:hover { box-shadow: 0 16px 34px -14px rgba(232, 116, 54, 0.85); }
+
+/* Héros : profondeur (halos fixes) et entrée en cascade du texte. Sans JS, l'animation CSS s'exécute ; en mouvement réduit, tout est visible d'emblée. */
+.heros::after { content: ""; position: absolute; z-index: -1; width: 760px; height: 760px; right: -220px; top: -260px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 139, 71, 0.22), rgba(255, 139, 71, 0) 62%); pointer-events: none; }
+.heros-grille::before { content: ""; position: absolute; z-index: -1; width: 520px; height: 520px; left: -200px; bottom: -260px; border-radius: 50%; background: radial-gradient(circle, rgba(79, 209, 197, 0.13), rgba(79, 209, 197, 0) 65%); pointer-events: none; }
+.heros-grille { position: relative; }
+.heros h1 { font-size: clamp(2.4rem, 5.6vw, 4.4rem); }
+.heros-grille > div > * { animation: entree 0.8s var(--ease) both; }
+.heros-grille > div > :nth-child(2) { animation-delay: 0.08s; }
+.heros-grille > div > :nth-child(3) { animation-delay: 0.16s; }
+.heros-grille > div > :nth-child(4) { animation-delay: 0.24s; }
+.heros-grille > div > :nth-child(5) { animation-delay: 0.32s; }
+.heros .schema { box-shadow: 0 40px 80px -50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.02) inset; }
+@keyframes entree { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* Cartes de solutions : pied avec lien vers le service */
+.carte-pied { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
+.carte-pied .statut { margin-top: 0; }
+.carte .icone { transition: transform 0.3s var(--ease), background 0.3s; }
+.carte:hover .icone { transform: translateY(-2px) rotate(-4deg); background: #ffe2cc; }
+.lien-fleche { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 600; font-size: 15px; color: var(--ambre-fonce); text-decoration: none; }
+.lien-fleche span[aria-hidden] { transition: transform 0.2s var(--ease); }
+.lien-fleche:hover { text-decoration: underline; text-underline-offset: 4px; }
+.lien-fleche:hover span[aria-hidden] { transform: translateX(4px); }
+
+/* Cartes de services : barre d'accent, élévation, scénario */
+.service { position: relative; transition: transform 0.3s var(--ease), box-shadow 0.3s, border-color 0.3s; }
+.service::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, var(--ambre-fonce), var(--ambre-vif)); transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease); }
+.service:hover, .js .service.revele.visible:hover { transform: translateY(-4px); border-color: #f0c3a3; box-shadow: 0 26px 50px -34px rgba(16, 23, 26, 0.5); }
+.service:hover::before, .service:focus-within::before { transform: scaleX(1); }
+.service:hover .service-num { background: var(--ambre); color: #1b1208; }
+.service-num { transition: background 0.3s, color 0.3s; }
+.scenario { margin: 16px 26px 0; padding: 14px 16px; border: 1px dashed #e9c7ad; border-radius: 10px; background: #fffaf6; font-size: 15px; color: var(--encre-2); }
+.scenario-titre { font: 600 13px/1.3 var(--mono); letter-spacing: 0.04em; color: var(--ambre-fonce); margin-bottom: 6px; }
+.lien-service { margin: 12px 26px 0; }
+details.detail { margin-top: 4px; }
+.scenario-page { margin: 36px 0 0; padding: 22px 24px; }
+.scenario-page h2 { font-size: 1.25rem; }
+.scenario-mention { margin-top: 10px; font-size: 13px; }
+
+/* Bandeau d'appel à l'action */
+main section.appel { padding: 64px 0; overflow: hidden; }
+.appel::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 85% 50%, rgba(255, 139, 71, 0.18), transparent 60%); pointer-events: none; }
+.appel-grille { display: grid; grid-template-columns: 1.4fr auto; gap: 32px; align-items: center; position: relative; }
+.appel h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); margin-bottom: 12px; }
+.appel .btn-secondaire { color: var(--texte-nuit); }
+
+/* À propos */
+.grille-apropos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grille-apropos li { border-top: 2px solid var(--ambre); padding-top: 20px; min-width: 0; }
+.apropos-num { font: 500 13px/1 var(--mono); color: var(--ambre-fonce); display: block; margin-bottom: 14px; }
+.grille-apropos h3 { margin-bottom: 10px; }
+.grille-apropos p { color: var(--encre-2); font-size: 15.5px; }
+
+/* Méthode : la ligne se trace et les étapes s'allument à l'apparition (contenu visible sans JS) */
+.js .grille-methode.revele::before { transform: scaleX(0); transform-origin: left; transition: transform 1.2s var(--ease) 0.2s; }
+.js .grille-methode.revele.visible::before { transform: scaleX(1); }
+.js .grille-methode.revele .num { transition: background 0.4s, color 0.4s, transform 0.4s var(--ease); }
+.js .grille-methode.revele.visible li:nth-child(1) .num { transition-delay: 0.2s; }
+.js .grille-methode.revele.visible li:nth-child(2) .num { transition-delay: 0.45s; }
+.js .grille-methode.revele.visible li:nth-child(3) .num { transition-delay: 0.7s; }
+.js .grille-methode.revele.visible li:nth-child(4) .num { transition-delay: 0.95s; }
+.js .grille-methode.revele.visible li:nth-child(5) .num { transition-delay: 1.2s; }
+.js .grille-methode.revele.visible .num { background: var(--ambre); color: #1b1208; }
+.grille-methode li:hover .num { transform: scale(1.08); }
+
+/* Réalisations : aperçu qui s'anime légèrement au survol */
+.realisation .apercu svg { transition: transform 0.5s var(--ease); }
+.realisation:hover .apercu svg { transform: scale(1.05); }
+
+@media (max-width: 960px) {
+  .appel-grille { grid-template-columns: 1fr; }
+  .grille-apropos { grid-template-columns: 1fr; }
+  .heros::after { width: 520px; height: 520px; right: -260px; top: -200px; }
+}
+@media (max-width: 620px) {
+  .scenario { margin: 14px 18px 0; }
+  .lien-service { margin: 10px 18px 0; }
+  .appel .actions .btn { flex: 1 1 100%; }
+}
+
 /* Mouvement réduit : aucune animation ni transition, contenu identique */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -425,4 +510,5 @@ main section.page-tete { padding: 72px 0 64px; }
   .js .revele { opacity: 1; transform: none; }
   .signal, .pause { display: none; }
   .noeud { background: var(--nuit-2); }
+  .js .grille-methode.revele::before { transform: none; }
 }

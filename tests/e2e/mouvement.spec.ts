@@ -60,7 +60,7 @@ test.describe("prefers-reduced-motion : aucune animation (critère V5 4)", () =>
   test("le schéma reste lisible : six étapes et leurs libellés", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator(".etape .lbl")).toHaveCount(6);
-    await expect(page.locator(".etape").nth(3)).toContainText("Validation humaine");
+    await expect(page.locator(".etape").nth(3)).toContainText("Votre accord");
   });
 });
 

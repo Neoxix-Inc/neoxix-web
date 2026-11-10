@@ -1,240 +1,268 @@
 import type { Contenu } from "../types";
 
 /**
- * Contenu français du site vitrine.
- * Sources :
- * - `design/v5/index.html` (maquette V5, SHA-256 5ad1cd45…f245b62a) et `design/v5/DOSSIER-TRANSFERT-V5.md`
- *   pour l'accueil, la méthode, les engagements, les formules, la FAQ et le formulaire LeadFlow ;
- * - `docs/neoxix-services/03-SERVICES-CATALOG.md` (décision A3 du propriétaire) pour le détail des
- *   pages de pôle, limité aux prestations classées « commercialisables » et aligné sur les textes
- *   corrigés de la V5 (aucune sauvegarde ni restauration présentée comme testée, aucun délai, aucun prix).
- * Adaptations au site (la maquette parlait d'elle-même) : voir `design/v5/RAPPORT-INTEGRATION-V5.md`.
+ * Contenu français du site vitrine NEOXIX Services.
+ * Structure et identité visuelle : maquette V5 (`design/v5/`). Textes commerciaux réécrits pour le
+ * lancement (mission SHIP-FINAL) : problème, prestation, réalisation concrète, résultat, demande.
+ * Règles : aucune référence client, certification d'entreprise, prix, délai ou garantie non vérifiés ;
+ * les scénarios de pôle sont des exemples types, présentés comme tels.
  */
 export const fr: Contenu = {
   langue: "fr",
   site: {
     nom: "NEOXIX",
-    titre: "NEOXIX · Services numériques pour PME",
+    titre: "NEOXIX · Solutions informatiques pour PME",
     description:
-      "NEOXIX conçoit, sécurise et automatise les systèmes numériques des PME au Canada et en Côte d'Ivoire. Proposition écrite avant tout travail facturé.",
+      "Sites web, réseaux et sécurité, automatisation et applications sur mesure pour les PME. NEOXIX est basé à Gatineau et accompagne des entreprises à Ottawa, au Québec et en Côte d'Ivoire.",
     courriel: "info@neoxix.ca",
-    sujetCourriel: "Demande de consultation",
-    descriptionPied: "Services numériques pour PME, au Canada et en Côte d'Ivoire.",
+    sujetCourriel: "Discuter de mon projet",
+    descriptionPied: "Solutions informatiques pour PME, au Canada et en Côte d'Ivoire.",
     lieuPied: "© 2026 NEOXIX · Gatineau, Québec",
   },
   navigation: [
     { libelle: "Services", href: "/#services" },
     { libelle: "Solutions", href: "/#solutions" },
-    { libelle: "Réalisations", href: "/#realisations" },
     { libelle: "Méthode", href: "/#methode" },
-    { libelle: "Questions", href: "/#faq" },
+    { libelle: "Réalisations", href: "/#realisations" },
+    { libelle: "À propos", href: "/#a-propos" },
   ],
-  actionPrincipale: { libelle: "Présenter mon projet", href: "/#contact" },
+  actionPrincipale: { libelle: "Discuter de mon projet", href: "/#contact" },
   accueil: {
-    surtitre: "Services numériques · Gatineau, Ottawa et Côte d'Ivoire",
-    titre: { avant: "Votre site, vos outils et votre réseau, ", marque: "avec un seul interlocuteur." },
+    surtitre: "Services informatiques · Gatineau, Ottawa et Côte d'Ivoire",
+    titre: { avant: "Des solutions informatiques ", marque: "adaptées à votre entreprise." },
     chapo:
-      "NEOXIX conçoit, sécurise et automatise les systèmes numériques des PME. Une méthode écrite, des livrables qui vous appartiennent, et une personne qui répond.",
-    actionSecondaire: { libelle: "Explorer les solutions", href: "#solutions" },
+      "Sites web, réseaux, sécurité, logiciels et automatisation : NEOXIX conçoit et met en place les outils dont votre entreprise a besoin pour fonctionner, avec une proposition écrite avant tout travail.",
+    actionSecondaire: { libelle: "Découvrir nos services", href: "#services" },
     publics: ["PME de 1 à 50 personnes", "Travailleurs autonomes", "Organisations"],
     schema: {
-      titre: "Comment une demande avance",
-      mention: "Schéma illustratif",
+      titre: "Comment avance votre projet",
+      mention: "Déroulement type",
       etapes: [
-        { numero: "01", libelle: "Besoin exprimé", detail: "Votre situation, vos outils, vos contraintes", etiquette: "Client" },
-        { numero: "02", libelle: "Analyse", detail: "Périmètre et points à clarifier", etiquette: "Analyse" },
-        { numero: "03", libelle: "Proposition écrite", detail: "Périmètre, étapes, inclus, exclus", etiquette: "Écrit" },
-        { numero: "04", libelle: "Validation humaine", detail: "Vous décidez avant toute réalisation", etiquette: "Décision", humain: true },
-        { numero: "05", libelle: "Réalisation et tests", detail: "Construction par étapes, vérifications documentées", etiquette: "Projet" },
-        { numero: "06", libelle: "Suivi", detail: "Documentation remise, accompagnement selon la formule", etiquette: "Suivi" },
+        { numero: "01", libelle: "Votre demande", detail: "Votre situation, vos outils, vos contraintes", etiquette: "Échange" },
+        { numero: "02", libelle: "Analyse", detail: "Ce qu'il faut faire, et dans quel ordre", etiquette: "Analyse" },
+        { numero: "03", libelle: "Proposition écrite", detail: "Périmètre, étapes, prix, exclusions", etiquette: "Écrit" },
+        { numero: "04", libelle: "Votre accord", detail: "Rien ne commence sans votre validation", etiquette: "Décision", humain: true },
+        { numero: "05", libelle: "Réalisation et tests", detail: "Travail par étapes, vérifié avant la livraison", etiquette: "Projet" },
+        { numero: "06", libelle: "Livraison", detail: "Mise en service, documentation et accès remis", etiquette: "Suivi" },
       ],
-      pied: ["Exemple de déroulement. Aucune donnée client.", "Aucune automatisation n'est présentée comme active ici."],
+      pied: ["Chaque étape produit un document que vous conservez.", "Vous décidez avant toute réalisation."],
     },
     confiance: [
       "Basé à Gatineau, Québec",
-      "Clientèle à Ottawa–Gatineau et au Québec",
-      "Projets pour la Côte d'Ivoire",
-      "Français, anglais sur demande",
+      "Ottawa–Gatineau, Québec et Côte d'Ivoire",
       "Proposition écrite avant tout travail facturé",
+      "Configurations documentées et remises",
+      "Français, anglais sur demande",
     ],
   },
   solutions: {
     surtitre: "Solutions",
-    titre: { avant: "Partez de votre ", marque: "besoin réel." },
+    titre: { avant: "Partez de ", marque: "votre problème." },
     intro:
-      "Des cas d'usage concrets. Chaque solution indique son statut : une prestation sur devis, ou un concept qui n'est pas encore commercialisé.",
+      "Vous ne cherchez pas un « pôle de services », mais une réponse à une situation précise. Voici les demandes que nous recevons le plus souvent.",
     items: [
       {
-        titre: "Présence en ligne",
-        texte: "Un site clair qui présente vos services, inspire confiance et reçoit les demandes.",
-        statut: "Prestation sur devis",
+        titre: "Un site qui vous apporte des demandes",
+        texte: "Votre site actuel est daté ou absent. Nous créons un site clair, rapide sur téléphone, que vous pouvez mettre à jour vous-même.",
+        statut: "Sites web",
         icone: "ecran",
+        pole: "sites-web",
       },
       {
-        titre: "Automatisation des demandes",
-        texte: "Formulaire qualifié, notifications et suivi. Une personne valide chaque décision importante.",
-        statut: "Prestation sur devis",
+        titre: "Des demandes clients qui ne se perdent plus",
+        texte: "Chaque demande est enregistrée, attribuée et suivie, avec un rappel si personne n'a répondu.",
+        statut: "Automatisation",
         icone: "flux",
+        pole: "automatisation",
       },
       {
-        titre: "Gestion des clients",
-        texte: "Contacts, rappels et suivi des devis, reliés à l'outil CRM que vous utilisez.",
-        statut: "Intégration sur devis",
+        titre: "Vos outils enfin reliés",
+        texte: "Formulaire, CRM, tableur et agenda échangent leurs données au lieu d'être recopiés à la main.",
+        statut: "Automatisation",
         icone: "clients",
+        pole: "automatisation",
       },
       {
-        titre: "Sécurisation du réseau",
-        texte: "Accès à distance chiffré, pare-feu, segmentation et supervision, selon votre périmètre.",
-        statut: "Prestation sur devis",
+        titre: "Travail à distance en sécurité",
+        texte: "VPN, pare-feu, réseau invité séparé et accès contrôlés, pour que vos employés travaillent de partout sans exposer vos données.",
+        statut: "Infrastructure et sécurité",
         icone: "bouclier",
+        pole: "infrastructure",
       },
       {
-        titre: "Outils métiers",
-        texte: "Portails, outils internes et tableaux de bord conçus autour de votre façon de travailler.",
-        statut: "Sur devis, selon le périmètre",
+        titre: "Un outil fait pour votre processus",
+        texte: "Quand les tableurs ne suffisent plus : une application web où chaque dossier a un statut, un responsable et un historique.",
+        statut: "Applications sur mesure",
         icone: "blocs",
+        pole: "applications",
       },
       {
-        titre: "NEOXIX LeadFlow",
-        texte: "Concept de gestion structurée des demandes : formulaire, qualification, validation humaine, notifications.",
-        statut: "Concept en conception · non commercialisé",
+        titre: "Vos chiffres au même endroit",
+        texte: "Un tableau de bord qui regroupe les données de vos outils et montre l'essentiel en un coup d'œil.",
+        statut: "Applications sur mesure",
         icone: "courbe",
-        concept: true,
+        pole: "applications",
       },
     ],
-    note: "Une solution présentée ici n'est pas un produit déjà déployé chez des clients. Les concepts restent signalés comme tels jusqu'à leur mise en service.",
+    note: "Votre situation n'est pas dans la liste ? Décrivez-la en quelques lignes : nous vous dirons franchement si nous pouvons vous aider.",
   },
   services: {
     surtitre: "Services",
-    titre: { avant: "Quatre pôles, ", marque: "une seule méthode." },
+    titre: { avant: "Quatre domaines d'intervention, ", marque: "un seul interlocuteur." },
     intro:
-      "Chaque service précise ce qui est inclus, ce qui dépend du périmètre et ce qu'il faut préparer pour recevoir une proposition.",
-    tarification: "Sur devis",
+      "Du site web au réseau de votre bureau, chaque mandat commence par une proposition écrite qui précise ce qui sera fait, ce qui est exclu et ce qu'il faut préparer.",
+    tarification: "Sur devis, après un premier échange sans engagement",
     poles: [
       {
         slug: "sites-web",
         numero: "01",
         titre: "Sites web et WordPress",
         titreCourt: "Sites web et WordPress",
-        accroche: "Un site qui présente votre entreprise clairement et facilite la prise de contact.",
-        resultatRecherche: "Résultat recherché : un site à jour, lisible sur téléphone et relié à vos demandes.",
-        etiquettes: ["WordPress", "WooCommerce", "DNS", "Courriel professionnel"],
+        accroche: "Un site professionnel qui présente vos services clairement, inspire confiance et vous apporte des demandes.",
+        resultatRecherche: "Résultat recherché : un site rapide, lisible sur téléphone, que vous pouvez mettre à jour vous-même.",
+        etiquettes: ["WordPress", "WooCommerce", "Responsive", "Domaines et courriels"],
         detail: {
-          inclus: ["Site vitrine ou boutique WooCommerce", "Refonte ou migration", "Configuration DNS et courriel"],
-          perimetre: ["Contenu rédactionnel et photos", "Fonctionnalités de commerce"],
-          nonInclus: ["Hébergement géré", "Référencement continu"],
-          demarrer: ["Vos objectifs et vos pages principales", "Accès à votre domaine"],
+          inclus: ["Site vitrine professionnel", "Affichage mobile, tablette et ordinateur", "Refonte d'un site existant"],
+          perimetre: ["Boutique WooCommerce", "Domaine et courriel professionnel", "Rédaction et photos"],
+          nonInclus: ["Hébergement géré", "Publicité en ligne"],
+          demarrer: ["Vos services et vos pages principales", "L'adresse de votre site actuel, s'il existe"],
         },
-        resume: "Sites vitrines, boutiques WooCommerce, refontes, migrations, domaines, courriels professionnels et entretien.",
-        probleme: "« Mon site ne me ressemble plus, il est lent, et je ne sais pas qui le met à jour. »",
+        resume:
+          "Création et refonte de sites vitrines WordPress, boutiques WooCommerce, configuration des domaines et des courriels professionnels, maintenance sur devis.",
+        probleme: "« Mon site ne me ressemble plus, il s'affiche mal sur téléphone, et je ne sais pas qui peut le mettre à jour. »",
         prestations: [
-          "Site vitrine WordPress responsive",
-          "Refonte et migration",
-          "Boutique WooCommerce",
-          "Domaines et DNS",
-          "Messagerie professionnelle (MX, SPF, DKIM, DMARC)",
-          "Entretien : mises à jour, sauvegardes et sécurité, selon le périmètre convenu",
-          "Optimisation de performance et SEO technique",
+          "Site vitrine conçu pour présenter vos services et recevoir des demandes",
+          "Affichage adapté au téléphone, à la tablette et à l'ordinateur",
+          "WordPress, pour modifier vos textes et vos photos sans développeur",
+          "Boutique WooCommerce, lorsque la vente en ligne a du sens pour vous",
+          "Refonte ou migration d'un site existant, sans perdre vos contenus",
+          "Domaine et courriels professionnels (MX, SPF, DKIM, DMARC), selon le mandat",
+          "Maintenance : mises à jour, sauvegardes et vérifications, selon la formule choisie",
         ],
+        exemple: {
+          titre: "Exemple : une entreprise de rénovation",
+          texte:
+            "Elle veut présenter ses services, montrer ses chantiers et recevoir des demandes de soumission. Nous structurons cinq pages avec elle, écrivons des appels à l'action clairs, relions le formulaire de contact à sa boîte courriel et lui montrons comment ajouter ses photos.",
+        },
         pourDevis:
-          "Type de site, nombre de pages ou de produits, fonctionnalités, domaine existant ou non, hébergement souhaité, langues, échéance, budget indicatif.",
-        ensuite: "Suivi WordPress selon la formule choisie : mises à jour vérifiées et sauvegardes, dont les modalités sont précisées dans chaque proposition.",
+          "Type de site, nombre de pages ou de produits, fonctionnalités souhaitées, domaine existant ou non, langues, échéance et budget indicatif.",
+        ensuite: "Maintenance selon la formule choisie : mises à jour vérifiées et sauvegardes, dont les modalités sont écrites dans la proposition.",
       },
       {
         slug: "automatisation",
         numero: "02",
         titre: "Automatisation des processus",
         titreCourt: "Automatisation",
-        accroche: "Des demandes qui n'attendent plus dans une boîte courriel, et des tâches répétitives qui se font seules.",
+        accroche: "Vos demandes, rappels et suivis se perdent entre la boîte courriel, les tableurs et vos logiciels. Nous les relions.",
         resultatRecherche:
-          "Résultat recherché : moins de saisie, un suivi clair, et une décision humaine à chaque étape importante.",
-        etiquettes: ["n8n", "CRM", "API", "Python"],
+          "Résultat recherché : moins de saisie en double, aucune demande oubliée, et une personne qui garde la main sur les décisions.",
+        etiquettes: ["n8n", "API", "CRM", "Notifications"],
         detail: {
-          inclus: ["Formulaire qualifié", "Notifications et rappels", "Intégration entre deux outils"],
-          perimetre: ["Outils déjà utilisés", "Accès aux systèmes concernés"],
-          nonInclus: ["Décisions automatiques sans validation"],
-          demarrer: ["Liste des tâches actuelles", "Outils utilisés"],
+          inclus: ["Traitement automatique des demandes", "Synchronisation entre deux outils", "Notifications et rappels"],
+          perimetre: ["Intégrations API, selon vos logiciels", "Licences des outils utilisés"],
+          nonInclus: ["Décisions automatiques sans validation humaine"],
+          demarrer: ["La liste de vos tâches répétitives", "Les outils que vous utilisez"],
         },
         resume:
-          "Formulaires qualifiés, CRM, rappels, suivi de devis et intégrations entre vos logiciels, avec validation humaine.",
+          "Automatisation des demandes, synchronisation entre outils, notifications et rappels, intégrations API et workflows n8n, avec suivi des exécutions.",
         probleme: "« On recopie les mêmes informations dans trois outils, et des demandes se perdent. »",
         prestations: [
-          "Flux formulaire, qualification et CRM",
-          "Notifications, rappels et suivi de devis",
+          "Traitement des demandes reçues : enregistrement, tri, accusé de réception",
+          "Synchronisation entre vos outils : formulaire, CRM, tableur, agenda",
+          "Notifications et rappels envoyés à la bonne personne",
           "Intégrations API entre logiciels",
-          "Automatisation documentaire",
-          "Workflows avec validation humaine",
-          "Odoo : conseil, installation, configuration",
+          "Workflows n8n documentés et remis",
+          "Suivi des exécutions et alerte en cas d'échec",
+          "Odoo : conseil, installation et configuration",
         ],
         paliers: [
           {
             titre: "Diagnostic de processus",
-            texte: "Cartographie d'un processus actuel, des outils et des tâches manuelles, puis recommandation écrite.",
+            texte: "Nous décrivons votre processus actuel, vos outils et les tâches manuelles, puis vous remettons une recommandation écrite.",
           },
-          { titre: "Pilote", texte: "Un flux automatisé en environnement de test, validé avec vous." },
-          { titre: "Mise en production et suivi", texte: "Surveillance des exécutions, alertes d'échec, ajustements." },
+          { titre: "Pilote", texte: "Un premier flux automatisé, testé avec vous sur des données d'essai." },
+          { titre: "Mise en service et suivi", texte: "Surveillance des exécutions, alertes d'échec et ajustements." },
         ],
+        exemple: {
+          titre: "Exemple : une demande client arrive",
+          texte:
+            "Un client remplit le formulaire de votre site. La demande est enregistrée dans votre outil de suivi, la personne responsable reçoit une notification, et un rappel part si personne n'a répondu après deux jours ouvrables. Rien n'est envoyé au client sans validation.",
+        },
         pourDevis:
-          "Description du processus actuel, outils utilisés, volume approximatif, tâches manuelles, résultat souhaité, contraintes de données.",
-        note: "Licences des logiciels tiers (CRM, n8n Cloud, etc.) à la charge du client.",
+          "Description du processus actuel, outils utilisés, volume approximatif, tâches manuelles, résultat souhaité et contraintes sur les données.",
+        note: "Les licences des logiciels tiers (CRM, n8n Cloud, etc.) restent à la charge du client.",
       },
       {
         slug: "infrastructure",
         numero: "03",
         titre: "Infrastructure et sécurité",
         titreCourt: "Infrastructure et sécurité",
-        accroche: "Un réseau stable, des accès maîtrisés et une documentation que vous pouvez lire.",
+        accroche: "Un réseau stable, des accès à distance protégés et une configuration documentée que vous comprenez.",
         resultatRecherche:
-          "Résultat recherché : un réseau compréhensible, des accès protégés, et des sauvegardes dont les modalités sont précisées dans chaque proposition.",
+          "Résultat recherché : un réseau compréhensible, des accès maîtrisés, et des sauvegardes dont les modalités sont écrites.",
         etiquettes: ["Réseau", "Pare-feu", "VPN", "Windows Server", "Linux"],
         detail: {
-          inclus: ["Configuration réseau et segmentation", "Accès à distance chiffré", "Documentation technique"],
-          perimetre: ["Sauvegardes, selon le périmètre contractuel", "Supervision"],
+          inclus: ["Installation et configuration réseau", "Pare-feu, VPN et segmentation", "Documentation des configurations"],
+          perimetre: ["Serveurs Windows et Linux", "Sauvegardes, selon le périmètre contractuel", "Supervision"],
           nonInclus: ["Sécurité absolue", "Disponibilité 24/7 sans contrat"],
-          demarrer: ["Plan du réseau existant", "Liste des équipements"],
+          demarrer: ["Le plan de votre réseau, s'il existe", "La liste de vos équipements"],
         },
         resume:
-          "Réseau et VLAN, accès à distance chiffré, pare-feu, Windows Server et Linux, sauvegardes, dont les modalités sont précisées dans chaque proposition.",
+          "Installation et configuration réseau, pare-feu et VPN, segmentation, serveurs Windows et Linux, gestion des accès, documentation et amélioration de l'existant.",
         probleme:
-          "« Mes employés travaillent à distance, mon serveur a dix ans et je ne suis pas sûr que mes sauvegardes fonctionnent. »",
+          "« Mes employés travaillent à distance, mon serveur a dix ans, et je ne suis pas sûr que mes sauvegardes fonctionnent. »",
         prestations: [
-          "VPN et accès à distance",
-          "Routage, commutation, VLAN, segmentation",
-          "Pare-feu",
-          "Windows Server, Active Directory, DNS, Linux",
+          "Installation et configuration réseau : routage, commutation, Wi-Fi",
+          "Pare-feu et VPN pour le travail à distance",
+          "Segmentation (VLAN) pour séparer invités, postes et serveurs",
+          "Windows Server, Active Directory et Linux",
+          "Gestion des accès : comptes, droits, authentification multifacteur",
+          "Documentation des configurations, remise à la fin du mandat",
+          "Diagnostic de l'existant et plan d'amélioration par priorité",
           "Virtualisation Proxmox et VMware",
-          "Sauvegarde, reprise et supervision, selon le périmètre contractuel",
-          "Revue technique de configuration, durcissement, MFA",
-          "Git, Docker, CI/CD, Ansible",
-          "Migrations cloud",
+          "Sauvegarde et supervision, selon le périmètre contractuel",
         ],
+        exemple: {
+          titre: "Exemple : un bureau de huit postes",
+          texte:
+            "Une partie de l'équipe travaille à distance et le Wi-Fi invité partage le réseau des postes. Nous faisons l'inventaire, séparons le réseau invité, configurons un VPN avec authentification multifacteur et remettons un document qui décrit la nouvelle configuration.",
+        },
         pourDevis:
-          "Contexte, nombre de postes et de sites, équipements actuels (marque et modèle, sans configuration), urgence. Ne transmettez aucun mot de passe.",
+          "Contexte, nombre de postes et de sites, équipements actuels (marque et modèle, sans configuration) et urgence. Ne transmettez aucun mot de passe.",
         ensuite: "Supervision et maintenance préventive, selon la formule choisie.",
-        note: "Les technologies citées (Proxmox, VMware, Windows Server) sont des outils utilisés. NEOXIX n'est partenaire officiel d'aucun de ces éditeurs.",
+        note: "Les technologies citées (Proxmox, VMware, Windows Server) sont des outils que nous utilisons. NEOXIX n'est partenaire officiel d'aucun de ces éditeurs.",
       },
       {
         slug: "applications",
         numero: "04",
         titre: "Applications sur mesure",
         titreCourt: "Applications sur mesure",
-        accroche: "Des outils faits pour vos processus, de la maquette jusqu'à la maintenance.",
+        accroche: "Quand les tableurs et les courriels ne suffisent plus : un outil conçu autour de votre façon de travailler.",
         resultatRecherche:
-          "Résultat recherché : un outil qui remplace un tableur ou un processus manuel, validé avec vous à chaque étape.",
-        etiquettes: ["Applications web", "Outils internes", "Tableaux de bord"],
+          "Résultat recherché : un outil qui remplace un suivi manuel, validé avec vous sur maquette avant le développement.",
+        etiquettes: ["Applications web", "Portails clients", "Tableaux de bord", "API"],
         detail: {
-          inclus: ["Portail client ou outil interne", "Tableau de bord", "Intégration avec un système existant"],
-          perimetre: ["Applications mobiles ou desktop"],
+          inclus: ["Application web métier ou outil de gestion", "Portail client", "Tableau de bord"],
+          perimetre: ["Intégration avec vos systèmes existants", "Applications mobiles"],
           nonInclus: ["Maintenance au-delà de la formule choisie"],
-          demarrer: ["Description du processus actuel", "Utilisateurs concernés"],
+          demarrer: ["La description de votre processus actuel", "Les fichiers ou outils utilisés aujourd'hui"],
         },
-        resume: "Portails clients, outils internes et tableaux de bord, de la maquette jusqu'à la maintenance.",
+        resume:
+          "Applications web métiers, outils de gestion, portails clients et tableaux de bord, reliés à vos systèmes, de la maquette jusqu'à la maintenance.",
+        probleme: "« Toute l'équipe travaille dans quatre fichiers Excel, et personne ne sait lequel est à jour. »",
         prestations: [
-          "Portails et plateformes communautaires",
-          "Outils internes, tableaux de bord, interfaces d'administration",
-          "Intégrations API",
-          "SaaS sur mesure",
+          "Applications web métiers et outils de gestion internes",
+          "Portails clients : suivi de dossiers, documents, demandes",
+          "Tableaux de bord qui regroupent vos données",
+          "Intégrations avec vos systèmes existants (API, bases de données)",
+          "Maquette interactive validée avant tout développement",
+          "Maintenance et évolutions, selon le mandat",
         ],
+        exemple: {
+          titre: "Exemple : remplacer des fichiers partagés",
+          texte:
+            "Une entreprise suit ses interventions dans plusieurs tableurs. Nous analysons le processus, présentons une maquette des écrans, puis développons une application web où chaque intervention a un statut, un responsable et un historique. Les données existantes sont reprises.",
+        },
         deroulement: "Analyse, maquette, validation, développement, tests, livraison, maintenance.",
         pourDevis:
           "Besoin métier, types d'utilisateurs et nombre approximatif, fonctionnalités clés, intégrations, données sensibles éventuelles, échéance.",
@@ -243,68 +271,93 @@ export const fr: Contenu = {
   },
   realisations: {
     surtitre: "Réalisations",
-    titre: { avant: "Ce qui existe, ", marque: "présenté avec son statut." },
-    intro: "Aucun résultat chiffré ni témoignage client n'est publié à ce jour. Chaque projet indique où il en est réellement.",
+    titre: { avant: "Des projets ", marque: "que vous pouvez vérifier." },
+    intro: "Nous ne publions ni témoignage ni chiffre que nous ne pouvons pas prouver. Chaque projet indique où il en est.",
     items: [
+      {
+        titre: "neoxix.ca",
+        statut: "En ligne",
+        texte:
+          "Le site que vous consultez : conception, développement Next.js, sécurité des en-têtes et tests automatisés sur mobile, tablette et ordinateur. Projet interne.",
+        apercu: "site",
+      },
       {
         titre: "Ivoire Connect",
         statut: "En développement",
-        texte: "Plateforme communautaire en cours de développement. Nous ne publions aucun chiffre d'utilisateurs ni résultat à ce jour.",
+        texte: "Plateforme communautaire conçue et développée par NEOXIX. Projet en cours : aucune statistique d'utilisation n'est publiée.",
         apercu: "plateforme",
       },
       {
-        titre: "Laboratoires techniques",
-        statut: "Démonstration interne",
+        titre: "Environnements de démonstration",
+        statut: "Démonstration technique",
         texte:
-          "Architectures réseau, configurations expurgées et rapports de tests. Ce sont des démonstrations internes, et non des déploiements clients.",
+          "Réseaux segmentés, pare-feu, VPN et serveurs montés en laboratoire pour éprouver nos configurations avant de les proposer. Ce ne sont pas des mandats clients.",
         apercu: "laboratoire",
-      },
-      {
-        titre: "NEOXIX LeadFlow",
-        statut: "En conception",
-        texte: "Concept de gestion des demandes, en conception. Il n'est pas commercialisé, et son traitement serveur n'est pas encore réalisé.",
-        apercu: "flux",
       },
     ],
     legende: [
+      { terme: "En ligne", sens: "projet interne publié" },
       { terme: "En développement", sens: "projet en cours" },
-      { terme: "Démonstration", sens: "démonstration interne" },
-      { terme: "Pilote autorisé", sens: "avec accord écrit" },
-      { terme: "Livré", sens: "réservé aux projets avec preuve" },
+      { terme: "Démonstration", sens: "environnement de test interne" },
+      { terme: "Livré", sens: "mandat client, avec preuve" },
+    ],
+  },
+  appelAction: {
+    titre: "Un projet, un problème technique ou une simple question ?",
+    texte: "Écrivez-nous en quelques lignes. Nous vous répondons par écrit avec les prochaines étapes, sans engagement.",
+  },
+  apropos: {
+    surtitre: "À propos",
+    titre: { avant: "Une jeune entreprise, ", marque: "un interlocuteur technique direct." },
+    intro:
+      "NEOXIX est une entreprise de services informatiques fondée à Gatineau. Elle accompagne les PME de bout en bout, du réseau du bureau jusqu'au site web, avec une seule personne qui comprend l'ensemble de votre environnement.",
+    points: [
+      {
+        titre: "Vous parlez à la personne qui fait le travail",
+        texte: "Pas d'intermédiaire : la personne qui analyse votre besoin est celle qui conçoit et configure la solution.",
+      },
+      {
+        titre: "Réseau, systèmes et développement",
+        texte: "Réseaux, pare-feu, serveurs Windows et Linux, développement web et automatisation : l'infrastructure et les applications sont pensées ensemble.",
+      },
+      {
+        titre: "Des choix expliqués",
+        texte: "Chaque recommandation est justifiée par écrit, en langage clair, pour que vous décidiez en connaissance de cause.",
+      },
     ],
   },
   methode: {
     surtitre: "Méthode",
-    titre: { avant: "Nous cadrons et validons ", marque: "avec vous avant la réalisation." },
+    titre: { avant: "Vous savez ce qui sera fait ", marque: "avant que nous commencions." },
     intro: "Chaque étape produit un document que vous pouvez lire, commenter et conserver.",
     etapes: [
       { numero: "01", titre: "Comprendre", texte: "Un échange pour décrire votre situation, vos outils et vos contraintes." },
-      { numero: "02", titre: "Proposer", texte: "Une proposition écrite : périmètre, étapes, exclus, prix." },
-      { numero: "03", titre: "Maquetter", texte: "Vous voyez le résultat visuel avant la construction." },
-      { numero: "04", titre: "Réaliser et tester", texte: "Construction par étapes, avec des vérifications documentées." },
+      { numero: "02", titre: "Proposer", texte: "Une proposition écrite : périmètre, étapes, exclusions et prix." },
+      { numero: "03", titre: "Maquetter", texte: "Vous voyez le résultat avant la construction, et vous l'ajustez." },
+      { numero: "04", titre: "Réaliser et tester", texte: "Travail par étapes, avec des vérifications documentées." },
       { numero: "05", titre: "Livrer et accompagner", texte: "Mise en service, documentation remise, suivi selon la formule choisie." },
     ],
     encarts: [
       {
         titre: "Maquette visuelle",
-        texte: "Ce que vous voyez à l'écran : pages, parcours, textes et états. Elle sert à valider l'expérience avant de construire.",
+        texte: "Ce que vous verrez à l'écran : pages, parcours, textes et états. Elle sert à valider l'expérience avant de construire.",
       },
       {
         titre: "Schéma d'architecture",
-        texte: "Comment les systèmes se connectent entre eux : réseau, données, outils et accès. Il sert à valider la solution technique.",
+        texte: "Comment les systèmes se connectent : réseau, données, outils et accès. Il sert à valider la solution technique.",
       },
     ],
     exemple: {
-      titre: "Exemple de déroulement simplifié",
+      titre: "Déroulement type d'un mandat",
       etapes: [
         "Besoin exprimé et contexte compris",
         "Proposition écrite et périmètre défini",
         "Maquette avec données fictives",
-        "Validation humaine avant réalisation",
+        "Votre validation avant la réalisation",
         "Tests et corrections documentés",
         "Livraison et documentation remise",
       ],
-      note: "Exemple illustratif. Le déroulement réel dépend de chaque projet, et aucune durée n'est garantie.",
+      note: "Le déroulement réel dépend de chaque projet. Les durées sont précisées dans la proposition.",
     },
   },
   engagements: {
@@ -314,32 +367,40 @@ export const fr: Contenu = {
       titre: "Nous nous engageons à",
       items: [
         "Une proposition écrite avant tout travail facturé.",
-        "Une validation humaine aux décisions importantes.",
-        "Des livrables et des accès définis au contrat.",
-        "Des sauvegardes dont les modalités sont précisées dans chaque proposition.",
-        "Une documentation prévue au périmètre, et un langage clair.",
+        "Votre validation avant chaque décision importante.",
+        "Des livrables et des accès définis au contrat, qui vous appartiennent.",
+        "Des sauvegardes et une maintenance dont les modalités sont écrites.",
+        "Une documentation prévue au mandat, en langage clair.",
       ],
     },
     non: {
       titre: "Nous ne promettons pas",
       items: [
         "Une sécurité absolue : personne ne peut la garantir honnêtement.",
-        "Une disponibilité permanente ni une assistance 24/7 sans contrat qui la prévoit.",
+        "Une assistance 24/7 sans contrat qui la prévoit.",
         "Une certification ou un partenariat que nous n'avons pas.",
-        "Des résultats financiers ou des performances chiffrées non vérifiées.",
+        "Des résultats chiffrés que nous ne pouvons pas vérifier.",
       ],
     },
   },
   formules: {
     surtitre: "Accompagnement",
-    titre: { avant: "Trois façons de ", marque: "continuer après la livraison." },
-    intro: "Toutes les prestations sont établies sur devis. Aucun prix n'est affiché avant un échange.",
+    titre: { avant: "Trois façons de travailler ", marque: "ensemble." },
+    intro: "Chaque prestation fait l'objet d'un devis écrit, établi après un premier échange sans engagement.",
     items: [
-      { titre: "Ponctuel", texte: "Interventions et besoins précis, avec un périmètre défini à l'avance.", statut: "Sur devis" },
-      { titre: "Suivi", texte: "Maintenance et suivi régulier, selon le périmètre convenu avec vous.", statut: "Sur devis" },
+      {
+        titre: "Ponctuel",
+        texte: "Un besoin précis : un site, une configuration, un diagnostic. Le périmètre et le prix sont fixés à l'avance.",
+        statut: "Sur devis",
+      },
+      {
+        titre: "Suivi",
+        texte: "Mises à jour, vérifications et petites évolutions réalisées régulièrement, selon un périmètre convenu.",
+        statut: "Sur devis",
+      },
       {
         titre: "Accompagnement",
-        texte: "Suivi plus structuré des besoins techniques et des évolutions de votre système.",
+        texte: "Un interlocuteur technique pour planifier et faire évoluer votre informatique au fil de vos projets.",
         statut: "Sur devis",
       },
     ],
@@ -351,45 +412,44 @@ export const fr: Contenu = {
     entrees: [
       {
         question: "Comment commence un projet ?",
-        reponse: "Par une description de votre besoin. Nous revenons par écrit avec une proposition qui précise le périmètre.",
+        reponse: "Par un courriel qui décrit votre besoin. Nous vous répondons par écrit, puis nous vous envoyons une proposition qui précise le périmètre et le prix.",
+      },
+      {
+        question: "Combien cela coûte-t-il ?",
+        reponse: "Cela dépend du périmètre. Chaque mandat fait l'objet d'un devis écrit, que vous pouvez accepter ou refuser.",
       },
       {
         question: "Travaillez-vous avec nos outils existants ?",
-        reponse: "Souvent oui, selon le périmètre. Indiquez les outils que vous utilisez dans votre demande.",
+        reponse: "Oui, dans la plupart des cas. Indiquez dans votre message les logiciels et les équipements que vous utilisez.",
       },
       {
         question: "Qui possède les accès et les livrables ?",
-        reponse: "Les accès et les livrables sont définis au contrat, avant le début du travail.",
+        reponse: "Vous. Les accès, les comptes et les livrables qui vous reviennent sont définis au contrat, avant le début du travail.",
       },
       {
         question: "Peut-on commencer par un petit projet ?",
-        reponse: "Oui, selon le périmètre. La proposition écrite précise ce qui est inclus et ce qui ne l'est pas.",
+        reponse: "Oui. Un diagnostic ou un mandat ponctuel est souvent la meilleure façon de commencer.",
+      },
+      {
+        question: "Intervenez-vous à distance ou sur place ?",
+        reponse: "Les deux, selon le mandat. Les interventions sur place se font dans la région d'Ottawa–Gatineau ; le reste se fait à distance.",
       },
       {
         question: "Comment vos données sont-elles protégées ?",
         reponse:
-          "Ce site ne collecte aucune donnée personnelle pour l'instant. La politique de confidentialité sera publiée après validation juridique.",
+          "Ce site n'utilise aucun témoin ni outil d'analyse. Les messages reçus servent uniquement à vous répondre. Les détails sont dans notre politique de confidentialité.",
       },
       {
         question: "Travaillez-vous en français et en anglais ?",
-        reponse: "Le français est notre langue principale. La version anglaise est prévue, sans date fixée à ce jour.",
-      },
-      {
-        question: "Y a-t-il un engagement après une première demande ?",
-        reponse:
-          "Non. Une demande n'entraîne aucun engagement. Toute prestation fait l'objet d'une proposition écrite que vous pouvez accepter ou refuser.",
-      },
-      {
-        question: "Que se passe-t-il après une demande ?",
-        reponse:
-          "Votre demande est examinée par une personne. Le délai dépend du périmètre et des informations fournies.",
+        reponse: "Le français est notre langue de travail principale. Nous pouvons échanger et documenter en anglais sur demande.",
       },
     ],
   },
   contact: {
-    surtitre: "Commencer",
-    titre: { avant: "Décrivez votre situation en ", marque: "quelques lignes." },
-    intro: "Aucun engagement de votre part. Une personne lit votre demande et vous répond par écrit.",
+    surtitre: "Contact",
+    titre: { avant: "Parlons de ", marque: "votre projet." },
+    intro:
+      "Décrivez en quelques lignes ce que vous utilisez aujourd'hui, ce qui vous bloque et ce que vous aimeriez obtenir. Une personne lit chaque message et vous répond par écrit.",
     coordonnees: "Vous pouvez aussi nous écrire directement, sans passer par le formulaire.",
     preparer: {
       titre: "Ce qui nous aide à vous répondre",
@@ -469,27 +529,27 @@ export const fr: Contenu = {
   },
   confidentialite: {
     titre: "Confidentialité",
-    statut: "Politique en vigueur depuis le 10 novembre 2026. Elle sera mise à jour avant l'ouverture du formulaire en ligne.",
+    statut: "Dernière mise à jour : 10 novembre 2026.",
     sections: [
       {
         titre: "Responsable de la protection des renseignements personnels",
         texte:
-          "La personne responsable de la protection des renseignements personnels chez NEOXIX est la direction de l'entreprise. Pour toute question, demande d'accès, de rectification ou de retrait, écrivez à info@neoxix.ca.",
+          "Conformément à la Loi sur la protection des renseignements personnels dans le secteur privé (Québec), la personne ayant la plus haute autorité au sein de NEOXIX exerce la fonction de responsable de la protection des renseignements personnels. Pour la joindre : info@neoxix.ca.",
       },
       {
         titre: "Ce que ce site collecte",
         texte:
-          "Ce site n'utilise aucun témoin (cookie) de mesure d'audience ni aucun outil d'analyse ou de publicité tiers. Le formulaire en ligne n'est pas encore ouvert : aucun renseignement saisi sur ce site n'est enregistré ni transmis.",
+          "Ce site n'utilise aucun témoin (cookie) de mesure d'audience ni aucun outil d'analyse ou de publicité tiers. Il ne comporte pas de formulaire en ligne : aucun renseignement saisi sur ce site n'est enregistré ni transmis.",
       },
       {
         titre: "Journaux techniques de l'hébergeur",
         texte:
-          "Le site est hébergé par Vercel. Comme tout hébergeur, Vercel traite des données techniques de connexion (adresse IP, navigateur, page demandée, date) pour acheminer les pages et protéger le service. Ces données peuvent être traitées hors du Québec. NEOXIX ne les utilise pas pour vous identifier ni pour du marketing.",
+          "Le site est hébergé par Vercel. Comme tout hébergeur, Vercel traite des données techniques de connexion (adresse IP, navigateur, page demandée, date) pour acheminer les pages et protéger le service. Ces données peuvent être traitées hors du Québec. NEOXIX ne les utilise pas pour vous identifier ni à des fins de marketing.",
       },
       {
         titre: "Messages envoyés par courriel",
         texte:
-          "Si vous écrivez à info@neoxix.ca, nous utilisons votre nom, votre adresse et le contenu de votre message uniquement pour répondre à votre demande et préparer une éventuelle proposition. La messagerie est hébergée par un fournisseur de courriel qui peut traiter ces messages hors du Québec. Nous ne vendons ni ne partageons ces renseignements à des fins commerciales. Les messages sans suite sont supprimés au plus tard 24 mois après le dernier échange.",
+          "Si vous écrivez à info@neoxix.ca, nous utilisons votre nom, votre adresse et le contenu de votre message uniquement pour vous répondre et, si vous le souhaitez, préparer une proposition. La messagerie est hébergée par un fournisseur de courriel qui peut traiter ces messages hors du Québec. Nous ne vendons pas ces renseignements et ne les communiquons pas à des tiers à des fins commerciales.",
       },
       {
         titre: "Vos droits",

@@ -6,7 +6,7 @@ import { contenu } from "@/content";
 import { Marque } from "./logo";
 
 /**
- * En-tête collant (V5) : navigation, bouton « Présenter mon projet », et menu mobile à bouton unique
+ * En-tête collant (V5) : navigation, bouton d'action principal, et menu mobile à bouton unique
  * (`aria-expanded`). Échap ferme le menu et rend le focus au bouton ; un clic à l'extérieur le ferme.
  */
 export function Entete() {

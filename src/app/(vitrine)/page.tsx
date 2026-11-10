@@ -1,5 +1,7 @@
 import { modeFormulaire } from "@/lib/demande/traitement";
 import {
+  APropos,
+  AppelAction,
   Confiance,
   Contact,
   Engagements,
@@ -12,16 +14,18 @@ import {
   Solutions,
 } from "@/components/vitrine/sections";
 
-/** Accueil : maquette V5, sections dans l'ordre du dossier de transfert (§ 3). */
+/** Accueil : identité V5 ; ordre de lancement : prestations d'abord, puis besoins, méthode, preuves, contact. */
 export default function Accueil() {
   return (
     <>
       <Heros />
       <Confiance />
-      <Solutions />
       <Services />
-      <Realisations />
+      <Solutions />
+      <AppelAction />
       <Methode />
+      <Realisations />
+      <APropos />
       <Engagements />
       <Formules />
       <Faq />

@@ -31,6 +31,8 @@ export type Solution = {
   icone: NomIcone;
   /** Concept non commercialisé : carte en pointillés, statut turquoise. */
   concept?: boolean;
+  /** Pôle de service qui répond à ce besoin (lien « Voir le service »). */
+  pole?: string;
 };
 
 export type DetailPole = {
@@ -58,12 +60,14 @@ export type Pole = {
   prestations: string[];
   paliers?: { titre: string; texte: string }[];
   deroulement?: string;
+  /** Scénario type présenté sur la carte et la page du pôle (illustratif, sans client réel). */
+  exemple: { titre: string; texte: string };
   pourDevis: string;
   ensuite?: string;
   note?: string;
 };
 
-export type Realisation = { titre: string; statut: string; texte: string; apercu: "plateforme" | "laboratoire" | "flux" };
+export type Realisation = { titre: string; statut: string; texte: string; apercu: "plateforme" | "laboratoire" | "flux" | "site" };
 
 export type EtapeMethode = { numero: string; titre: string; texte: string };
 
@@ -98,6 +102,8 @@ export type Contenu = {
   solutions: EnTeteSection & { items: Solution[]; note: string };
   services: EnTeteSection & { tarification: string; poles: Pole[] };
   realisations: EnTeteSection & { items: Realisation[]; legende: { terme: string; sens: string }[] };
+  appelAction: { titre: string; texte: string };
+  apropos: EnTeteSection & { points: { titre: string; texte: string }[] };
   methode: EnTeteSection & {
     etapes: EtapeMethode[];
     encarts: { titre: string; texte: string }[];

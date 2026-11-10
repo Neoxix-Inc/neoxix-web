@@ -65,7 +65,7 @@ test.describe("menu mobile (critère V5 2)", () => {
     await page.keyboard.press("Enter");
     await expect(page.getByRole("button", { name: "Fermer le menu" })).toHaveAttribute("aria-expanded", "true");
     const panneau = page.getByRole("navigation", { name: "Navigation mobile" });
-    await expect(panneau.getByRole("link", { name: "Présenter mon projet" })).toBeVisible();
+    await expect(panneau.getByRole("link", { name: "Discuter de mon projet" })).toBeVisible();
     await page.keyboard.press("Tab");
     await page.keyboard.press("Escape");
     await expect(page.getByRole("button", { name: "Ouvrir le menu" })).toHaveAttribute("aria-expanded", "false");
@@ -76,10 +76,10 @@ test.describe("menu mobile (critère V5 2)", () => {
   test("un lien du menu ferme le menu et mène à la section", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Ouvrir le menu" }).click();
-    await page.getByRole("navigation", { name: "Navigation mobile" }).getByRole("link", { name: "Présenter mon projet" }).click();
+    await page.getByRole("navigation", { name: "Navigation mobile" }).getByRole("link", { name: "Discuter de mon projet" }).click();
     await expect(page).toHaveURL(/#contact$/);
     await expect(page.getByRole("button", { name: "Ouvrir le menu" })).toHaveAttribute("aria-expanded", "false");
-    await expect(page.getByRole("heading", { name: "Décrivez votre situation en quelques lignes." })).toBeInViewport();
+    await expect(page.getByRole("heading", { name: "Parlons de votre projet." })).toBeInViewport();
   });
 });
 
@@ -88,7 +88,7 @@ test.describe("navigation ordinateur", () => {
     test.skip(estMobile(info), "Navigation complète au-delà de 960 px");
     await page.goto("/");
     const nav = page.getByRole("navigation", { name: "Navigation principale" });
-    for (const nom of ["Services", "Solutions", "Réalisations", "Méthode", "Questions", "Présenter mon projet"]) {
+    for (const nom of ["Services", "Solutions", "Méthode", "Réalisations", "À propos", "Discuter de mon projet"]) {
       await expect(nav.getByRole("link", { name: nom })).toBeVisible();
     }
     await expect(page.getByRole("button", { name: "Ouvrir le menu" })).toBeHidden();

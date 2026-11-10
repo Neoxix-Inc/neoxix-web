@@ -95,10 +95,17 @@ export function Solutions() {
               </div>
               <h3>{s.titre}</h3>
               <p>{s.texte}</p>
-              <span className={`statut${s.concept ? " turquoise" : ""}`}>
-                <span className="sr-seul">Statut : </span>
-                {s.statut}
-              </span>
+              <div className="carte-pied">
+                <span className={`statut${s.concept ? " turquoise" : ""}`}>
+                  <span className="sr-seul">{s.pole ? "Service : " : "Statut : "}</span>
+                  {s.statut}
+                </span>
+                {s.pole && (
+                  <Link className="lien-fleche" href={`/services/${s.pole}`}>
+                    Voir le service<span className="sr-seul"> : {s.titre}</span> <span aria-hidden="true">→</span>
+                  </Link>
+                )}
+              </div>
             </article>
           ))}
         </div>
@@ -126,14 +133,21 @@ export function CarteService({ pole, Niveau = "h3" }: { pole: Pole; Niveau?: "h2
           <p className="probleme">{pole.accroche}</p>
         </div>
       </div>
+      <div className="scenario">
+        <p className="scenario-titre">{pole.exemple.titre}</p>
+        <p>{pole.exemple.texte}</p>
+      </div>
       <p className="resultat">{pole.resultatRecherche}</p>
       <ul className="tags" aria-label="Technologies">
         {pole.etiquettes.map((e) => (
           <li key={e}>{e}</li>
         ))}
       </ul>
+      <Link className="lien-fleche lien-service" href={`/services/${pole.slug}`}>
+        Découvrir ce service<span className="sr-seul"> : {pole.titre}</span> <span aria-hidden="true">→</span>
+      </Link>
       <details className="detail">
-        <summary>Voir le détail du pôle</summary>
+        <summary>Voir le périmètre</summary>
         <div className="contenu">
           {colonnes.map(([titre, items]) => (
             <div key={titre}>
@@ -146,9 +160,6 @@ export function CarteService({ pole, Niveau = "h3" }: { pole: Pole; Niveau?: "h2
             </div>
           ))}
         </div>
-        <Link className="lien-pole" href={`/services/${pole.slug}`}>
-          Page complète du pôle <span aria-hidden="true">→</span>
-        </Link>
       </details>
     </article>
   );
@@ -199,6 +210,53 @@ export function Realisations() {
             </div>
           ))}
         </dl>
+      </div>
+    </section>
+  );
+}
+
+export function AppelAction() {
+  const { appelAction, actionPrincipale, site } = contenu;
+  return (
+    <section className="appel sombre" aria-labelledby="titre-appel">
+      <div className="wrap appel-grille revele">
+        <div>
+          <h2 id="titre-appel">{appelAction.titre}</h2>
+          <p className="lede">{appelAction.texte}</p>
+        </div>
+        <div className="actions">
+          <a className="btn btn-principal" href="#contact">
+            {actionPrincipale.libelle}{" "}
+            <span className="flecha" aria-hidden="true">
+              →
+            </span>
+          </a>
+          <a className="btn btn-secondaire" href={lienCourriel()}>
+            {site.courriel}
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function APropos() {
+  const { apropos } = contenu;
+  return (
+    <section id="a-propos" className="fond-blanc" aria-labelledby="titre-apropos">
+      <div className="wrap">
+        <EnTete section={apropos} idTitre="titre-apropos" />
+        <ul className="grille-apropos">
+          {apropos.points.map((p, i) => (
+            <li key={p.titre} className="revele" style={{ transitionDelay: `${i * 90}ms` }}>
+              <span className="apropos-num" aria-hidden="true">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3>{p.titre}</h3>
+              <p>{p.texte}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
