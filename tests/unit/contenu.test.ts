@@ -29,9 +29,13 @@ describe("contenu de lancement", () => {
     expect(contenu.realisations.items.find((r) => r.titre === "Ivoire Connect")?.statut).toBe("En développement");
   });
 
-  it("confidentialité : aucune durée de conservation ni validation juridique affirmées", () => {
-    const texte = chaines(contenu.confidentialite).join(" ");
-    expect(texte).not.toMatch(/\d+ mois|validée? juridiquement|avis juridique/i);
+  it("confidentialité : sans formulaire actif, aucune durée de conservation ; jamais de validation juridique affirmée", () => {
+    const { sections, sansFormulaire, avecFormulaire } = contenu.confidentialite;
+    expect(chaines([sections, sansFormulaire]).join(" ")).not.toMatch(/\d+ mois/);
+    expect(chaines(contenu.confidentialite).join(" ")).not.toMatch(/validée? juridiquement|avis juridique/i);
+    // Les sections du mode live décrivent le circuit réel : n8n puis HubSpot, sans usage marketing.
+    expect(chaines(avecFormulaire).join(" ")).toMatch(/n8n[\s\S]*HubSpot/);
+    expect(chaines(avecFormulaire).join(" ")).toMatch(/jamais utilisés pour vous envoyer des communications marketing/);
   });
 });
 

@@ -14,6 +14,9 @@ import { modeIntake, referencePour, traiterDemande } from "@/lib/demande/traitem
  * Aucune réponse ne contient de détail interne ; aucun contenu de demande n'est journalisé.
  */
 
+/** Le workflow n8n dispose de 10 s ; la fonction garde une marge. */
+export const maxDuration = 15;
+
 const SANS_CACHE = { "cache-control": "no-store" };
 
 function json(statut: number, corps: unknown, entetes: Record<string, string> = {}) {

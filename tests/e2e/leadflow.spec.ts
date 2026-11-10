@@ -17,7 +17,7 @@ async function remplirEtape2(page: Page) {
   const f = formulaire(page);
   await f.getByLabel("Nom et organisation").fill(FICTIF.nom);
   await f.getByRole("textbox", { name: "Courriel" }).fill(FICTIF.courriel);
-  await f.getByLabel("J'accepte que NEOXIX utilise mes informations pour répondre à ma demande.").check();
+  await f.getByLabel(/J'accepte que NEOXIX utilise ces informations pour répondre à ma demande/).check();
 }
 
 test.describe("LeadFlow : parcours complet", () => {

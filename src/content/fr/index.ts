@@ -478,7 +478,8 @@ export const fr: Contenu = {
       courriel: { libelle: "Courriel" },
       telephone: { libelle: "Téléphone", facultatif: "(facultatif)" },
       preference: { libelle: "Préférence de contact", courriel: "Courriel", telephone: "Téléphone" },
-      consentement: "J'accepte que NEOXIX utilise mes informations pour répondre à ma demande.",
+      consentement:
+        "J'accepte que NEOXIX utilise ces informations pour répondre à ma demande. Elles sont enregistrées dans notre outil de suivi des clients (HubSpot), comme le décrit la politique de confidentialité.",
     },
     requis: "* Champ requis",
     continuer: "Continuer",
@@ -509,8 +510,9 @@ export const fr: Contenu = {
       live: {
         envoyer: "Envoyer la demande",
         chargement: "Envoi en cours…",
-        confirmationTitre: "Demande reçue",
-        confirmationTexte: "Une personne examinera votre demande et vous répondra par écrit.",
+        confirmationTitre: "Demande enregistrée",
+        confirmationTexte:
+          "Votre demande est bien enregistrée. Une personne l'examinera et vous répondra par écrit. Conservez votre référence si vous nous écrivez à son sujet.",
       },
     },
     erreurTemporaire: {
@@ -537,9 +539,8 @@ export const fr: Contenu = {
           "Conformément à la Loi sur la protection des renseignements personnels dans le secteur privé (Québec), la personne ayant la plus haute autorité au sein de NEOXIX exerce la fonction de responsable de la protection des renseignements personnels. Pour la joindre : info@neoxix.ca.",
       },
       {
-        titre: "Ce que ce site collecte",
-        texte:
-          "Ce site n'utilise aucun témoin (cookie) de mesure d'audience ni aucun outil d'analyse ou de publicité tiers. Il ne comporte pas de formulaire en ligne : aucun renseignement saisi sur ce site n'est enregistré ni transmis.",
+        titre: "Témoins et mesure d'audience",
+        texte: "Ce site n'utilise aucun témoin (cookie) de mesure d'audience ni aucun outil d'analyse ou de publicité tiers.",
       },
       {
         titre: "Journaux techniques de l'hébergeur",
@@ -555,6 +556,27 @@ export const fr: Contenu = {
         titre: "Vos droits",
         texte:
           "Vous pouvez demander l'accès à vos renseignements, leur rectification ou leur suppression, et retirer votre consentement, en écrivant à info@neoxix.ca. Vous pouvez aussi vous adresser à la Commission d'accès à l'information du Québec.",
+      },
+    ],
+    sansFormulaire: {
+      titre: "Formulaire en ligne",
+      texte: "Ce site ne comporte pas de formulaire en ligne actif : aucun renseignement saisi sur ce site n'est enregistré ni transmis.",
+    },
+    avecFormulaire: [
+      {
+        titre: "Formulaire de demande",
+        texte:
+          "Le formulaire recueille le service recherché, la description de votre besoin, votre nom et votre organisation, votre courriel, et, si vous les indiquez, votre téléphone et votre région. Ces renseignements servent uniquement à examiner votre demande, à vous répondre et, si vous le souhaitez, à préparer une proposition. Ils ne sont jamais utilisés pour vous envoyer des communications marketing.",
+      },
+      {
+        titre: "Où vont ces renseignements",
+        texte:
+          "Le site transmet votre demande, par une connexion chiffrée et signée, à notre serveur d'automatisation (n8n), qui l'enregistre dans notre outil de suivi des clients, HubSpot. HubSpot est un fournisseur établi hors du Québec : vos renseignements peuvent y être stockés hors du Québec. Le serveur d'automatisation ne conserve pas le contenu des demandes enregistrées avec succès ; en cas d'erreur de traitement, il le garde au plus 7 jours, le temps de corriger le problème.",
+      },
+      {
+        titre: "Accès et conservation",
+        texte:
+          "Seules les personnes de NEOXIX qui traitent les demandes y ont accès. Les demandes qui n'ont pas donné lieu à un mandat sont supprimées au plus tard 24 mois après le dernier échange. Vous pouvez demander leur suppression à tout moment en écrivant à info@neoxix.ca.",
       },
     ],
   },

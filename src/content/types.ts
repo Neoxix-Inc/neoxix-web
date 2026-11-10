@@ -152,6 +152,10 @@ export type Contenu = {
     titre: string;
     statut: string;
     sections: { titre: string; texte: string }[];
+    /** Section affichée tant que la collecte réelle n'est pas activée (`INTAKE_MODE` ≠ `live`). */
+    sansFormulaire: { titre: string; texte: string };
+    /** Sections affichées lorsque le formulaire transmet réellement les demandes (n8n → HubSpot). */
+    avecFormulaire: { titre: string; texte: string }[];
   };
   introuvable: { code: string; titre: string; texte: string; retour: string };
 };

@@ -65,6 +65,9 @@ export function referencePour(cle: string, mode: "mock" | "live", annee = new Da
   return `${mode === "mock" ? "TEST" : "NX"}-${annee}-${code}`;
 }
 
+/** Délai maximal accordé au workflow n8n, qui enchaîne plusieurs appels HubSpot avant de répondre. */
+export const DELAI_N8N_MS = 10_000;
+
 export function signer(corps: string, horodatage: string, secret: string): string {
   return `sha256=${createHmac("sha256", secret).update(`${horodatage}.${corps}`).digest("hex")}`;
 }
@@ -92,9 +95,9 @@ export async function traiterDemande(demande: Demande, contexte: Contexte): Prom
     environment: env.VERCEL_ENV === "production" ? "production" : "staging",
     request: {
       ...demande,
-      consentements: { traitement: true, versionTexte: env.INTAKE_VERSION_CONSENTEMENT ?? "non-versionne" },
+      consentements: { traitement: true, marketing: false, versionTexte: env.INTAKE_VERSION_CONSENTEMENT ?? "non-versionne" },
     },
-    meta: { langue: "fr-CA", dureeRemplissageMs: contexte.dureeRemplissageMs },
+    meta: { langue: "fr-CA", source: "neoxix.ca", dureeRemplissageMs: contexte.dureeRemplissageMs },
   });
   const horodatage = Math.floor(Date.now() / 1000).toString();
 
@@ -108,7 +111,8 @@ export async function traiterDemande(demande: Demande, contexte: Contexte): Prom
         "x-request-id": randomUUID(),
       },
       body: corps,
-      signal: AbortSignal.timeout(5_000),
+      // n8n ne répond qu'après l'enregistrement durable dans HubSpot (contact, transaction, tâche).
+      signal: AbortSignal.timeout(DELAI_N8N_MS),
       cache: "no-store",
       // Une redirection enverrait la demande signée ailleurs que vers le webhook configuré.
       redirect: "error",
