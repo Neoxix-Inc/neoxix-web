@@ -218,6 +218,14 @@ describe("n8n · rappels quotidiens", () => {
     }
   });
 
+  it("chaque recherche de rappel exige un neoxix_request_id (aucune autre affaire du pipeline)", () => {
+    for (const r of recherchesSuivi(config, Date.UTC(2026, 10, 10))) {
+      for (const g of r.corps.filterGroups) {
+        expect(g.filters).toContainEqual({ propertyName: "neoxix_request_id", operator: "HAS_PROPERTY" });
+      }
+    }
+  });
+
   it("tâches internes et marquage anti-répétition ; résumé sans données personnelles", () => {
     const { taches, marquages } = tachesSuivi("devis_envoye", [{ id: "9", properties: { neoxix_reference: "NX-2026-ABCDEF", dealname: "x" } }], config, new Date(), 1);
     expect(taches[0].properties.hs_task_subject).toBe("Relancer le devis : NX-2026-ABCDEF");

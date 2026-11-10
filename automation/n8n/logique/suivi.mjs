@@ -25,6 +25,8 @@ export function recherchesSuivi(config, maintenantMs) {
       filters: [
         { propertyName: "pipeline", operator: "EQ", value: config.pipelineId },
         { propertyName: "dealstage", operator: "EQ", value: etape },
+        // Seules les transactions créées par le circuit LeadFlow sont visées (jamais les autres affaires du pipeline).
+        { propertyName: "neoxix_request_id", operator: "HAS_PROPERTY" },
         ...filtres,
         ...rappel,
       ],
