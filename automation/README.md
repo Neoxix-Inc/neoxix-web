@@ -35,7 +35,19 @@ Si HubSpot ou n8n est en panne, le formulaire affiche « Erreur temporaire » et
    - crée les 6 propriétés `neoxix_*`, dont `neoxix_request_id` à valeur unique ;
    - vérifie les permissions ;
    - affiche les identifiants du pipeline et des étapes.
-3. **n8n.** Le webhook doit être joignable depuis Internet, par Vercel. Aujourd'hui, `n8n.neoxix.ca` n'existe que dans le DNS interne. La solution recommandée, sans coût, est un Cloudflare Tunnel avec un nom public dédié (par exemple `hooks.neoxix.ca`), qui n'expose que `/webhook/neoxix-lead-intake`. Toute autre adresse répond 404, et l'éditeur n8n reste interne.
+3. **n8n : point d'entrée public** (constaté le 10 novembre 2026) :
+   - `hooks.neoxix.ca` est déjà publié par un tunnel Cloudflare géré depuis le tableau de bord. Le connecteur `cloudflared` tourne sur le poste 10.90.0.101.
+   - Ce nom répond aujourd'hui 404 partout, depuis un nginx 1.24 dont la cible reste à identifier.
+   - Ce poste **n'atteint pas** n8n (10.50.0.100, ports 443 et 5678 fermés). Le connecteur doit tourner sur un hôte qui joint n8n, sinon il faut une règle de pare-feu qui autorise le port 5678 depuis 10.90.0.101 et rien d'autre.
+
+   Configuration à appliquer, **après autorisation**, dans Cloudflare › Zero Trust › Tunnels › *public hostnames* :
+
+   | Ordre | Nom d'hôte | Chemin (regex) | Service |
+   |---|---|---|---|
+   | 1 | `hooks.neoxix.ca` | `^/webhook/neoxix-lead-intake$` | `http://10.50.0.100:5678` |
+   | dernier | (règle finale) | — | `http_status:404` |
+
+   Compléter par une règle WAF Cloudflare (gratuite) sur `hooks.neoxix.ca` : bloquer si `not (http.request.method eq "POST" and http.request.uri.path eq "/webhook/neoxix-lead-intake")`. Ainsi `/`, `/rest`, `/signin`, `/webhook-test/…`, les autres webhooks et les autres méthodes sont refusés avant le tunnel. L'éditeur n8n reste accessible seulement par `n8n.neoxix.ca`, sur le réseau interne.
 4. Variables du serveur n8n :
    - `NEOXIX_INTAKE_HMAC_SECRET` : 32 caractères ou plus, par exemple `openssl rand -hex 32`, identique à `N8N_HMAC_SECRET` sur Vercel ;
    - `NODE_FUNCTION_ALLOW_BUILTIN=crypto` ;
@@ -47,7 +59,7 @@ Si HubSpot ou n8n est en panne, le formulaire affiche « Erreur temporaire » et
    - activez « Lead Intake », puis « Rappels quotidiens ».
 6. **Vercel (Production).**
    - Définissez : `INTAKE_MODE=live`, `N8N_WEBHOOK_URL=https://…/webhook/neoxix-lead-intake`, `N8N_HMAC_SECRET`, `INTAKE_VERSION_CONSENTEMENT=2026-11-10` et `INTAKE_LIMITE_PARTAGEE=waf`.
-   - Créez la règle du pare-feu : `POST /api/demandes`, 5 requêtes par IP sur 10 minutes, puis refus (429).
+   - Créez la règle du pare-feu Vercel : Firewall › Custom rule › *Rate limit*, condition `Request path = /api/demandes` et `Method = POST`, 5 requêtes par IP sur 600 s, action *Deny*. Vérifiez d'abord le coût de la limitation de débit pour votre forfait, puis publiez la règle. Preuve attendue : la 6e requête en 10 minutes reçoit 429 de Vercel, avant la fonction (le corps de réponse n'est pas celui du site).
    - Redéployez : la page Contact et la politique de confidentialité passent alors en mode « formulaire actif ».
 
 ## Courriels (envoi depuis n8n)
@@ -79,18 +91,48 @@ Une même transaction n'est rappelée qu'une fois tous les 3 jours. Le résumé 
 
 - **Coupure immédiate du formulaire :** sur Vercel, `INTAKE_MODE=off`, puis Redeploy. Le formulaire est remplacé par le courriel. Pour couper sans redéployer, désactivez « Lead Intake » dans n8n : le site affiche alors « Erreur temporaire » et le courriel.
 - **Retour arrière du code :** Vercel › Instant Rollback vers le déploiement précédent, ou `git revert` du commit, puis pousser `main`.
-- **Conservation (proposition soumise au propriétaire) :**
-  - demandes sans mandat supprimées dans HubSpot 24 mois après le dernier échange (revue trimestrielle de la vue « Perdu ») ;
-  - exécutions n8n en échec purgées après 7 jours ;
-  - exécutions réussies jamais conservées.
+- **Conservation (proposition soumise au propriétaire, non approuvée) :**
+
+  | Données | Lieu | Durée proposée | Justification |
+  |---|---|---|---|
+  | Demande sans mandat (contact, transaction, tâches) | HubSpot | 12 mois après le dernier échange, revue trimestrielle | Couvre un cycle budgétaire annuel de PME ; la Loi 25 exige la destruction une fois la finalité atteinte |
+  | Client avec mandat | HubSpot | Durée de la relation, puis 2 ans | Suivi et garantie des travaux ; les pièces comptables suivent leur propre durée légale (6 ans) hors CRM |
+  | Courriels échangés | iCloud Mail | Même règle que HubSpot, purge trimestrielle manuelle | Éviter une copie conservée plus longtemps que le CRM |
+  | Exécutions n8n réussies | n8n | Aucune conservation | Le contenu est déjà dans HubSpot |
+  | Exécutions n8n en échec | n8n | 7 jours | Temps de diagnostic ; `EXECUTIONS_DATA_MAX_AGE=168` |
+  | Journaux techniques | Vercel, Cloudflare | Durée imposée par chaque fournisseur (quelques jours selon le forfait) | Sans contenu de formulaire : la route ne journalise rien |
+  | Sauvegardes du serveur n8n | Infrastructure NEOXIX | À préciser : rotation de 30 jours proposée | Elles peuvent contenir des exécutions en échec de moins de 7 jours |
 - **Demande d'accès ou de suppression :** recherchez le contact par courriel dans HubSpot, exportez-le ou supprimez-le (suppression RGPD/Loi 25), puis répondez par écrit dans les 30 jours.
 - **Accès :** seuls le propriétaire du portail HubSpot et l'administrateur n8n ont accès aux données. La Service Key change si une personne quitte l'entreprise ou en cas de doute.
+
+## Essai du circuit réel
+
+```
+N8N_WEBHOOK_URL=https://hooks.neoxix.ca/webhook/neoxix-lead-intake NEOXIX_INTAKE_HMAC_SECRET=… HUBSPOT_TOKEN=… \
+  node automation/tests/circuit-reel.mjs            # avant l'activation du formulaire
+  node automation/tests/circuit-reel.mjs --via-site # après l'activation (passe par neoxix.ca)
+```
+
+Le script vérifie, avec des données fictives `TEST NEOXIX (à supprimer)` :
+- le refus d'une signature invalide et d'un message expiré ;
+- la création du contact, de la transaction (une seule) et de la tâche, ainsi que leurs associations ;
+- l'absence de doublon pour un envoi identique ;
+- la reprise après la perte de la tâche ;
+- la conservation d'un contact déjà connu.
+
+Il archive ensuite les enregistrements d'essai.
+
+## Désactivation d'urgence
+
+1. **Formulaire :** Vercel › Settings › Environment Variables › `INTAKE_MODE=off`, puis Deployments › Redeploy (environ 1 minute). Le formulaire est remplacé par le bouton courriel.
+2. **Sans redéploiement :** désactivez « Lead Intake » dans n8n. Le site affiche alors « Erreur temporaire » et le courriel ; aucune donnée n'est reçue.
+3. **Point d'entrée :** dans Cloudflare, supprimez le *public hostname* `hooks.neoxix.ca`, ou passez la règle WAF à « bloquer tout ».
 
 ## État des tests (10 novembre 2026)
 
 | Test | État |
 |---|---|
-| 1, 2, 3, 4 : parcours, doublon, contact connu, panne HubSpot | Réussis sur un HubSpot simulé (logique réelle des workflows). **À refaire contre le portail réel.** |
+| 1, 2, 3, 4 : parcours, doublon, contact connu, panne HubSpot, reprise après échec partiel | Réussis sur un HubSpot simulé (logique réelle des workflows). **Non exécutés sur le portail réel : accès manquants.** `automation/tests/circuit-reel.mjs` est prêt. |
 | 5 : webhook non autorisé | Réussi en local : signature invalide, expirée ou absente refusée. À refaire sur n8n. |
 | 6 : limitation | Réussi sur la route Next.js (429). La règle WAF reste à créer. |
 | 7, 8 : notification, accusé de réception | Non testés : SMTP non configuré |

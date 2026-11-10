@@ -11,6 +11,7 @@ import {
   preparerContact,
   preparerTache,
   preparerTransaction,
+  reprise,
   verifierSignature,
 } from "../../automation/n8n/logique/intake.mjs";
 import { recherchesSuivi, resumeQuotidien, tachesSuivi } from "../../automation/n8n/logique/suivi.mjs";
@@ -176,6 +177,26 @@ describe("n8n · parcours simulé contre un HubSpot fictif (tests 1 à 4)", () =
     const hs = hubspotFictif({ panne: true });
     expect((await hs.traiter(JSON.parse((await messageEnvoye()).corps))).statut).toBe(503);
     expect(hs.deals.size).toBe(0);
+  });
+});
+
+describe("n8n · reprise après échec partiel", () => {
+  it("transaction créée, tâche en échec : la nouvelle tentative recrée la tâche sans seconde transaction", async () => {
+    const n = normaliserDemande(JSON.parse((await messageEnvoye()).corps));
+    if (!n.ok) throw new Error("normalisation");
+    const sansTache = reprise(n.demande, { results: [{ id: "99" }] }, { results: [] }, CONFIG);
+    expect(sansTache.dealId).toBe("99");
+    expect(sansTache.tacheManquante).toBe(true);
+    expect(sansTache.tache?.associations).toEqual([{ to: { id: "99" }, types: [{ associationCategory: "HUBSPOT_DEFINED", associationTypeId: 216 }] }]);
+    const avecTache = reprise(n.demande, { results: [{ id: "99" }] }, { results: [{ toObjectId: 5 }] }, CONFIG);
+    expect(avecTache).toMatchObject({ tacheManquante: false, tache: null });
+  });
+
+  it("le chemin « doublon » du workflow passe par la vérification de la tâche avant de confirmer", () => {
+    const wf = JSON.parse(readFileSync("automation/n8n/workflows/lead-intake-website-to-hubspot.json", "utf8"));
+    expect(wf.connections["Doublon ?"].main[0][0].node).toBe("Transaction existante");
+    expect(wf.connections["Enregistrée malgré l'erreur ?"].main[0][0].node).toBe("Transaction existante");
+    expect(wf.connections["Tâche manquante ?"].main[0][0].node).toBe("HubSpot · Recréer la tâche");
   });
 });
 

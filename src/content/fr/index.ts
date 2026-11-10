@@ -576,7 +576,8 @@ export const fr: Contenu = {
       {
         titre: "Accès et conservation",
         texte:
-          "Seules les personnes de NEOXIX qui traitent les demandes y ont accès. Les demandes qui n'ont pas donné lieu à un mandat sont supprimées au plus tard 24 mois après le dernier échange. Vous pouvez demander leur suppression à tout moment en écrivant à info@neoxix.ca.",
+          "Seules les personnes de NEOXIX qui traitent les demandes y ont accès. Les demandes qui n'ont pas donné lieu à un mandat sont supprimées de notre outil de suivi et de notre messagerie au plus tard 12 mois après le dernier échange. Un courriel de confirmation peut vous être envoyé depuis info@neoxix.ca. Vous pouvez demander la suppression de vos renseignements à tout moment en écrivant à info@neoxix.ca.",
+
       },
     ],
   },

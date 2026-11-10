@@ -218,3 +218,29 @@ export function accuseReception(d) {
     ].join("\n"),
   };
 }
+
+/**
+ * Reprise d'une demande déjà enregistrée (nouvelle tentative après un échec partiel) :
+ * la transaction existe ; on recrée la tâche de suivi seulement si aucune n'y est associée.
+ * Aucune seconde transaction n'est jamais créée.
+ * @param {Record<string, any>} d @param {{ results?: { id: string }[] }} recherche résultat de la recherche par eventId
+ * @param {{ results?: unknown[] }} associations tâches associées (API v4) @param {{ proprietaireId?: string }} config
+ */
+export function reprise(d, recherche, associations, config) {
+  const dealId = String(recherche.results?.[0]?.id ?? "");
+  const tacheManquante = Boolean(dealId) && (associations.results ?? []).length === 0;
+  return {
+    dealId,
+    tacheManquante,
+    tache: tacheManquante
+      ? preparerTache(
+          `Traiter la demande ${d.reference} (${d.serviceLibelle})`,
+          `${resume(d, 600)}\n\nTâche recréée lors d'une nouvelle tentative d'envoi.`,
+          dealId,
+          "",
+          config,
+          echeanceOuvrable(new Date(), 1),
+        )
+      : null,
+  };
+}

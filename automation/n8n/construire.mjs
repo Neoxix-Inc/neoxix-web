@@ -274,6 +274,35 @@ return [{ json: { dealId, tache, notification: notificationInterne(d, dealId, co
       `={{ JSON.stringify({ filterGroups: [{ filters: [{ propertyName: 'neoxix_request_id', operator: 'EQ', value: $('Vérifier et normaliser').first().json.demande.eventId }] }], limit: 1 }) }}`,
     ),
     si("Enregistrée malgré l'erreur ?", [2420, 460], "={{ $json.total > 0 }}"),
+    // Reprise : la transaction existe déjà ; on vérifie qu'une tâche de suivi y est associée.
+    code(
+      "Transaction existante",
+      [1320, -120],
+      `
+const items = $input.all();
+const recherche = items[0].json;
+return [{ json: { dealId: String((recherche.results ?? [])[0]?.id ?? '') } }];
+`,
+    ),
+    hubspot(
+      "HubSpot · Tâches de la transaction",
+      [1540, -120],
+      "GET",
+      `={{ '${HUBSPOT}/crm/v4/objects/deals/' + $json.dealId + '/associations/tasks' }}`,
+      null,
+    ),
+    code(
+      "Reprendre si nécessaire",
+      [1760, -120],
+      `
+const d = $('Vérifier et normaliser').first().json.demande;
+const config = $('Configuration').first().json;
+const dealId = $('Transaction existante').first().json.dealId;
+return [{ json: reprise(d, { results: [{ id: dealId }] }, $input.first().json, config) }];
+`,
+    ),
+    si("Tâche manquante ?", [1980, -120], "={{ $json.tacheManquante }}"),
+    hubspot("HubSpot · Recréer la tâche", [2200, -200], "POST", `${HUBSPOT}/crm/v3/objects/tasks`, "={{ JSON.stringify($json.tache) }}"),
     repondre(
       "Échec (503)",
       [2640, 640],
@@ -289,7 +318,15 @@ return [{ json: { dealId, tache, notification: notificationInterne(d, dealId, co
     lien("Configuration", "HubSpot · Demande déjà enregistrée ?"),
     lien("HubSpot · Demande déjà enregistrée ?", "Doublon ?", 0),
     lien("HubSpot · Demande déjà enregistrée ?", "Échec (503)", 1),
-    lien("Doublon ?", "Confirmer (doublon)", 0),
+    lien("Doublon ?", "Transaction existante", 0),
+    lien("Transaction existante", "HubSpot · Tâches de la transaction"),
+    lien("HubSpot · Tâches de la transaction", "Reprendre si nécessaire", 0),
+    lien("HubSpot · Tâches de la transaction", "Confirmer (doublon)", 1),
+    lien("Reprendre si nécessaire", "Tâche manquante ?"),
+    lien("Tâche manquante ?", "HubSpot · Recréer la tâche", 0),
+    lien("Tâche manquante ?", "Confirmer (doublon)", 1),
+    lien("HubSpot · Recréer la tâche", "Confirmer (doublon)", 0),
+    lien("HubSpot · Recréer la tâche", "Confirmer (doublon)", 1),
     lien("Doublon ?", "HubSpot · Chercher le contact", 1),
     lien("HubSpot · Chercher le contact", "Préparer le contact", 0),
     lien("HubSpot · Chercher le contact", "Échec (503)", 1),
@@ -301,7 +338,7 @@ return [{ json: { dealId, tache, notification: notificationInterne(d, dealId, co
     lien("HubSpot · Créer la transaction", "HubSpot · Revérifier après échec", 1),
     lien("HubSpot · Revérifier après échec", "Enregistrée malgré l'erreur ?", 0),
     lien("HubSpot · Revérifier après échec", "Échec (503)", 1),
-    lien("Enregistrée malgré l'erreur ?", "Confirmer (doublon)", 0),
+    lien("Enregistrée malgré l'erreur ?", "Transaction existante", 0),
     lien("Enregistrée malgré l'erreur ?", "Échec (503)", 1),
     lien("Préparer la tâche et les messages", "HubSpot · Créer la tâche de suivi"),
     lien("HubSpot · Créer la tâche de suivi", "Confirmer (enregistrée)", 0),
