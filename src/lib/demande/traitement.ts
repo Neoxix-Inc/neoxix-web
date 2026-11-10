@@ -11,10 +11,25 @@ import type { Demande } from "./schema";
  */
 export type ModeIntake = "mock" | "live" | "off" | "indisponible";
 
+/** Longueur minimale du secret HMAC partagé avec n8n (32 caractères, par ex. `openssl rand -hex 32`). */
+export const LONGUEUR_MIN_SECRET = 32;
+
+/** Configuration `live` utilisable : webhook en HTTPS et secret assez long. Sinon, `indisponible`. */
+export function configurationLiveValide(env: NodeJS.ProcessEnv): boolean {
+  const secret = env.N8N_HMAC_SECRET ?? "";
+  let url: URL;
+  try {
+    url = new URL(env.N8N_WEBHOOK_URL ?? "");
+  } catch {
+    return false;
+  }
+  return url.protocol === "https:" && secret.length >= LONGUEUR_MIN_SECRET;
+}
+
 export function modeIntake(env: NodeJS.ProcessEnv = process.env): ModeIntake {
   const brut = (env.INTAKE_MODE ?? "mock").trim().toLowerCase();
   if (brut === "off") return "off";
-  if (brut === "live") return env.N8N_WEBHOOK_URL && env.N8N_HMAC_SECRET ? "live" : "indisponible";
+  if (brut === "live") return configurationLiveValide(env) ? "live" : "indisponible";
   return "mock";
 }
 
@@ -79,6 +94,8 @@ export async function traiterDemande(demande: Demande, contexte: Contexte): Prom
       body: corps,
       signal: AbortSignal.timeout(5_000),
       cache: "no-store",
+      // Une redirection enverrait la demande signée ailleurs que vers le webhook configuré.
+      redirect: "error",
     });
     return reponse.ok ? { ok: true, reference } : { ok: false };
   } catch {

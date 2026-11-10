@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { POST } from "@/app/api/demandes/route";
 import { contenu } from "@/content";
 import { contientSecret, erreursParChamp, schemaDemande, schemaEtape1, schemaEtape2 } from "@/lib/demande/schema";
-import { accepterDebit, origineAutorisee, reinitialiserDebit } from "@/lib/demande/protection";
+import { accepterDebit, adresseClient, maxParIp, origineAutorisee, reinitialiserDebit } from "@/lib/demande/protection";
 import { modeFormulaire, modeIntake, referencePour, signer, traiterDemande } from "@/lib/demande/traitement";
 
 /** Données fictives uniquement (domaine réservé example.com). */
@@ -94,13 +94,35 @@ describe("protections", () => {
   });
 });
 
+describe("débit et adresse IP", () => {
+  const env = (v: Record<string, string>) => v as unknown as NodeJS.ProcessEnv;
+  it("INTAKE_DEBIT_PAR_IP est ignoré sur Vercel (preview comme production)", () => {
+    expect(maxParIp(env({}))).toBe(5);
+    expect(maxParIp(env({ INTAKE_DEBIT_PAR_IP: "10000" }))).toBe(10000);
+    expect(maxParIp(env({ INTAKE_DEBIT_PAR_IP: "10000", VERCEL: "1" }))).toBe(5);
+    expect(maxParIp(env({ INTAKE_DEBIT_PAR_IP: "-3" }))).toBe(5);
+  });
+  it("adresse IP : en-tête Vercel prioritaire", () => {
+    expect(adresseClient(new Headers({ "x-vercel-forwarded-for": "203.0.113.7", "x-forwarded-for": "198.51.100.1" }))).toBe("203.0.113.7");
+    expect(adresseClient(new Headers({ "x-forwarded-for": "198.51.100.1, 10.0.0.1" }))).toBe("198.51.100.1");
+    expect(adresseClient(new Headers())).toBe("inconnue");
+  });
+});
+
 describe("mode et traitement", () => {
   it("mock par défaut ; live incomplet = indisponible ; off", () => {
     expect(modeIntake({} as unknown as NodeJS.ProcessEnv)).toBe("mock");
     expect(modeIntake({ INTAKE_MODE: "live" } as unknown as NodeJS.ProcessEnv)).toBe("indisponible");
     expect(modeFormulaire({ INTAKE_MODE: "live" } as unknown as NodeJS.ProcessEnv)).toBe("off");
     expect(modeIntake({ INTAKE_MODE: "off" } as unknown as NodeJS.ProcessEnv)).toBe("off");
-    expect(modeIntake({ INTAKE_MODE: "live", N8N_WEBHOOK_URL: "https://hooks.example.com/x", N8N_HMAC_SECRET: "s" } as unknown as NodeJS.ProcessEnv)).toBe("live");
+    expect(modeIntake({ INTAKE_MODE: "live", N8N_WEBHOOK_URL: "https://hooks.example.com/x", N8N_HMAC_SECRET: "0123456789abcdef0123456789abcdef" } as unknown as NodeJS.ProcessEnv)).toBe("live");
+  });
+
+  it("live refusé si secret trop court ou webhook non HTTPS", () => {
+    const base = { INTAKE_MODE: "live", N8N_WEBHOOK_URL: "https://hooks.example.com/x", N8N_HMAC_SECRET: "0123456789abcdef0123456789abcdef" };
+    expect(modeIntake({ ...base, N8N_HMAC_SECRET: "court" } as unknown as NodeJS.ProcessEnv)).toBe("indisponible");
+    expect(modeIntake({ ...base, N8N_WEBHOOK_URL: "http://hooks.example.com/x" } as unknown as NodeJS.ProcessEnv)).toBe("indisponible");
+    expect(modeIntake({ ...base, N8N_WEBHOOK_URL: "pas une url" } as unknown as NodeJS.ProcessEnv)).toBe("indisponible");
   });
 
   it("référence stable pour une même clé", () => {
@@ -117,14 +139,15 @@ describe("mode et traitement", () => {
   });
 
   it("live : POST signé HMAC vers le webhook ; échec = indisponible", async () => {
-    const env = { INTAKE_MODE: "live", N8N_WEBHOOK_URL: "https://hooks.example.com/w", N8N_HMAC_SECRET: "secret-de-test" } as unknown as NodeJS.ProcessEnv;
+    const env = { INTAKE_MODE: "live", N8N_WEBHOOK_URL: "https://hooks.example.com/w", N8N_HMAC_SECRET: "secret-de-test-0123456789abcdef0123" } as unknown as NodeJS.ProcessEnv;
     const fetcher = vi.fn(async (_url: string | URL | Request, _init?: RequestInit) => new Response(null, { status: 200 }));
     const r = await traiterDemande(schemaDemande.parse(DEMANDE), { cle: CLE, dureeRemplissageMs: 1, env, fetcher: fetcher as unknown as typeof fetch });
     expect(r).toEqual({ ok: true, reference: expect.stringMatching(/^NX-/) });
     const [url, init] = fetcher.mock.calls[0];
     expect(url).toBe("https://hooks.example.com/w");
+    expect(init!.redirect).toBe("error");
     const entetes = init!.headers as Record<string, string>;
-    const attendu = "sha256=" + createHmac("sha256", "secret-de-test").update(`${entetes["x-neoxix-timestamp"]}.${init!.body}`).digest("hex");
+    const attendu = "sha256=" + createHmac("sha256", "secret-de-test-0123456789abcdef0123").update(`${entetes["x-neoxix-timestamp"]}.${init!.body}`).digest("hex");
     expect(entetes["x-neoxix-signature"]).toBe(attendu);
     expect(signer("a", "1", "k")).toMatch(/^sha256=[0-9a-f]{64}$/);
     const corps = JSON.parse(init!.body as string);

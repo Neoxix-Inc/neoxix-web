@@ -11,10 +11,16 @@ export const TAILLE_MAX_OCTETS = 32 * 1024;
 export const DUREE_MIN_REMPLISSAGE_MS = 3_000;
 
 const FENETRE_MS = 10 * 60 * 1000;
-/** 5 envois par IP et par fenêtre ; `INTAKE_DEBIT_PAR_IP` permet de l'ajuster (tests de bout en bout locaux). */
-function maxParIp(): number {
-  const valeur = Number(process.env.INTAKE_DEBIT_PAR_IP);
-  return Number.isInteger(valeur) && valeur > 0 ? valeur : 5;
+const MAX_PAR_IP = 5;
+/**
+ * 5 envois par IP et par fenêtre. `INTAKE_DEBIT_PAR_IP` sert uniquement aux tests de bout en bout
+ * locaux : il est ignoré dès que le code s'exécute sur Vercel (`VERCEL` est défini en preview comme
+ * en production), ce qui empêche une variable oubliée d'affaiblir la limite déployée.
+ */
+export function maxParIp(env: NodeJS.ProcessEnv = process.env): number {
+  if (env.VERCEL) return MAX_PAR_IP;
+  const valeur = Number(env.INTAKE_DEBIT_PAR_IP);
+  return Number.isInteger(valeur) && valeur > 0 ? valeur : MAX_PAR_IP;
 }
 const MAX_GLOBAL = 200;
 const MAX_ENTREES = 10_000;
@@ -46,10 +52,17 @@ export function reinitialiserDebit(): void {
   global = [];
 }
 
-/** Adresse IP du client, telle que transmise par la plateforme (Vercel renseigne `x-forwarded-for`). */
+/**
+ * Adresse IP du client. Sur Vercel, `x-vercel-forwarded-for`, `x-real-ip` et `x-forwarded-for` sont
+ * renseignés par la plateforme, qui écrase les valeurs envoyées par le client (pas d'usurpation possible).
+ * Hors Vercel (poste local), ces en-têtes ne sont pas fiables ; la limite n'y protège rien d'exposé.
+ */
 export function adresseClient(entetes: Headers): string {
-  const transmise = entetes.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return transmise || entetes.get("x-real-ip")?.trim() || "inconnue";
+  for (const nom of ["x-vercel-forwarded-for", "x-real-ip", "x-forwarded-for"]) {
+    const valeur = entetes.get(nom)?.split(",")[0]?.trim();
+    if (valeur) return valeur;
+  }
+  return "inconnue";
 }
 
 /**
