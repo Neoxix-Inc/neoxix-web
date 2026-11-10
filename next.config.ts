@@ -1,7 +1,25 @@
 import type { NextConfig } from "next";
 
+/**
+ * Politique de sécurité du contenu : aucune ressource tierce. `unsafe-inline` reste nécessaire pour les
+ * scripts d'hydratation de Next.js tant qu'aucun nonce n'est mis en place ; `unsafe-eval` seulement en dev.
+ */
+const csp = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data:",
+  "font-src 'self'",
+  "connect-src 'self'",
+  "form-action 'self' mailto:",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "object-src 'none'",
+].join("; ");
+
 /** En-têtes de sécurité appliqués à toutes les routes (prévisualisation locale). */
 const enTetesSecurite = [
+  { key: "Content-Security-Policy", value: csp },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "X-Frame-Options", value: "DENY" },

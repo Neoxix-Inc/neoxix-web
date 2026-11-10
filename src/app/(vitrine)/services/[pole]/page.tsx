@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { contenu, lienCourriel, trouverPole } from "@/content";
-import { CarteService, EnTetePage } from "@/components/vitrine/sections";
+import { EnTetePage } from "@/components/vitrine/sections";
 
 export const dynamicParams = false;
 
@@ -20,18 +21,23 @@ export default async function PagePole({ params }: PageProps<"/services/[pole]">
   const pole = trouverPole(slug);
   if (!pole) notFound();
   const autres = contenu.services.poles.filter((p) => p.slug !== pole.slug);
+  const colonnes: [string, string[]][] = [
+    ["Peut être inclus", pole.detail.inclus],
+    ["Dépend du périmètre", pole.detail.perimetre],
+    ["Non inclus par défaut", pole.detail.nonInclus],
+    ["Pour démarrer", pole.detail.demarrer],
+  ];
 
   return (
     <>
       <EnTetePage
-        idTitre="t-page"
         surtitre={`Service ${pole.numero}`}
         titre={pole.titre}
         chapo={pole.resume}
         fil={[{ libelle: "Accueil", href: "/" }, { libelle: "Services", href: "/services" }, { libelle: pole.titreCourt }]}
       />
-      <section className="bloc">
-        <div className="enveloppe">
+      <section>
+        <div className="wrap">
           <div className="pole-grille">
             <div>
               {pole.probleme && <p className="citation revele">{pole.probleme}</p>}
@@ -58,12 +64,25 @@ export default async function PagePole({ params }: PageProps<"/services/[pole]">
                   </ol>
                 </div>
               )}
-              {pole.resultat && (
-                <div className="rubrique revele">
-                  <h2>Résultat attendu</h2>
-                  <p>{pole.resultat}</p>
+              <div className="rubrique revele">
+                <h2>Résultat recherché</h2>
+                <p>{pole.resultatRecherche.replace(/^Résultat recherché : /, "").replace(/^./, (c) => c.toUpperCase())}</p>
+              </div>
+              <div className="rubrique revele">
+                <h2>Périmètre</h2>
+                <div className="detail-grille">
+                  {colonnes.map(([titre, items]) => (
+                    <div key={titre}>
+                      <h3>{titre}</h3>
+                      <ul>
+                        {items.map((i) => (
+                          <li key={i}>{i}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
-              )}
+              </div>
               {pole.deroulement && (
                 <div className="rubrique revele">
                   <h2>Déroulement</h2>
@@ -76,15 +95,9 @@ export default async function PagePole({ params }: PageProps<"/services/[pole]">
                   <p>{pole.ensuite}</p>
                 </div>
               )}
-              {pole.nonInclus && (
-                <div className="rubrique revele">
-                  <h2>Non inclus</h2>
-                  <p>{pole.nonInclus}</p>
-                </div>
-              )}
               {pole.note && <p className="note-marques">{pole.note}</p>}
             </div>
-            <aside className="encart revele" aria-label="Demander une proposition">
+            <aside className="encart-pole revele" aria-label="Demander une proposition">
               <div>
                 <h2>Pour votre devis</h2>
                 <p>{pole.pourDevis}</p>
@@ -93,19 +106,30 @@ export default async function PagePole({ params }: PageProps<"/services/[pole]">
                 <h2>Tarification</h2>
                 <p>{contenu.services.tarification}</p>
               </div>
-              <a className="btn btn-primaire" href={lienCourriel(`Demande : ${pole.titre}`)}>
-                Écrire à {contenu.site.courriel}
+              <Link className="btn btn-principal" href="/contact">
+                {contenu.actionPrincipale.libelle}
+              </Link>
+              <a className="lien-courriel" href={lienCourriel(`Demande : ${pole.titre}`)}>
+                Ou écrire à {contenu.site.courriel}
               </a>
             </aside>
           </div>
 
           <div className="autres">
             <h2>Les autres services</h2>
-            <div className="services">
-              {autres.map((p, i) => (
-                <CarteService key={p.slug} pole={p} index={i} />
+            <ul className="grille-autres">
+              {autres.map((p) => (
+                <li key={p.slug}>
+                  <Link className="carte lien-carte" href={`/services/${p.slug}`}>
+                    <span className="service-num" aria-hidden="true">
+                      {p.numero}
+                    </span>
+                    <span className="lien-carte-titre">{p.titre}</span>
+                    <span className="lien-carte-texte">{p.accroche}</span>
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </section>

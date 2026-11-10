@@ -1,40 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { contenu } from "@/content";
-import { Monogramme } from "./logo";
+import { Marque } from "./logo";
 
-function estCourant(href: string, chemin: string): boolean {
-  if (href.includes("#")) return false;
-  return href === "/" ? chemin === "/" : chemin === href || chemin.startsWith(`${href}/`);
-}
-
+/**
+ * En-tête collant (V5) : navigation, bouton « Présenter mon projet », et menu mobile à bouton unique
+ * (`aria-expanded`). Échap ferme le menu et rend le focus au bouton ; un clic à l'extérieur le ferme.
+ */
 export function Entete() {
-  const chemin = usePathname();
-  const [defile, setDefile] = useState(false);
-  const menu = useRef<HTMLDetailsElement>(null);
+  const [ouvert, setOuvert] = useState(false);
+  const bouton = useRef<HTMLButtonElement>(null);
+  const entete = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const surDefilement = () => setDefile(window.scrollY > 8);
-    surDefilement();
-    window.addEventListener("scroll", surDefilement, { passive: true });
-    return () => window.removeEventListener("scroll", surDefilement);
-  }, []);
-
-  // Échap ferme le menu mobile et rend le focus au bouton ; un clic à l'extérieur le ferme aussi.
-  useEffect(() => {
-    const details = menu.current;
-    if (!details) return;
+    if (!ouvert) return;
     const surTouche = (evenement: KeyboardEvent) => {
-      if (evenement.key === "Escape" && details.open) {
-        details.open = false;
-        details.querySelector("summary")?.focus();
+      if (evenement.key === "Escape") {
+        setOuvert(false);
+        bouton.current?.focus();
       }
     };
     const surClic = (evenement: MouseEvent) => {
-      if (details.open && !details.contains(evenement.target as Node)) details.open = false;
+      if (!entete.current?.contains(evenement.target as Node)) setOuvert(false);
     };
     document.addEventListener("keydown", surTouche);
     document.addEventListener("click", surClic);
@@ -42,53 +31,47 @@ export function Entete() {
       document.removeEventListener("keydown", surTouche);
       document.removeEventListener("click", surClic);
     };
-  }, []);
+  }, [ouvert]);
 
-  const fermerMenu = () => {
-    if (menu.current) menu.current.open = false;
-  };
-
-  const { navigation, site } = contenu;
+  const { navigation, actionPrincipale } = contenu;
+  const fermer = () => setOuvert(false);
 
   return (
-    <header className={`entete${defile ? " defile" : ""}`}>
-      <div className="enveloppe">
-        <Link className="logo" href="/" aria-label={`${site.nom}, accueil`}>
-          <Monogramme />
-          {site.nom}
-        </Link>
-        <span className="provisoire" title="Logo provisoire, non officiel">
-          {site.logoProvisoire}
-        </span>
-        <nav className="nav" aria-label="Navigation principale">
+    <header className="entete" ref={entete}>
+      <div className="wrap">
+        <Marque href="/" libelle="NEOXIX, accueil" />
+        <nav className="nav-principale" aria-label="Navigation principale">
           {navigation.map((lien) => (
-            <Link key={lien.href} href={lien.href} aria-current={estCourant(lien.href, chemin) ? "page" : undefined}>
+            <Link key={lien.href} href={lien.href}>
               {lien.libelle}
             </Link>
           ))}
+          <Link className="btn btn-principal" href={actionPrincipale.href}>
+            {actionPrincipale.libelle}
+          </Link>
         </nav>
-        <details className="menu-mobile" ref={menu}>
-          <summary aria-controls="panneau-navigation">Menu</summary>
-          <nav className="panneau" id="panneau-navigation" aria-label="Navigation mobile">
-            <Link href="/" onClick={fermerMenu} aria-current={chemin === "/" ? "page" : undefined}>
-              Accueil
-            </Link>
-            {navigation.map((lien) => (
-              <Link
-                key={lien.href}
-                href={lien.href}
-                onClick={fermerMenu}
-                aria-current={estCourant(lien.href, chemin) ? "page" : undefined}
-              >
-                {lien.libelle}
-              </Link>
-            ))}
-          </nav>
-        </details>
-        <Link className="btn btn-primaire entete-action" href="/contact">
-          Nous écrire
-        </Link>
+        <button
+          ref={bouton}
+          className="bouton-menu"
+          type="button"
+          aria-expanded={ouvert}
+          aria-controls="menu-mobile"
+          aria-label={ouvert ? "Fermer le menu" : "Ouvrir le menu"}
+          onClick={() => setOuvert((v) => !v)}
+        >
+          <span aria-hidden="true" />
+        </button>
       </div>
+      <nav className={`menu-mobile${ouvert ? " ouvert" : ""}`} id="menu-mobile" aria-label="Navigation mobile">
+        {navigation.map((lien) => (
+          <Link key={lien.href} href={lien.href} onClick={fermer}>
+            {lien.libelle}
+          </Link>
+        ))}
+        <Link className="btn btn-principal" href={actionPrincipale.href} onClick={fermer}>
+          {actionPrincipale.libelle}
+        </Link>
+      </nav>
     </header>
   );
 }

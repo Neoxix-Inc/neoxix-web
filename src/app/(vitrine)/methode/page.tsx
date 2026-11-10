@@ -12,7 +12,6 @@ export default function PageMethode() {
   return (
     <>
       <EnTetePage
-        idTitre="t-page"
         surtitre={methode.surtitre}
         titre={<TitreMarque titre={methode.titre} />}
         chapo={methode.intro}

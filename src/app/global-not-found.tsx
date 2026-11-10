@@ -6,7 +6,7 @@ import { GabaritVitrine } from "@/components/vitrine/gabarit";
 import "./(vitrine)/vitrine.css";
 
 export const metadata: Metadata = {
-  title: `${contenu.introuvable.titre} · NEOXIX (prévisualisation)`,
+  title: `${contenu.introuvable.titre} · NEOXIX`,
   robots: { index: false, follow: false },
 };
 
@@ -15,16 +15,16 @@ export default function Introuvable() {
   const { introuvable } = contenu;
   return (
     <GabaritVitrine classes={classesPolices}>
-      <section className="introuvable nuit" aria-labelledby="t-404">
-        <div className="enveloppe">
+      <section className="introuvable sombre" aria-labelledby="t-404">
+        <div className="wrap">
           <p className="code">{introuvable.code}</p>
           <h1 id="t-404">{introuvable.titre}</h1>
           <p>{introuvable.texte}</p>
           <div className="actions">
-            <Link className="btn btn-ambre-vif" href="/">
+            <Link className="btn btn-principal" href="/">
               {introuvable.retour}
             </Link>
-            <Link className="btn btn-nuit-secondaire" href="/services">
+            <Link className="btn btn-secondaire" href="/services">
               Voir les services
             </Link>
           </div>

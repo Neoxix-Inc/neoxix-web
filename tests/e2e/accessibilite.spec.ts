@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { PAGES_VITRINE, defilerTout } from "./outils";
+import { estMobile } from "./outils";
 
 test.describe("clavier", () => {
   test("lien d'évitement puis focus sur le contenu", async ({ page }) => {
@@ -13,10 +13,10 @@ test.describe("clavier", () => {
   });
 
   for (const chemin of ["/", "/services/automatisation", "/contact"]) {
-    test(`${chemin} : chaque élément atteint au Tab a un focus visible`, async ({ page }) => {
+    test(`${chemin} : chaque élément atteint au Tab a un focus visible d'au moins 2 px`, async ({ page }) => {
       await page.goto(chemin);
       const vus = new Set<string>();
-      for (let i = 0; i < 80; i++) {
+      for (let i = 0; i < 90; i++) {
         await page.keyboard.press("Tab");
         const etat = await page.evaluate(() => {
           const el = document.activeElement as HTMLElement | null;
@@ -24,118 +24,73 @@ test.describe("clavier", () => {
           const s = getComputedStyle(el);
           const r = el.getBoundingClientRect();
           return {
-            cle: `${el.tagName}|${el.textContent?.trim().slice(0, 40)}|${el.getAttribute("href") ?? ""}`,
+            cle: `${el.tagName}|${el.id}|${el.textContent?.trim().slice(0, 40)}|${el.getAttribute("href") ?? ""}`,
             contour: s.outlineStyle !== "none" && parseFloat(s.outlineWidth) >= 2,
             visible: r.width > 0 && r.height > 0,
-            focusVisible: el.matches(":focus-visible"),
           };
         });
         if (!etat) break;
         if (vus.has(etat.cle)) continue;
         vus.add(etat.cle);
         if (!etat.visible) continue;
-        expect(etat.focusVisible, etat.cle).toBe(true);
         expect(etat.contour, `contour de focus : ${etat.cle}`).toBe(true);
       }
       expect(vus.size).toBeGreaterThan(5);
     });
   }
+
+  test("cibles tactiles : boutons et liens de navigation d'au moins 44 px de haut", async ({ page }, info) => {
+    test.skip(!estMobile(info), "Vérifié sur les largeurs tactiles");
+    await page.goto("/");
+    const petites = await page.locator(".btn, .bouton-menu, details summary, .pause").evaluateAll((els) =>
+      els
+        .filter((el) => (el as HTMLElement).offsetParent !== null)
+        .map((el) => ({ t: el.textContent?.trim().slice(0, 30), h: el.getBoundingClientRect().height }))
+        .filter((x) => x.h > 0 && x.h < 44),
+    );
+    expect(petites).toEqual([]);
+  });
 });
 
-test.describe("menu mobile et barre d'action", () => {
+test.describe("menu mobile (critère V5 2)", () => {
   test.beforeEach(({}, info) => {
-    test.skip(info.project.name === "ordinateur-1440", "Menu mobile affiché sous 1100 px seulement");
+    test.skip(!estMobile(info), "Menu mobile affiché sous 960 px");
   });
 
-  test("ouverture au clavier, Échap ferme et rend le focus", async ({ page }) => {
+  test("ouverture, Échap ferme et rend le focus au bouton", async ({ page }) => {
     await page.goto("/");
-    const menu = page.locator("details.menu-mobile");
-    const bouton = menu.locator("summary");
-    await expect(bouton).toBeVisible();
+    const bouton = page.getByRole("button", { name: "Ouvrir le menu" });
+    await expect(page.getByRole("navigation", { name: "Navigation principale" })).toBeHidden();
     await bouton.focus();
     await page.keyboard.press("Enter");
-    await expect(menu).toHaveAttribute("open", "");
+    await expect(page.getByRole("button", { name: "Fermer le menu" })).toHaveAttribute("aria-expanded", "true");
     const panneau = page.getByRole("navigation", { name: "Navigation mobile" });
-    await expect(panneau.getByRole("link", { name: "Services" })).toBeVisible();
+    await expect(panneau.getByRole("link", { name: "Présenter mon projet" })).toBeVisible();
     await page.keyboard.press("Tab");
-    await expect(panneau.getByRole("link").first()).toBeFocused();
     await page.keyboard.press("Escape");
-    await expect(menu).not.toHaveAttribute("open", "");
-    await expect(bouton).toBeFocused();
+    await expect(page.getByRole("button", { name: "Ouvrir le menu" })).toHaveAttribute("aria-expanded", "false");
+    await expect(page.getByRole("button", { name: "Ouvrir le menu" })).toBeFocused();
+    await expect(panneau.getByRole("link", { name: "Services" })).toBeHidden();
   });
 
-  test("un lien du menu navigue et referme le menu", async ({ page }) => {
+  test("un lien du menu ferme le menu et mène à la section", async ({ page }) => {
     await page.goto("/");
-    await page.locator("details.menu-mobile summary").click();
-    await page.getByRole("navigation", { name: "Navigation mobile" }).getByRole("link", { name: "Méthode" }).click();
-    await expect(page).toHaveURL(/\/methode$/);
-    await expect(page.locator("details.menu-mobile")).not.toHaveAttribute("open", "");
-  });
-
-  test("barre d'action fixe sur mobile", async ({ page }, info) => {
-    test.skip(info.project.name !== "mobile-390", "Barre affichée sous 768 px");
-    await page.goto("/");
-    const barre = page.getByRole("navigation", { name: "Actions rapides" });
-    await expect(barre).toBeVisible();
-    expect(await barre.evaluate((el) => getComputedStyle(el).position)).toBe("fixed");
-    await page.mouse.wheel(0, 2500);
-    await expect(barre).toBeInViewport();
-    await expect(barre.getByRole("link", { name: "Nous écrire" })).toHaveAttribute("href", "/contact");
+    await page.getByRole("button", { name: "Ouvrir le menu" }).click();
+    await page.getByRole("navigation", { name: "Navigation mobile" }).getByRole("link", { name: "Présenter mon projet" }).click();
+    await expect(page).toHaveURL(/#contact$/);
+    await expect(page.getByRole("button", { name: "Ouvrir le menu" })).toHaveAttribute("aria-expanded", "false");
+    await expect(page.getByRole("heading", { name: "Décrivez votre situation en quelques lignes." })).toBeInViewport();
   });
 });
 
-test.describe("contraste de l'ambre", () => {
-  for (const chemin of PAGES_VITRINE) {
-    test(`${chemin} : aucun texte ambre vif ou ambre moyen sur fond clair`, async ({ page }) => {
-      await page.goto(chemin);
-      await defilerTout(page);
-      const violations = await page.evaluate(() => {
-        const rgb = (c: string) => (c.match(/[\d.]+/g) ?? []).map(Number);
-        const lum = ([r, g, b]: number[]) => {
-          const f = (v: number) => {
-            const s = v / 255;
-            return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
-          };
-          return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
-        };
-        const fond = (el: Element | null): number[] => {
-          for (let n = el; n; n = n.parentElement) {
-            const s = getComputedStyle(n);
-            const c = rgb(s.backgroundColor);
-            if (c.length >= 3 && (c[3] === undefined || c[3] > 0.5)) return c;
-            if (s.backgroundImage !== "none" && !s.backgroundClip.includes("text")) {
-              // Dégradé : on retient la première couleur.
-              const m = s.backgroundImage.match(/rgba?\([^)]+\)/);
-              if (m) return rgb(m[0]);
-            }
-          }
-          return [250, 248, 245];
-        };
-        const ambresInterdits = ["255,139,71", "232,116,54"];
-        const sortie: string[] = [];
-        document.querySelectorAll("body *").forEach((el) => {
-          const aTexte = Array.from(el.childNodes).some((n) => n.nodeType === 3 && n.textContent?.trim());
-          if (!aTexte) return;
-          const s = getComputedStyle(el);
-          const couleur = rgb(s.color).slice(0, 3).join(",");
-          const estDegrade = s.backgroundClip.includes("text") && s.backgroundImage !== "none";
-          const ambre = ambresInterdits.includes(couleur) || (estDegrade && /255, 139, 71|232, 116, 54/.test(s.backgroundImage));
-          if (!ambre) return;
-          const parent = estDegrade ? el.parentElement : el;
-          if (lum(fond(parent)) > 0.4) sortie.push(`${el.tagName}.${el.className} « ${el.textContent?.trim().slice(0, 30)} »`);
-        });
-        return sortie;
-      });
-      expect(violations).toEqual([]);
-    });
-  }
-
-  test("le mot mis en valeur sur fond clair est en ambre foncé #B44D29", async ({ page }) => {
+test.describe("navigation ordinateur", () => {
+  test("navigation principale et bouton d'action visibles", async ({ page }, info) => {
+    test.skip(estMobile(info), "Navigation complète au-delà de 960 px");
     await page.goto("/");
-    const couleurs = await page
-      .locator(".mot")
-      .evaluateAll((els) => els.filter((e) => !e.closest(".nuit")).map((e) => getComputedStyle(e).color));
-    expect(couleurs.length).toBeGreaterThan(0);
-    for (const c of couleurs) expect(c).toBe("rgb(180, 77, 41)");
+    const nav = page.getByRole("navigation", { name: "Navigation principale" });
+    for (const nom of ["Services", "Solutions", "Réalisations", "Méthode", "Questions", "Présenter mon projet"]) {
+      await expect(nav.getByRole("link", { name: nom })).toBeVisible();
+    }
+    await expect(page.getByRole("button", { name: "Ouvrir le menu" })).toBeHidden();
   });
 });

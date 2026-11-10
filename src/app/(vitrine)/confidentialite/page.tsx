@@ -3,7 +3,7 @@ import { contenu } from "@/content";
 import { EnTetePage } from "@/components/vitrine/sections";
 
 export const metadata: Metadata = {
-  title: "Confidentialité (texte provisoire)",
+  title: "Confidentialité",
   description: contenu.confidentialite.statut,
 };
 
@@ -12,15 +12,14 @@ export default function PageConfidentialite() {
   return (
     <>
       <EnTetePage
-        idTitre="t-page"
-        surtitre="Légal"
+        surtitre="Confidentialité"
         titre={confidentialite.titre}
         fil={[{ libelle: "Accueil", href: "/" }, { libelle: confidentialite.titre }]}
       />
-      <section className="bloc">
-        <div className="enveloppe">
+      <section>
+        <div className="wrap">
           <div className="prose">
-            <p className="statut" role="note">
+            <p className="statut-prose" role="note">
               {confidentialite.statut}
             </p>
             {confidentialite.sections.map((s) => (

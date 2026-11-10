@@ -1,4 +1,4 @@
-import type { Page } from "@playwright/test";
+import type { Page, TestInfo } from "@playwright/test";
 
 export const PAGES_VITRINE = [
   "/",
@@ -13,16 +13,10 @@ export const PAGES_VITRINE = [
 ] as const;
 
 /** Anciennes adresses du portfolio : redirection 301 vers l'accueil. */
-export const ANCIENNES_ADRESSES = [
-  "/portfolio",
-  "/projects/neoxix-homelab",
-  "/projects/fortigate-ikev2-vpn-lab",
-  "/projects/category/networking",
-  "/technologies/cisco",
-  "/technologies/fortinet",
-] as const;
+export const ANCIENNES_ADRESSES = ["/portfolio", "/projects/neoxix-homelab", "/technologies/cisco"] as const;
 
-export const BANDEAU = "Maquette / prévisualisation, non publiée";
+/** Menu mobile affiché sous 960 px (point de rupture V5). */
+export const estMobile = (info: TestInfo) => (info.project.use.viewport?.width ?? 1440) <= 960;
 
 /** Collecte les erreurs console, les exceptions et les requêtes vers un autre hôte que le serveur local. */
 export function surveiller(page: Page) {
@@ -58,3 +52,13 @@ export async function debordement(page: Page): Promise<number> {
   const doc = await page.evaluate(() => document.documentElement.scrollWidth);
   return doc - largeur;
 }
+
+/** Données fictives (domaine réservé example.com) : aucune donnée personnelle réelle. */
+export const FICTIF = {
+  description: "Formulaire de demande relié à un suivi simple, pour une PME fictive.",
+  objectif: "Je reçois mes demandes par courriel et je perds le suivi.",
+  lieu: "Gatineau",
+  nom: "Camille Test, Entreprise Fictive",
+  courriel: "camille.test@example.com",
+  telephone: "+1 819 555-0100",
+};

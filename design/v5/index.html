@@ -1,0 +1,1049 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEOXIX · Services numériques pour PME</title>
+<meta name="description" content="NEOXIX conçoit, sécurise et automatise les systèmes numériques des PME au Canada et en Côte d'Ivoire. Proposition écrite avant tout travail facturé.">
+<!-- Design annotations (internes, non publiques) : direction NEOXIX Ambre ; logo provisoire = mot-symbole NEOXIX ; formulaire simulé, aucune donnée transmise ; consentement à finaliser après revue juridique (Loi 25). -->
+<style>
+:root{
+  --nuit:#10171A; --nuit-2:#18242A; --filet-nuit:#2C3D45;
+  --ambre-vif:#FF8B47; --ambre:#E87436; --ambre-fonce:#B44D29; --ambre-presse:#973F21;
+  --signal:#4FD1C5; --fond:#FAF8F5; --lavis:#FFF0E5; --blanc:#FFFFFF;
+  --texte:#1B2528; --encre-2:#56636A; --filet:#E4DED6;
+  --rayon:14px; --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fond);color:var(--texte);font:400 17px/1.6 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;overflow-wrap:break-word}
+img,svg{max-width:100%;display:block}
+h1,h2,h3{font-family:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;line-height:1.08;letter-spacing:-.02em;margin:0;font-weight:700}
+h1{font-size:clamp(2.3rem,5.2vw,4.1rem)}
+h2{font-size:clamp(1.9rem,3.6vw,2.9rem)}
+h3{font-size:1.2rem;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+section{padding:96px 0;position:relative}
+.surtitre{font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--ambre-fonce);display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.surtitre::before{content:"";width:28px;height:1px;background:currentColor}
+.sombre{background:var(--nuit);color:#EEF2F3}
+.sombre .surtitre{color:var(--ambre-vif)}
+.lede{font-size:1.12rem;color:var(--encre-2);max-width:60ch}
+.sombre .lede{color:#B9C6CB}
+.entete-section{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:end;margin-bottom:48px}
+.accent{color:var(--ambre-fonce)}
+.sombre .accent{color:var(--ambre-vif)}
+:focus-visible{outline:3px solid var(--signal);outline-offset:3px;border-radius:6px}
+.lien-evitement{position:absolute;left:12px;top:-60px;background:var(--nuit);color:#fff;padding:10px 16px;border-radius:8px;z-index:100;text-decoration:none}
+.lien-evitement:focus{top:12px}
+
+/* Boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 22px;border-radius:999px;font:600 16px/1.2 "IBM Plex Sans",system-ui,sans-serif;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .2s var(--ease),background .2s,color .2s,box-shadow .2s;white-space:nowrap;max-width:100%}
+.btn-principal{background:var(--ambre);color:#1B1208;box-shadow:0 10px 30px -12px rgba(232,116,54,.7)}
+.btn-principal:hover{background:var(--ambre-vif);transform:translateY(-2px)}
+.btn-secondaire{background:transparent;color:inherit;border-color:currentColor;opacity:.92}
+.btn-secondaire:hover{background:rgba(255,255,255,.08);transform:translateY(-2px)}
+.fond-clair .btn-secondaire,.btn-secondaire.fonce{color:var(--texte)}
+.btn-fonce{background:var(--ambre-fonce);color:#fff}
+.btn-fonce:hover{background:var(--ambre-presse);transform:translateY(-2px)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.flecha{transition:transform .2s var(--ease)}
+.btn:hover .flecha{transform:translateX(3px)}
+
+/* En-tête */
+.entete{position:sticky;top:0;z-index:50;background:rgba(250,248,245,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--filet)}
+.entete .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:72px}
+.marque{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 19px/1 "Bricolage Grotesque",system-ui,sans-serif;letter-spacing:.06em;color:var(--texte);min-width:0}
+.marque svg{width:34px;height:34px;flex:none}
+.nav-principale{display:flex;align-items:center;gap:26px}
+.nav-principale a:not(.btn){text-decoration:none;font-weight:500;color:var(--texte);font-size:15px;padding:6px 0;position:relative}
+.nav-principale a:not(.btn)::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--ambre);transition:width .25s var(--ease)}
+.nav-principale a:not(.btn):hover::after,.nav-principale a:not(.btn):focus-visible::after{width:100%}
+.nav-principale .btn{min-height:44px;padding:10px 18px;font-size:15px}
+.bouton-menu{display:none;width:48px;height:48px;border:1px solid var(--filet);background:#fff;border-radius:12px;cursor:pointer;align-items:center;justify-content:center;flex:none}
+.bouton-menu span,.bouton-menu span::before,.bouton-menu span::after{display:block;width:20px;height:2px;background:var(--texte);border-radius:2px;position:relative;transition:transform .25s var(--ease),background .2s}
+.bouton-menu span::before,.bouton-menu span::after{content:"";position:absolute;left:0}
+.bouton-menu span::before{top:-6px}
+.bouton-menu span::after{top:6px}
+.bouton-menu[aria-expanded="true"] span{background:transparent}
+.bouton-menu[aria-expanded="true"] span::before{transform:translateY(6px) rotate(45deg)}
+.bouton-menu[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
+.menu-mobile{display:none}
+
+/* Héros */
+.heros{background:var(--nuit);color:#EEF2F3;padding:72px 0 88px;overflow:hidden;isolation:isolate}
+.heros::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:44px 44px;z-index:-1;mask-image:radial-gradient(ellipse at 70% 30%,#000 30%,transparent 75%)}
+.heros-grille{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.heros h1{margin-bottom:24px}
+.heros h1 .accent{color:var(--ambre-vif)}
+.heros .lede{color:#B9C6CB;font-size:1.15rem;margin-bottom:34px}
+.actions{display:flex;flex-wrap:wrap;gap:14px}
+.preuves{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:40px;font-size:14px;color:#9FB0B6}
+.preuves li{list-style:none;display:flex;align-items:center;gap:8px}
+.preuves li::before{content:"";width:6px;height:6px;background:var(--signal);border-radius:1px;transform:rotate(45deg)}
+.preuves ul{margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px 22px}
+
+/* Schéma animé */
+.schema{background:var(--nuit-2);border:1px solid var(--filet-nuit);border-radius:20px;padding:26px 26px 22px;position:relative}
+.schema-tete{display:flex;justify-content:space-between;gap:12px;font:500 11px/1.4 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:#8FA1A8;margin-bottom:22px}
+.schema-tete b{color:var(--signal);font-weight:500}
+.etapes{position:relative}
+.liste-etapes{list-style:none;margin:0;padding:0}
+.etapes::before{content:"";position:absolute;left:21px;top:22px;bottom:22px;width:2px;background:var(--filet-nuit)}
+.signal{position:absolute;left:17px;width:10px;height:10px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 0 rgba(79,209,197,.6),0 0 18px var(--signal);top:22px;animation:circule 8s linear infinite}
+.etape{display:grid;grid-template-columns:44px 1fr auto;gap:16px;align-items:center;padding:10px 0;position:relative}
+.noeud{width:44px;height:44px;border-radius:50%;border:2px solid var(--signal);display:grid;place-items:center;font:500 13px/1 "IBM Plex Mono",ui-monospace,monospace;color:var(--signal);background:var(--nuit-2);z-index:1;animation:allume 8s var(--ease) infinite;animation-delay:var(--d,0s)}
+.etape .lbl{font-weight:600;font-size:16px}
+.etape small{display:block;font-weight:400;color:#8FA1A8;font-size:14px}
+.etiq{font:500 11px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;padding:7px 10px;border:1px solid var(--filet-nuit);border-radius:999px;color:#B9C6CB;white-space:nowrap}
+.etape.humain .noeud{border-style:dashed;border-color:var(--ambre-vif);color:var(--ambre-vif)}
+.schema-pied{margin-top:18px;padding-top:16px;border-top:1px solid var(--filet-nuit);font-size:13px;color:#8FA1A8;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+@keyframes circule{0%{top:22px;opacity:0}6%{opacity:1}94%{opacity:1}100%{top:calc(100% - 44px);opacity:0}}
+@keyframes allume{0%,100%{background:var(--nuit-2);box-shadow:none}8%,16%{background:var(--signal);color:var(--nuit);box-shadow:0 0 22px rgba(79,209,197,.55)}24%{background:var(--nuit-2);box-shadow:none}}
+
+/* Confiance */
+.bandeau{background:#fff;border-bottom:1px solid var(--filet)}
+.bandeau ul{list-style:none;margin:0;padding:22px 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;font-size:15px;color:var(--encre-2)}
+.bandeau li{display:flex;align-items:center;gap:10px}
+.bandeau li::before{content:"";width:8px;height:8px;background:var(--ambre);transform:rotate(45deg)}
+
+/* Solutions */
+.grille-solutions{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.carte{background:#fff;border:1px solid var(--filet);border-radius:var(--rayon);padding:26px;display:flex;flex-direction:column;gap:14px;transition:transform .3s var(--ease),border-color .3s,box-shadow .3s;min-width:0}
+.carte:hover{transform:translateY(-4px);border-color:var(--ambre);box-shadow:0 22px 40px -28px rgba(16,23,26,.45)}
+.carte .icone{width:48px;height:48px;border-radius:12px;background:var(--lavis);display:grid;place-items:center;color:var(--ambre-fonce)}
+.carte .icone svg{width:26px;height:26px}
+.carte p{color:var(--encre-2);font-size:15.5px}
+.statut{font:500 11px/1.4 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ambre-fonce);margin-top:auto}
+.statut.turquoise{color:#1E7A72}
+.note-bas{margin-top:26px;font-size:14px;color:var(--encre-2);max-width:70ch}
+
+/* Services */
+.grille-services{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.service{background:#fff;border:1px solid var(--filet);border-radius:var(--rayon);padding:0;overflow:hidden;min-width:0}
+.service-tete{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:26px 26px 0;align-items:start}
+.service-num{font:500 13px/1 "IBM Plex Mono",ui-monospace,monospace;color:var(--ambre-fonce);padding:8px 10px;background:var(--lavis);border-radius:8px}
+.service h3{margin-bottom:8px}
+.service .probleme{color:var(--encre-2);font-size:15.5px}
+.service .resultat{margin:14px 26px 0;padding:12px 14px;background:var(--fond);border-left:3px solid var(--ambre);border-radius:6px;font-size:15px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;padding:16px 26px 0;list-style:none;margin:0}
+.tags li{font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;padding:7px 9px;border:1px solid var(--filet);border-radius:6px;color:var(--encre-2)}
+details.detail{margin:16px 26px 26px}
+details.detail summary{cursor:pointer;font-weight:600;color:var(--ambre-fonce);list-style:none;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 0}
+details.detail summary::-webkit-details-marker{display:none}
+details.detail summary::after{content:"+";font:400 22px/1 "IBM Plex Mono",monospace;transition:transform .25s var(--ease)}
+details.detail[open] summary::after{transform:rotate(45deg)}
+details.detail .contenu{padding-top:10px;font-size:15px;color:var(--encre-2);display:grid;gap:14px;grid-template-columns:1fr 1fr}
+details.detail h4{margin:0 0 6px;font:600 13px/1.3 "IBM Plex Sans",sans-serif;color:var(--texte);text-transform:uppercase;letter-spacing:.06em}
+details.detail ul{margin:0;padding-left:18px}
+details.detail li{margin-bottom:4px}
+details.detail[open] .contenu{animation:apparait .35s var(--ease)}
+@keyframes apparait{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* Réalisations */
+.grille-realisations{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.realisation{background:#fff;border:1px solid var(--filet);border-radius:var(--rayon);padding:26px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.realisation .aperçu{height:140px;border-radius:10px;background:var(--nuit);display:grid;place-items:center;overflow:hidden;position:relative}
+.realisation .aperçu svg{width:70%;height:auto}
+.legende{display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:28px;font-size:14px;color:var(--encre-2)}
+
+/* Méthode */
+.methode{background:var(--fond)}
+.grille-methode{display:grid;grid-template-columns:repeat(5,1fr);gap:0;list-style:none;margin:0 0 40px;padding:0;position:relative}
+.grille-methode::before{content:"";position:absolute;left:24px;right:24px;top:24px;height:2px;background:linear-gradient(90deg,var(--ambre),var(--ambre-vif));opacity:.45}
+.grille-methode li{position:relative;padding-right:18px;min-width:0}
+.grille-methode .num{width:48px;height:48px;border-radius:50%;background:var(--fond);border:2px solid var(--ambre);display:grid;place-items:center;font:500 14px/1 "IBM Plex Mono",monospace;color:var(--ambre-fonce);position:relative;z-index:1;margin-bottom:18px}
+.grille-methode h3{margin-bottom:8px}
+.grille-methode p{color:var(--encre-2);font-size:15px}
+.double{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.encart{background:#fff;border:1px solid var(--filet);border-radius:var(--rayon);padding:26px}
+.encart h3{margin-bottom:12px;font-size:1.05rem}
+.encart p{color:var(--encre-2);font-size:15px}
+.calendrier{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(7,1fr);gap:8px;font-size:13px}
+.calendrier li{background:var(--fond);border:1px solid var(--filet);border-radius:8px;padding:10px 8px;min-width:0}
+.calendrier time{font:600 12px/1 "IBM Plex Mono",monospace;color:var(--ambre-fonce);display:block;margin-bottom:6px}
+.calendrier span{color:var(--encre-2);line-height:1.35;display:block}
+.fictif{margin-top:14px;font-size:13px;color:var(--encre-2)}
+
+/* Engagements */
+.engagements{background:var(--nuit);color:#EEF2F3}
+.grille-engagements{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.bloc-eng{background:var(--nuit-2);border:1px solid var(--filet-nuit);border-radius:var(--rayon);padding:28px}
+.bloc-eng h3{margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.bloc-eng h3::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--signal)}
+.bloc-eng.non h3::before{background:var(--ambre-vif)}
+.bloc-eng ul{list-style:none;margin:0;padding:0}
+.bloc-eng li{padding:14px 0;border-top:1px solid var(--filet-nuit);display:flex;gap:12px;color:#D5DEE1}
+.bloc-eng li:first-child{border-top:0}
+.bloc-eng li::before{content:"";flex:none;width:6px;height:6px;margin-top:9px;background:var(--signal);transform:rotate(45deg)}
+.bloc-eng.non li::before{background:var(--ambre-vif)}
+
+/* Formules */
+.grille-formules{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.formule{background:#fff;border:1px solid var(--filet);border-radius:var(--rayon);padding:28px;display:flex;flex-direction:column;gap:12px}
+.formule p{color:var(--encre-2);font-size:15.5px}
+.formule .btn{margin-top:auto;align-self:flex-start}
+
+/* FAQ */
+.faq{max-width:840px}
+.faq details{border-bottom:1px solid var(--filet)}
+.faq details:first-child{border-top:1px solid var(--texte)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:20px 0;font:600 18px/1.35 "IBM Plex Sans",sans-serif;min-height:44px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:400 26px/1 "IBM Plex Mono",monospace;color:var(--ambre-fonce);transition:transform .25s var(--ease);flex:none}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .reponse{padding:0 0 22px;color:var(--encre-2);max-width:66ch}
+.faq details[open] .reponse{animation:apparait .3s var(--ease)}
+
+/* Contact / LeadFlow */
+.contact{background:linear-gradient(180deg,var(--lavis),var(--fond))}
+.contact-grille{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+.cadre-form{background:#fff;border:1px solid var(--filet);border-radius:20px;padding:30px;box-shadow:0 30px 60px -40px rgba(16,23,26,.4);min-width:0}
+.progression{display:grid;grid-template-columns:1fr 1fr;gap:10px;list-style:none;margin:0 0 26px;padding:0}
+.progression li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--encre-2);font-weight:500}
+.progression .pastille{width:30px;height:30px;border-radius:50%;border:2px solid var(--filet);display:grid;place-items:center;font:600 13px/1 "IBM Plex Mono",monospace;flex:none}
+.progression li[aria-current="step"]{color:var(--texte)}
+.progression li[aria-current="step"] .pastille{border-color:var(--ambre);background:var(--ambre);color:#1B1208}
+.progression li.fait .pastille{border-color:var(--signal);color:#1E7A72}
+.champ{display:grid;gap:7px;margin-bottom:18px}
+.champ label,.champ legend{font-weight:600;font-size:15px}
+.champ .aide{font-size:13px;color:var(--encre-2)}
+.champ input,.champ select,.champ textarea{width:100%;font:400 16px/1.4 "IBM Plex Sans",sans-serif;padding:12px 14px;border:1.5px solid #CFC7BC;border-radius:10px;background:#fff;color:var(--texte);transition:border-color .2s,box-shadow .2s;min-width:0}
+.champ textarea{min-height:104px;resize:vertical}
+.champ input:focus,.champ select:focus,.champ textarea:focus{outline:none;border-color:var(--ambre);box-shadow:0 0 0 4px rgba(232,116,54,.18)}
+.champ [aria-invalid="true"]{border-color:var(--ambre-presse);box-shadow:0 0 0 4px rgba(151,63,33,.12)}
+.erreur{color:var(--ambre-presse);font-size:14px;font-weight:500;display:none}
+.erreur.visible{display:block;animation:apparait .25s var(--ease)}
+fieldset.champ{border:0;padding:0;margin:0 0 18px}
+.options{display:flex;flex-wrap:wrap;gap:10px}
+.options label{display:flex;align-items:center;gap:8px;font-weight:500;font-size:15px;padding:10px 14px;border:1.5px solid #CFC7BC;border-radius:999px;cursor:pointer;min-height:44px}
+.options input{width:18px;height:18px;accent-color:var(--ambre-fonce)}
+.consentement{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;color:var(--encre-2);margin:6px 0 22px}
+.consentement input{width:20px;height:20px;margin-top:2px;accent-color:var(--ambre-fonce);flex:none}
+.rangee-boutons{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+.rangee-boutons .btn-secondaire{color:var(--texte)}
+.bandeau-simulation{display:flex;gap:10px;align-items:flex-start;background:var(--lavis);border:1px solid #F3C9A8;border-radius:10px;padding:12px 14px;font-size:14px;color:#6E3416;margin-bottom:22px}
+.etat{text-align:center;padding:14px 0 6px;display:none}
+.etat.visible{display:block;animation:apparait .4s var(--ease)}
+.etat .pastille-grande{width:64px;height:64px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:var(--lavis);color:var(--ambre-fonce)}
+.etat .pastille-grande svg{width:30px;height:30px}
+.etat h3{margin-bottom:10px}
+.etat p{color:var(--encre-2);margin-bottom:18px}
+.chargement{display:none;align-items:center;gap:12px;justify-content:center;color:var(--encre-2);padding:30px 0}
+.chargement.visible{display:flex}
+.chargement i{width:12px;height:12px;border-radius:50%;background:var(--ambre);animation:pulse 1s infinite ease-in-out}
+.chargement i:nth-child(2){animation-delay:.15s}
+.chargement i:nth-child(3){animation-delay:.3s}
+@keyframes pulse{0%,80%,100%{transform:scale(.6);opacity:.4}40%{transform:scale(1);opacity:1}}
+.etapes-formulaire{display:none}
+.etapes-formulaire.actif{display:block;animation:apparait .3s var(--ease)}
+.contact-coords{margin-top:28px;display:grid;gap:14px;font-size:15px;color:var(--encre-2)}
+.contact-coords strong{color:var(--texte)}
+.contact-coords a{color:var(--ambre-fonce);font-weight:600}
+
+/* Pied de page */
+.pied{background:var(--nuit);color:#B9C6CB;padding:64px 0 28px;font-size:15px}
+.pied-grille{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+.pied h4{margin:0 0 14px;font:500 12px/1 "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--ambre-vif)}
+.pied ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.pied a{text-decoration:none;color:#D5DEE1}
+.pied a:hover{color:#fff;text-decoration:underline}
+.pied .marque{color:#fff}
+.pied-bas{margin-top:48px;padding-top:22px;border-top:1px solid var(--filet-nuit);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px;color:#8FA1A8}
+
+/* Apparition au défilement (le contenu reste visible sans JavaScript) */
+.js .revele{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.js .revele.visible{opacity:1;transform:none}
+
+/* Responsive */
+@media (max-width:1100px){
+  .grille-methode{grid-template-columns:repeat(3,1fr);row-gap:36px}
+  .grille-methode::before{display:none}
+  .grille-solutions,.grille-realisations{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:960px){
+  .heros-grille,.entete-section,.contact-grille,.double,.grille-engagements{grid-template-columns:1fr}
+  .grille-services{grid-template-columns:1fr}
+  .grille-formules{grid-template-columns:1fr 1fr 1fr}
+  .nav-principale{display:none}
+  .bouton-menu{display:inline-flex}
+  .menu-mobile{display:block;position:absolute;left:0;right:0;top:100%;background:var(--fond);border-bottom:1px solid var(--filet);box-shadow:0 20px 40px -30px rgba(16,23,26,.5);padding:8px 20px 22px;transform:translateY(-8px);opacity:0;visibility:hidden;transition:opacity .25s var(--ease),transform .25s var(--ease),visibility .25s}
+  .menu-mobile.ouvert{opacity:1;transform:none;visibility:visible}
+  .menu-mobile a:not(.btn){display:flex;align-items:center;min-height:52px;text-decoration:none;font-weight:600;font-size:17px;border-bottom:1px solid var(--filet)}
+  .menu-mobile .btn{margin-top:16px;width:100%}
+  .pied-grille{grid-template-columns:1fr 1fr}
+}
+@media (max-width:834px){
+  section{padding:72px 0}
+  .grille-solutions,.grille-realisations,.grille-formules{grid-template-columns:1fr}
+  .grille-methode{grid-template-columns:1fr 1fr}
+  .calendrier{grid-template-columns:1fr 1fr}
+  .progression{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .wrap{padding:0 16px}
+  .heros{padding:48px 0 64px}
+  .heros .actions .btn{flex:1 1 100%}
+  .etape{grid-template-columns:44px 1fr}
+  .etape .etiq{display:none}
+  .details-contenu,details.detail .contenu{grid-template-columns:1fr}
+  details.detail{margin:14px 18px 22px}
+  .service-tete{padding:22px 18px 0}
+  .service .resultat{margin:14px 18px 0}
+  .tags{padding:14px 18px 0}
+  .grille-methode{grid-template-columns:1fr}
+  .grille-formules{grid-template-columns:1fr}
+  .cadre-form{padding:22px}
+  .pied-grille{grid-template-columns:1fr}
+  .calendrier{grid-template-columns:1fr}
+  .double .encart{padding:22px}
+  .bandeau ul{justify-content:flex-start}
+}
+@media (max-width:360px){
+  .marque{font-size:16px}
+  .entete .wrap{gap:10px}
+}
+
+/* Mouvement réduit : aucune animation décorative, contenu identique */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .revele{opacity:1;transform:none}
+  .signal{display:none}
+  .noeud{background:var(--nuit-2)}
+  .etape.actif-statique .noeud{background:var(--signal);color:var(--nuit)}
+}
+</style>
+</head>
+<body>
+<a class="lien-evitement" href="#contenu">Aller au contenu</a>
+
+<header class="entete" id="haut">
+  <div class="wrap">
+    <a class="marque" href="#haut" aria-label="NEOXIX, accueil">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="9" fill="#10171A"/><path d="M12 29V11l16 18V11" fill="none" stroke="#FF8B47" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="31" cy="9" r="2.6" fill="#4FD1C5"/></svg>
+      <span>NEOXIX</span>
+    </a>
+    <nav class="nav-principale" aria-label="Navigation principale">
+      <a href="#services">Services</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#realisations">Réalisations</a>
+      <a href="#methode">Méthode</a>
+      <a href="#faq">Questions</a>
+      <a class="btn btn-principal" href="#contact">Présenter mon projet</a>
+    </nav>
+    <button class="bouton-menu" type="button" aria-expanded="false" aria-controls="menu-mobile" aria-label="Ouvrir le menu">
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+  <div class="menu-mobile" id="menu-mobile">
+    <a href="#services">Services</a>
+    <a href="#solutions">Solutions</a>
+    <a href="#realisations">Réalisations</a>
+    <a href="#methode">Méthode</a>
+    <a href="#faq">Questions</a>
+    <a class="btn btn-principal" href="#contact">Présenter mon projet</a>
+  </div>
+</header>
+
+<main id="contenu">
+
+<!-- HÉROS -->
+<section class="heros" aria-labelledby="titre-heros" style="padding-top:72px">
+  <div class="wrap heros-grille">
+    <div>
+      <p class="surtitre" style="color:var(--ambre-vif)">Services numériques · Gatineau, Ottawa et Côte d'Ivoire</p>
+      <h1 id="titre-heros">Votre site, vos outils et votre réseau, <span class="accent">avec un seul interlocuteur.</span></h1>
+      <p class="lede">NEOXIX conçoit, sécurise et automatise les systèmes numériques des PME. Une méthode écrite, des livrables qui vous appartiennent, et une personne qui répond.</p>
+      <div class="actions">
+        <a class="btn btn-principal" href="#contact">Présenter mon projet <span class="flecha" aria-hidden="true">→</span></a>
+        <a class="btn btn-secondaire" href="#solutions">Explorer les solutions</a>
+      </div>
+      <ul class="preuves">
+        <li>PME de 1 à 50 personnes</li>
+        <li>Travailleurs autonomes</li>
+        <li>Organisations</li>
+      </ul>
+    </div>
+
+    <figure class="schema" aria-labelledby="titre-schema" style="margin:0">
+      <div class="schema-tete">
+        <span id="titre-schema">Comment une demande avance</span>
+        <b>Schéma illustratif</b>
+      </div>
+      <div class="etapes">
+        <span class="signal" aria-hidden="true"></span>
+      <ol class="liste-etapes">
+        <li class="etape" style="--d:0s"><span class="noeud">01</span><span class="lbl">Besoin exprimé<small>Votre situation, vos outils, vos contraintes</small></span><span class="etiq">Client</span></li>
+        <li class="etape" style="--d:1s"><span class="noeud">02</span><span class="lbl">Analyse<small>Périmètre et points à clarifier</small></span><span class="etiq">Analyse</span></li>
+        <li class="etape" style="--d:2s"><span class="noeud">03</span><span class="lbl">Proposition écrite<small>Périmètre, étapes, inclus, exclus</small></span><span class="etiq">Écrit</span></li>
+        <li class="etape humain" style="--d:3s"><span class="noeud">04</span><span class="lbl">Validation humaine<small>Vous décidez avant toute réalisation</small></span><span class="etiq">Décision</span></li>
+        <li class="etape" style="--d:4s"><span class="noeud">05</span><span class="lbl">Réalisation et tests<small>Construction par étapes, vérifications documentées</small></span><span class="etiq">Projet</span></li>
+        <li class="etape" style="--d:5s"><span class="noeud">06</span><span class="lbl">Suivi<small>Documentation remise, accompagnement selon la formule</small></span><span class="etiq">Suivi</span></li>
+      </ol>
+      </div>
+      <figcaption class="schema-pied"><span>Exemple de déroulement. Aucune donnée client.</span><span>Aucune automatisation n'est présentée comme active ici.</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<div class="bandeau" role="presentation">
+  <div class="wrap">
+    <ul>
+      <li>Basé à Gatineau, Québec</li>
+      <li>Clientèle à Ottawa–Gatineau et au Québec</li>
+      <li>Projets pour la Côte d'Ivoire</li>
+      <li>Français, anglais sur demande</li>
+      <li>Proposition écrite avant tout travail facturé</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SOLUTIONS -->
+<section id="solutions" aria-labelledby="titre-solutions">
+  <div class="wrap">
+    <div class="entete-section revele">
+      <div>
+        <p class="surtitre">Solutions</p>
+        <h2 id="titre-solutions">Partez de votre <span class="accent">besoin réel.</span></h2>
+      </div>
+      <p class="lede">Des cas d'usage concrets. Chaque solution indique son statut : une prestation sur devis, ou un concept qui n'est pas encore commercialisé.</p>
+    </div>
+
+    <div class="grille-solutions">
+      <article class="carte revele">
+        <div class="icone" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>Présence en ligne</h3>
+        <p>Un site clair qui présente vos services, inspire confiance et reçoit les demandes.</p>
+        <span class="statut">Prestation sur devis</span>
+      </article>
+      <article class="carte revele">
+        <div class="icone" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h7"/><circle cx="18" cy="15" r="3"/></svg></div>
+        <h3>Automatisation des demandes</h3>
+        <p>Formulaire qualifié, notifications et suivi. Une personne valide chaque décision importante.</p>
+        <span class="statut">Prestation sur devis</span>
+      </article>
+      <article class="carte revele">
+        <div class="icone" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.8-3.2 3.2-5 6-5s5.2 1.8 6 5M16 11l2 2 4-4"/></svg></div>
+        <h3>Gestion des clients</h3>
+        <p>Contacts, rappels et suivi des devis, reliés à l'outil CRM que vous utilisez.</p>
+        <span class="statut">Intégration sur devis</span>
+      </article>
+      <article class="carte revele">
+        <div class="icone" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Sécurisation du réseau</h3>
+        <p>Accès à distance chiffré, pare-feu, segmentation et supervision, selon votre périmètre.</p>
+        <span class="statut">Prestation sur devis</span>
+      </article>
+      <article class="carte revele">
+        <div class="icone" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="11" width="8" height="10" rx="1.5"/><rect x="3" y="14" width="8" height="7" rx="1.5"/></svg></div>
+        <h3>Outils métiers</h3>
+        <p>Portails, outils internes et tableaux de bord conçus autour de votre façon de travailler.</p>
+        <span class="statut">Sur devis, selon le périmètre</span>
+      </article>
+      <article class="carte revele" style="border-style:dashed">
+        <div class="icone" aria-hidden="true" style="background:#E7F6F4;color:#1E7A72"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 19V5M4 19h16"/><path d="M8 15l4-4 3 3 5-6"/></svg></div>
+        <h3>NEOXIX LeadFlow</h3>
+        <p>Concept de gestion structurée des demandes : formulaire, qualification, validation humaine, notifications.</p>
+        <span class="statut turquoise">Concept en conception · non commercialisé</span>
+      </article>
+    </div>
+    <p class="note-bas">Une solution présentée ici n'est pas un produit déjà déployé chez des clients. Les concepts restent signalés comme tels jusqu'à leur mise en service.</p>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="fond-clair" style="background:#fff;border-top:1px solid var(--filet);border-bottom:1px solid var(--filet)" aria-labelledby="titre-services">
+  <div class="wrap">
+    <div class="entete-section revele">
+      <div>
+        <p class="surtitre">Services</p>
+        <h2 id="titre-services">Quatre pôles, <span class="accent">une seule méthode.</span></h2>
+      </div>
+      <p class="lede">Chaque service précise ce qui est inclus, ce qui dépend du périmètre et ce qu'il faut préparer pour recevoir une proposition.</p>
+    </div>
+
+    <div class="grille-services">
+      <article class="service revele" id="pole-1">
+        <div class="service-tete">
+          <span class="service-num">01</span>
+          <div>
+            <h3>Sites web et WordPress</h3>
+            <p class="probleme">Un site qui présente votre entreprise clairement et facilite la prise de contact.</p>
+          </div>
+        </div>
+        <p class="resultat">Résultat recherché : un site à jour, lisible sur téléphone et relié à vos demandes.</p>
+        <ul class="tags"><li>WordPress</li><li>WooCommerce</li><li>DNS</li><li>Courriel professionnel</li></ul>
+        <details class="detail">
+          <summary>Voir le détail du pôle</summary>
+          <div class="contenu">
+            <div><h4>Peut être inclus</h4><ul><li>Site vitrine ou boutique WooCommerce</li><li>Refonte ou migration</li><li>Configuration DNS et courriel</li></ul></div>
+            <div><h4>Dépend du périmètre</h4><ul><li>Contenu rédactionnel et photos</li><li>Fonctionnalités de commerce</li></ul></div>
+            <div><h4>Non inclus par défaut</h4><ul><li>Hébergement géré</li><li>Référencement continu</li></ul></div>
+            <div><h4>Pour démarrer</h4><ul><li>Vos objectifs et vos pages principales</li><li>Accès à votre domaine</li></ul></div>
+          </div>
+        </details>
+      </article>
+
+      <article class="service revele" id="pole-2">
+        <div class="service-tete">
+          <span class="service-num">02</span>
+          <div>
+            <h3>Automatisation des processus</h3>
+            <p class="probleme">Des demandes qui n'attendent plus dans une boîte courriel, et des tâches répétitives qui se font seules.</p>
+          </div>
+        </div>
+        <p class="resultat">Résultat recherché : moins de saisie, un suivi clair, et une décision humaine à chaque étape importante.</p>
+        <ul class="tags"><li>n8n</li><li>CRM</li><li>API</li><li>Python</li></ul>
+        <details class="detail">
+          <summary>Voir le détail du pôle</summary>
+          <div class="contenu">
+            <div><h4>Peut être inclus</h4><ul><li>Formulaire qualifié</li><li>Notifications et rappels</li><li>Intégration entre deux outils</li></ul></div>
+            <div><h4>Dépend du périmètre</h4><ul><li>Outils déjà utilisés</li><li>Accès aux systèmes concernés</li></ul></div>
+            <div><h4>Non inclus par défaut</h4><ul><li>Décisions automatiques sans validation</li></ul></div>
+            <div><h4>Pour démarrer</h4><ul><li>Liste des tâches actuelles</li><li>Outils utilisés</li></ul></div>
+          </div>
+        </details>
+      </article>
+
+      <article class="service revele" id="pole-3">
+        <div class="service-tete">
+          <span class="service-num">03</span>
+          <div>
+            <h3>Infrastructure et sécurité</h3>
+            <p class="probleme">Un réseau stable, des accès maîtrisés et une documentation que vous pouvez lire.</p>
+          </div>
+        </div>
+        <p class="resultat">Résultat recherché : un réseau compréhensible, des accès protégés, et des sauvegardes dont les modalités sont précisées dans chaque proposition.</p>
+        <ul class="tags"><li>Réseau</li><li>Pare-feu</li><li>VPN</li><li>Windows Server</li><li>Linux</li></ul>
+        <details class="detail">
+          <summary>Voir le détail du pôle</summary>
+          <div class="contenu">
+            <div><h4>Peut être inclus</h4><ul><li>Configuration réseau et segmentation</li><li>Accès à distance chiffré</li><li>Documentation technique</li></ul></div>
+            <div><h4>Dépend du périmètre</h4><ul><li>Sauvegardes, selon le périmètre contractuel</li><li>Supervision</li></ul></div>
+            <div><h4>Non inclus par défaut</h4><ul><li>Sécurité absolue</li><li>Disponibilité 24/7 sans contrat</li></ul></div>
+            <div><h4>Pour démarrer</h4><ul><li>Plan du réseau existant</li><li>Liste des équipements</li></ul></div>
+          </div>
+        </details>
+      </article>
+
+      <article class="service revele" id="pole-4">
+        <div class="service-tete">
+          <span class="service-num">04</span>
+          <div>
+            <h3>Applications sur mesure</h3>
+            <p class="probleme">Des outils faits pour vos processus, de la maquette jusqu'à la maintenance.</p>
+          </div>
+        </div>
+        <p class="resultat">Résultat recherché : un outil qui remplace un tableur ou un processus manuel, validé avec vous à chaque étape.</p>
+        <ul class="tags"><li>Applications web</li><li>Outils internes</li><li>Tableaux de bord</li></ul>
+        <details class="detail">
+          <summary>Voir le détail du pôle</summary>
+          <div class="contenu">
+            <div><h4>Peut être inclus</h4><ul><li>Portail client ou outil interne</li><li>Tableau de bord</li><li>Intégration avec un système existant</li></ul></div>
+            <div><h4>Dépend du périmètre</h4><ul><li>Applications mobiles ou desktop</li></ul></div>
+            <div><h4>Non inclus par défaut</h4><ul><li>Maintenance au-delà de la formule choisie</li></ul></div>
+            <div><h4>Pour démarrer</h4><ul><li>Description du processus actuel</li><li>Utilisateurs concernés</li></ul></div>
+          </div>
+        </details>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- RÉALISATIONS -->
+<section id="realisations" aria-labelledby="titre-realisations">
+  <div class="wrap">
+    <div class="entete-section revele">
+      <div>
+        <p class="surtitre">Réalisations</p>
+        <h2 id="titre-realisations">Ce qui existe, <span class="accent">présenté avec son statut.</span></h2>
+      </div>
+      <p class="lede">Aucun résultat chiffré ni témoignage client n'est publié à ce jour. Chaque projet indique où il en est réellement.</p>
+    </div>
+
+    <div class="grille-realisations">
+      <article class="realisation revele">
+        <div class="aperçu" aria-hidden="true">
+          <svg viewBox="0 0 200 110" fill="none"><rect x="10" y="10" width="180" height="90" rx="10" stroke="#4FD1C5" stroke-width="2"/><circle cx="100" cy="55" r="18" stroke="#FF8B47" stroke-width="2"/><path d="M60 80h80" stroke="#2C3D45" stroke-width="4" stroke-linecap="round"/></svg>
+        </div>
+        <span class="statut">En développement</span>
+        <h3>Ivoire Connect</h3>
+        <p>Plateforme communautaire en cours de développement. Nous ne publions aucun chiffre d'utilisateurs ni résultat à ce jour.</p>
+      </article>
+      <article class="realisation revele">
+        <div class="aperçu" aria-hidden="true">
+          <svg viewBox="0 0 200 110" fill="none"><circle cx="50" cy="55" r="12" stroke="#4FD1C5" stroke-width="2"/><circle cx="150" cy="35" r="12" stroke="#FF8B47" stroke-width="2"/><circle cx="150" cy="75" r="12" stroke="#FF8B47" stroke-width="2"/><path d="M62 55L138 35M62 55L138 75" stroke="#4FD1C5" stroke-width="2" stroke-dasharray="4 5"/></svg>
+        </div>
+        <span class="statut">Démonstration interne</span>
+        <h3>Laboratoires techniques</h3>
+        <p>Architectures réseau, configurations expurgées et rapports de tests. Ce sont des démonstrations internes, et non des déploiements clients.</p>
+      </article>
+      <article class="realisation revele">
+        <div class="aperçu" aria-hidden="true">
+          <svg viewBox="0 0 200 110" fill="none"><rect x="20" y="30" width="36" height="50" rx="6" stroke="#4FD1C5" stroke-width="2"/><rect x="82" y="30" width="36" height="50" rx="6" stroke="#FF8B47" stroke-width="2"/><rect x="144" y="30" width="36" height="50" rx="6" stroke="#4FD1C5" stroke-width="2"/></svg>
+        </div>
+        <span class="statut">En conception</span>
+        <h3>NEOXIX LeadFlow</h3>
+        <p>Concept de gestion des demandes, en conception. Il n'est pas commercialisé, et son traitement serveur n'est pas encore réalisé.</p>
+      </article>
+    </div>
+
+    <div class="legende" aria-label="Légende des statuts">
+      <span><b class="mono">En développement</b> · projet en cours</span>
+      <span><b class="mono">Démonstration</b> · démonstration interne</span>
+      <span><b class="mono">Pilote autorisé</b> · avec accord écrit</span>
+      <span><b class="mono">Livré</b> · réservé aux projets avec preuve</span>
+    </div>
+  </div>
+</section>
+
+<!-- MÉTHODE -->
+<section id="methode" class="methode" aria-labelledby="titre-methode">
+  <div class="wrap">
+    <div class="entete-section revele">
+      <div>
+        <p class="surtitre">Méthode</p>
+        <h2 id="titre-methode">Nous cadrons et validons <span class="accent">avec vous avant la réalisation.</span></h2>
+      </div>
+      <p class="lede">Chaque étape produit un document que vous pouvez lire, commenter et conserver.</p>
+    </div>
+
+    <ol class="grille-methode revele">
+      <li><div class="num">01</div><h3>Comprendre</h3><p>Un échange pour décrire votre situation, vos outils et vos contraintes.</p></li>
+      <li><div class="num">02</div><h3>Proposer</h3><p>Une proposition écrite : périmètre, étapes, exclus, prix.</p></li>
+      <li><div class="num">03</div><h3>Maquetter</h3><p>Vous voyez le résultat visuel avant la construction.</p></li>
+      <li><div class="num">04</div><h3>Réaliser et tester</h3><p>Construction par étapes, avec des vérifications documentées.</p></li>
+      <li><div class="num">05</div><h3>Livrer et accompagner</h3><p>Mise en service, documentation remise, suivi selon la formule choisie.</p></li>
+    </ol>
+
+    <div class="double revele">
+      <div class="encart">
+        <h3>Maquette visuelle</h3>
+        <p>Ce que vous voyez à l'écran : pages, parcours, textes et états. Elle sert à valider l'expérience avant de construire.</p>
+      </div>
+      <div class="encart">
+        <h3>Schéma d'architecture</h3>
+        <p>Comment les systèmes se connectent entre eux : réseau, données, outils et accès. Il sert à valider la solution technique.</p>
+      </div>
+    </div>
+
+    <div class="encart revele" style="margin-top:20px">
+      <h3>Exemple de déroulement simplifié</h3>
+      <ol class="calendrier" aria-label="Exemple illustratif de déroulement">
+        <li><time>Étape 1</time><span>Besoin exprimé et contexte compris</span></li>
+        <li><time>Étape 2</time><span>Proposition écrite et périmètre défini</span></li>
+        <li><time>Étape 3</time><span>Maquette avec données fictives</span></li>
+        <li><time>Étape 4</time><span>Validation humaine avant réalisation</span></li>
+        <li><time>Étape 5</time><span>Tests et corrections documentés</span></li>
+        <li><time>Étape 6</time><span>Livraison et documentation remise</span></li>
+      </ol>
+      <p class="fictif">Exemple illustratif. Le déroulement réel dépend de chaque projet, et aucune durée n'est garantie.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ENGAGEMENTS -->
+<section class="engagements" aria-labelledby="titre-engagements">
+  <div class="wrap">
+    <div class="entete-section revele">
+      <div>
+        <p class="surtitre">Engagements</p>
+        <h2 id="titre-engagements">Ce que vous pouvez attendre, <span class="accent">et ce que nous ne promettons pas.</span></h2>
+      </div>
+    </div>
+    <div class="grille-engagements">
+      <div class="bloc-eng revele">
+        <h3>Nous nous engageons à</h3>
+        <ul>
+          <li>Une proposition écrite avant tout travail facturé.</li>
+          <li>Une validation humaine aux décisions importantes.</li>
+          <li>Des livrables et des accès définis au contrat.</li>
+          <li>Des sauvegardes dont les modalités sont précisées dans chaque proposition.</li>
+          <li>Une documentation prévue au périmètre, et un langage clair.</li>
+        </ul>
+      </div>
+      <div class="bloc-eng non revele">
+        <h3>Nous ne promettons pas</h3>
+        <ul>
+          <li>Une sécurité absolue : personne ne peut la garantir honnêtement.</li>
+          <li>Une disponibilité permanente ni une assistance 24/7 sans contrat qui la prévoit.</li>
+          <li>Une certification ou un partenariat que nous n'avons pas.</li>
+          <li>Des résultats financiers ou des performances chiffrées non vérifiées.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULES -->
+<section id="formules" aria-labelledby="titre-formules">
+  <div class="wrap">
+    <div class="entete-section revele">
+      <div>
+        <p class="surtitre">Accompagnement</p>
+        <h2 id="titre-formules">Trois façons de <span class="accent">continuer après la livraison.</span></h2>
+      </div>
+      <p class="lede">Toutes les prestations sont établies sur devis. Aucun prix n'est affiché avant un échange.</p>
+    </div>
+    <div class="grille-formules">
+      <article class="formule revele">
+        <span class="statut">Sur devis</span>
+        <h3>Ponctuel</h3>
+        <p>Interventions et besoins précis, avec un périmètre défini à l'avance.</p>
+        <a class="btn btn-secondaire" href="#contact">Demander un devis</a>
+      </article>
+      <article class="formule revele">
+        <span class="statut">Sur devis</span>
+        <h3>Suivi</h3>
+        <p>Maintenance et suivi régulier, selon le périmètre convenu avec vous.</p>
+        <a class="btn btn-secondaire" href="#contact">Demander un devis</a>
+      </article>
+      <article class="formule revele">
+        <span class="statut">Sur devis</span>
+        <h3>Accompagnement</h3>
+        <p>Suivi plus structuré des besoins techniques et des évolutions de votre système.</p>
+        <a class="btn btn-secondaire" href="#contact">Demander un devis</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:var(--fond)" aria-labelledby="titre-faq">
+  <div class="wrap">
+    <div class="entete-section revele" style="grid-template-columns:1fr">
+      <div>
+        <p class="surtitre">Questions fréquentes</p>
+        <h2 id="titre-faq">Avant de nous <span class="accent">écrire.</span></h2>
+      </div>
+    </div>
+    <div class="faq revele">
+      <details>
+        <summary>Comment commence un projet ?</summary>
+        <div class="reponse"><p>Par une description de votre besoin. Nous revenons par écrit avec une proposition qui précise le périmètre.</p></div>
+      </details>
+      <details>
+        <summary>Travaillez-vous avec nos outils existants ?</summary>
+        <div class="reponse"><p>Souvent oui, selon le périmètre. Indiquez les outils que vous utilisez dans votre demande.</p></div>
+      </details>
+      <details>
+        <summary>Qui possède les accès et les livrables ?</summary>
+        <div class="reponse"><p>Les accès et les livrables sont définis au contrat, avant le début du travail.</p></div>
+      </details>
+      <details>
+        <summary>Peut-on commencer par un petit projet ?</summary>
+        <div class="reponse"><p>Oui, selon le périmètre. La proposition écrite précise ce qui est inclus et ce qui ne l'est pas.</p></div>
+      </details>
+      <details>
+        <summary>Comment vos données sont-elles protégées ?</summary>
+        <div class="reponse"><p>Ce site ne collecte aucune donnée personnelle pour l'instant. La politique de confidentialité sera publiée après validation juridique.</p></div>
+      </details>
+      <details>
+        <summary>Travaillez-vous en français et en anglais ?</summary>
+        <div class="reponse"><p>Le français est notre langue principale. La version anglaise est prévue, sans date fixée à ce jour.</p></div>
+      </details>
+      <details>
+        <summary>Y a-t-il un engagement après une première demande ?</summary>
+        <div class="reponse"><p>Non. Une demande n'entraîne aucun engagement. Toute prestation fait l'objet d'une proposition écrite que vous pouvez accepter ou refuser.</p></div>
+      </details>
+      <details>
+        <summary>Que se passe-t-il après une demande ?</summary>
+        <div class="reponse"><p>Votre demande est examinée par une personne. Le délai dépend du périmètre et des informations fournies. Cette maquette ne transmet aucune demande.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT : LEADFLOW (simulation) -->
+<section id="contact" class="contact" aria-labelledby="titre-contact">
+  <div class="wrap contact-grille">
+    <div class="revele">
+      <p class="surtitre">Commencer</p>
+      <h2 id="titre-contact">Décrivez votre situation en <span class="accent">quelques lignes.</span></h2>
+      <p class="lede" style="margin-top:18px">Aucun engagement de votre part. Une personne lit votre demande et vous répond par écrit.</p>
+      <div class="contact-coords">
+        <p><strong>Courriel :</strong> <a href="mailto:info@neoxix.ca">info@neoxix.ca</a></p>
+        <p>Vous pouvez aussi nous écrire directement, sans passer par le formulaire.</p>
+      </div>
+    </div>
+
+    <div class="cadre-form revele" id="cadre-form">
+      <div class="bandeau-simulation" role="note">
+        <span aria-hidden="true">●</span>
+        <span><strong>Simulation.</strong> Ce formulaire est une maquette : il ne transmet aucune donnée.</span>
+      </div>
+
+      <ol class="progression" aria-label="Étapes de la demande">
+        <li id="prog-1" aria-current="step"><span class="pastille">1</span>Comprendre le besoin</li>
+        <li id="prog-2"><span class="pastille">2</span>Vous identifier</li>
+      </ol>
+
+      <form id="formulaire" novalidate aria-labelledby="titre-contact">
+        <!-- Étape 1 -->
+        <div class="etapes-formulaire actif" id="etape-1">
+          <div class="champ">
+            <label for="service">Service recherché</label>
+            <select id="service" name="service" required aria-describedby="err-service">
+              <option value="">Choisissez un service</option>
+              <option>Présence en ligne</option>
+              <option>Automatisation des demandes</option>
+              <option>Gestion des clients</option>
+              <option>Sécurisation du réseau</option>
+              <option>Outils métiers</option>
+              <option>Je ne sais pas encore</option>
+            </select>
+            <p class="erreur" id="err-service" role="alert">Choisissez un service, ou « Je ne sais pas encore ».</p>
+          </div>
+          <div class="champ">
+            <label for="objectif">Objectif ou difficulté rencontrée</label>
+            <textarea id="objectif" name="objectif" aria-describedby="aide-objectif"></textarea>
+            <span class="aide" id="aide-objectif">Par exemple : je reçois mes demandes par courriel et je perds le suivi.</span>
+          </div>
+          <div class="champ">
+            <label for="lieu">Localisation générale</label>
+            <input id="lieu" name="lieu" type="text" autocomplete="address-level2" aria-describedby="aide-lieu">
+            <span class="aide" id="aide-lieu">Ville ou région, par exemple Gatineau ou Abidjan.</span>
+          </div>
+          <div class="champ">
+            <label for="description">Description courte du projet <span aria-hidden="true">*</span></label>
+            <textarea id="description" name="description" required aria-required="true" aria-describedby="err-description"></textarea>
+            <p class="erreur" id="err-description" role="alert">Décrivez votre projet en quelques mots (au moins 10 caractères).</p>
+          </div>
+          <div class="rangee-boutons">
+            <span class="aide">* Champ requis</span>
+            <button class="btn btn-principal" type="button" id="suivant">Continuer <span class="flecha" aria-hidden="true">→</span></button>
+          </div>
+        </div>
+
+        <!-- Étape 2 -->
+        <div class="etapes-formulaire" id="etape-2">
+          <div class="champ">
+            <label for="nom">Nom et organisation <span aria-hidden="true">*</span></label>
+            <input id="nom" name="nom" type="text" autocomplete="name" required aria-required="true" aria-describedby="err-nom">
+            <p class="erreur" id="err-nom" role="alert">Indiquez votre nom.</p>
+          </div>
+          <div class="champ">
+            <label for="courriel">Courriel <span aria-hidden="true">*</span></label>
+            <input id="courriel" name="courriel" type="email" autocomplete="email" required aria-required="true" aria-describedby="err-courriel">
+            <p class="erreur" id="err-courriel" role="alert">Saisissez une adresse courriel valide, par exemple nom@entreprise.ca.</p>
+          </div>
+          <div class="champ">
+            <label for="telephone">Téléphone <span class="aide">(facultatif)</span></label>
+            <input id="telephone" name="telephone" type="tel" autocomplete="tel">
+          </div>
+          <fieldset class="champ">
+            <legend>Préférence de contact</legend>
+            <div class="options">
+              <label><input type="radio" name="preference" value="courriel" checked> Courriel</label>
+              <label><input type="radio" name="preference" value="telephone"> Téléphone</label>
+            </div>
+          </fieldset>
+          <label class="consentement">
+            <input type="checkbox" id="consent" name="consent" aria-describedby="err-consent">
+            <span>J'accepte que NEOXIX utilise mes informations pour répondre à ma demande.</span>
+          </label>
+          <p class="erreur" id="err-consent" role="alert" style="margin:-12px 0 14px">Cochez cette case pour envoyer votre demande.</p>
+          <div class="rangee-boutons">
+            <button class="btn btn-secondaire" type="button" id="retour">← Retour</button>
+            <button class="btn btn-principal" type="submit" id="envoyer">Envoyer la demande (simulation)</button>
+          </div>
+        </div>
+
+        <!-- Chargement simulé -->
+        <div class="chargement" id="chargement" role="status" aria-live="polite">
+          <i></i><i></i><i></i><span>Simulation en cours…</span>
+        </div>
+
+        <!-- Erreur temporaire simulée -->
+        <div class="etat" id="etat-erreur" role="alert">
+          <div class="pastille-grande" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8v5M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg></div>
+          <h3>Erreur temporaire simulée</h3>
+          <p>Aucune demande n'a été transmise. Vous pouvez réessayer, ou écrire directement à info@neoxix.ca.</p>
+          <div class="rangee-boutons" style="justify-content:center">
+            <button class="btn btn-principal" type="button" id="reessayer">Réessayer la simulation</button>
+          </div>
+        </div>
+
+        <!-- Confirmation simulée -->
+        <div class="etat" id="etat-confirmation" role="status" aria-live="polite">
+          <div class="pastille-grande" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></div>
+          <h3>Confirmation de simulation</h3>
+          <p>Cette maquette n'a transmis aucune demande. Dans la version publiée, une personne examinera votre demande et vous répondra par écrit.</p>
+          <button class="btn btn-secondaire" type="button" id="recommencer" style="color:var(--texte)">Recommencer la maquette</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pied">
+  <div class="wrap">
+    <div class="pied-grille">
+      <div>
+        <a class="marque" href="#haut" aria-label="NEOXIX, retour en haut">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="9" fill="#FAF8F5"/><path d="M12 29V11l16 18V11" fill="none" stroke="#10171A" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="31" cy="9" r="2.6" fill="#E87436"/></svg>
+          <span>NEOXIX</span>
+        </a>
+        <p style="margin-top:16px;max-width:36ch">Services numériques pour PME, au Canada et en Côte d'Ivoire.</p>
+        <p style="margin-top:12px"><a href="mailto:info@neoxix.ca">info@neoxix.ca</a></p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#pole-1">Sites web et WordPress</a></li>
+          <li><a href="#pole-2">Automatisation</a></li>
+          <li><a href="#pole-3">Infrastructure et sécurité</a></li>
+          <li><a href="#pole-4">Applications sur mesure</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Neoxix</h4>
+        <ul>
+          <li><a href="#solutions">Solutions</a></li>
+          <li><a href="#realisations">Réalisations</a></li>
+          <li><a href="#methode">Méthode</a></li>
+          <li><a href="#contact">Présenter mon projet</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pied-bas">
+      <span>© 2026 NEOXIX · Gatineau, Québec</span>
+      <span>Ambre · proposition de conception</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var doc=document.documentElement;
+  doc.classList.add('js');
+
+  // Menu mobile
+  var bouton=document.querySelector('.bouton-menu');
+  var menu=document.getElementById('menu-mobile');
+  function ouvrirMenu(on){
+    bouton.setAttribute('aria-expanded',on?'true':'false');
+    bouton.setAttribute('aria-label',on?'Fermer le menu':'Ouvrir le menu');
+    menu.classList.toggle('ouvert',on);
+  }
+  bouton.addEventListener('click',function(){ouvrirMenu(bouton.getAttribute('aria-expanded')!=='true');});
+  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){ouvrirMenu(false);});});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && bouton.getAttribute('aria-expanded')==='true'){ouvrirMenu(false);bouton.focus();}
+  });
+
+  // Apparition au défilement
+  var revele=document.querySelectorAll('.revele');
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entrees){
+      entrees.forEach(function(en){if(en.isIntersecting){en.target.classList.add('visible');obs.unobserve(en.target);}});
+    },{threshold:.12});
+    revele.forEach(function(el){obs.observe(el);});
+  } else {
+    revele.forEach(function(el){el.classList.add('visible');});
+  }
+
+  // Formulaire LeadFlow (simulation, aucune transmission)
+  var form=document.getElementById('formulaire');
+  var e1=document.getElementById('etape-1'), e2=document.getElementById('etape-2');
+  var p1=document.getElementById('prog-1'), p2=document.getElementById('prog-2');
+  var chargement=document.getElementById('chargement');
+  var etatErreur=document.getElementById('etat-erreur');
+  var etatConf=document.getElementById('etat-confirmation');
+  var echecSimule=false;
+
+  function montrerErreur(champ,id,msg){
+    var err=document.getElementById(id);
+    if(msg){
+      champ.setAttribute('aria-invalid','true');
+      if(err){err.classList.add('visible');}
+    } else {
+      champ.removeAttribute('aria-invalid');
+      if(err){err.classList.remove('visible');}
+    }
+    return !msg;
+  }
+  function valideEtape1(){
+    var ok=true;
+    var s=document.getElementById('service');
+    ok=montrerErreur(s,'err-service',s.value?'':'x')&&ok;
+    var d=document.getElementById('description');
+    ok=montrerErreur(d,'err-description',d.value.trim().length<10?'x':'')&&ok;
+    if(!ok){var premier=form.querySelector('[aria-invalid="true"]'); if(premier)premier.focus();}
+    return ok;
+  }
+  function valideEtape2(){
+    var ok=true;
+    var n=document.getElementById('nom');
+    ok=montrerErreur(n,'err-nom',n.value.trim()?'':'x')&&ok;
+    var c=document.getElementById('courriel');
+    var emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c.value.trim());
+    ok=montrerErreur(c,'err-courriel',emailOk?'':'x')&&ok;
+    var cb=document.getElementById('consent');
+    ok=montrerErreur(cb,'err-consent',cb.checked?'':'x')&&ok;
+    if(!ok){var premier=form.querySelector('[aria-invalid="true"]'); if(premier)premier.focus();}
+    return ok;
+  }
+  function allerEtape(n){
+    var etape2=n===2;
+    e1.classList.toggle('actif',!etape2);
+    e2.classList.toggle('actif',etape2);
+    p1.setAttribute('aria-current',etape2?'false':'step');
+    p2.setAttribute('aria-current',etape2?'step':'false');
+    if(etape2){p1.classList.add('fait');} else {p1.classList.remove('fait');}
+    var cible=etape2?document.getElementById('nom'):document.getElementById('service');
+    cible.focus();
+  }
+  function cacherTout(){
+    chargement.classList.remove('visible');
+    etatErreur.classList.remove('visible');
+    etatConf.classList.remove('visible');
+  }
+
+  document.getElementById('suivant').addEventListener('click',function(){
+    if(valideEtape1()) allerEtape(2);
+  });
+  document.getElementById('retour').addEventListener('click',function(){allerEtape(1);});
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!valideEtape2()) return;
+    e1.classList.remove('actif'); e2.classList.remove('actif');
+    p2.classList.add('fait');
+    cacherTout();
+    chargement.classList.add('visible');
+    document.getElementById('envoyer').disabled=true;
+    setTimeout(function(){
+      chargement.classList.remove('visible');
+      if(echecSimule){ etatErreur.classList.add('visible'); }
+      else { etatConf.classList.add('visible'); }
+      echecSimule=!echecSimule;
+      var cible=etatErreur.classList.contains('visible')?document.getElementById('reessayer'):document.getElementById('recommencer');
+      cible.focus();
+      document.getElementById('envoyer').disabled=false;
+    },900);
+  });
+
+  document.getElementById('reessayer').addEventListener('click',function(){
+    cacherTout();
+    allerEtape(2);
+    form.dispatchEvent(new Event('submit',{cancelable:true}));
+  });
+  document.getElementById('recommencer').addEventListener('click',function(){
+    cacherTout();
+    form.reset();
+    p2.classList.remove('fait');
+    document.querySelectorAll('[aria-invalid]').forEach(function(el){el.removeAttribute('aria-invalid');});
+    document.querySelectorAll('.erreur').forEach(function(el){el.classList.remove('visible');});
+    allerEtape(1);
+  });
+})();
+</script>
+</body>
+</html>

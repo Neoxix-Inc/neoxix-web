@@ -1,16 +1,13 @@
 import type { Metadata, Viewport } from "next";
+import { contenu } from "@/content";
 import { classesPolices } from "../fonts/polices";
 import { GabaritVitrine } from "@/components/vitrine/gabarit";
 import "./vitrine.css";
 
 export const metadata: Metadata = {
-  title: {
-    default: "NEOXIX · Services numériques pour PME (prévisualisation)",
-    template: "%s · NEOXIX (prévisualisation)",
-  },
-  description:
-    "NEOXIX conçoit, sécurise et automatise les systèmes numériques des PME au Canada et en Côte d'Ivoire. Prévisualisation non publiée.",
-  // Prévisualisation : ne jamais indexer.
+  title: { default: contenu.site.titre, template: `%s · NEOXIX` },
+  description: contenu.site.description,
+  // Prévisualisation : ne jamais indexer. À lever seulement à la mise en ligne autorisée par le propriétaire.
   robots: { index: false, follow: false, nocache: true },
 };
 

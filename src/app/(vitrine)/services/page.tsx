@@ -9,37 +9,32 @@ export const metadata: Metadata = {
 };
 
 export default function PageServices() {
-  const { services } = contenu;
+  const { services, formules, actionPrincipale } = contenu;
   return (
     <>
       <EnTetePage
-        idTitre="t-page"
         surtitre={services.surtitre}
         titre={<TitreMarque titre={services.titre} />}
         chapo={services.intro}
         fil={[{ libelle: "Accueil", href: "/" }, { libelle: "Services" }]}
       />
-      <section className="bloc fond-lavis" aria-labelledby="t-poles">
-        <div className="enveloppe">
-          <h2 id="t-poles" className="sr-seul">
+      <section className="fond-blanc" aria-labelledby="titre-poles">
+        <div className="wrap">
+          <h2 id="titre-poles" className="sr-seul">
             Les quatre pôles
           </h2>
-          <div className="services">
-            {services.poles.map((pole, i) => (
-              <CarteService key={pole.slug} pole={pole} index={i} />
+          <div className="grille-services">
+            {services.poles.map((pole) => (
+              <CarteService key={pole.slug} pole={pole} />
             ))}
           </div>
           <div className="tarif revele">
             <strong>Tarification : {services.tarification}</strong>
-            <p>{contenu.accueil.questions.items[2].texte}</p>
+            <p>{formules.intro}</p>
           </div>
-          <div className="tarif revele">
-            <strong>{services.maintenance.titre}</strong>
-            <p>{services.maintenance.texte}</p>
-          </div>
-          <p style={{ marginTop: 32 }}>
-            <Link className="btn btn-primaire" href="/contact">
-              Nous écrire pour mon projet <span className="fleche" aria-hidden="true">→</span>
+          <p className="action-bas">
+            <Link className="btn btn-principal" href={actionPrincipale.href}>
+              {actionPrincipale.libelle} <span className="flecha" aria-hidden="true">→</span>
             </Link>
           </p>
         </div>

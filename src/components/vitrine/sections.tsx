@@ -1,52 +1,362 @@
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { contenu, lienCourriel } from "@/content";
-import type { Pole } from "@/content";
-import type { TitreMarque as TitreMarqueType } from "@/content/types";
-import { Monogramme } from "./logo";
+import type { EnTeteSection, Pole, TitreMarque as TitreMarqueType } from "@/content/types";
+import { Apercu, Icone } from "./icones";
+import { LeadFlow } from "./leadflow";
+import { Marque } from "./logo";
+import { Schema } from "./schema";
 
-const retard = (secondes: number) => ({ "--retard": `${secondes}s` }) as CSSProperties;
+/** Sections de la maquette V5, dans l'ordre de l'accueil. */
 
 export function TitreMarque({ titre }: { titre: TitreMarqueType }) {
   return (
     <>
       {titre.avant}
-      <span className="mot">{titre.marque}</span>
+      <span className="accent">{titre.marque}</span>
       {titre.apres}
     </>
   );
 }
 
-export function Bandeau() {
-  const { bandeau } = contenu.site;
+function EnTete({ section, idTitre, Niveau = "h2" }: { section: EnTeteSection; idTitre: string; Niveau?: "h1" | "h2" }) {
   return (
-    <div className="bandeau" role="region" aria-label="Statut de la maquette">
-      <div className="enveloppe">
-        <span>
-          <b>{bandeau.principal}</b>
-        </span>
-        <span>
-          <span className="pastille" aria-hidden="true" />
-          {bandeau.secondaire}
-        </span>
+    <div className={`entete-section revele${section.intro ? "" : " simple"}`}>
+      <div>
+        <p className="surtitre">{section.surtitre}</p>
+        <Niveau id={idTitre}>
+          <TitreMarque titre={section.titre} />
+        </Niveau>
+      </div>
+      {section.intro && <p className="lede">{section.intro}</p>}
+    </div>
+  );
+}
+
+export function Heros() {
+  const { accueil, actionPrincipale } = contenu;
+  return (
+    <section className="heros" aria-labelledby="titre-heros">
+      <div className="wrap heros-grille">
+        <div>
+          <p className="surtitre">{accueil.surtitre}</p>
+          <h1 id="titre-heros">
+            <TitreMarque titre={accueil.titre} />
+          </h1>
+          <p className="lede">{accueil.chapo}</p>
+          <div className="actions">
+            <a className="btn btn-principal" href="#contact">
+              {actionPrincipale.libelle}{" "}
+              <span className="flecha" aria-hidden="true">
+                →
+              </span>
+            </a>
+            <a className="btn btn-secondaire" href={accueil.actionSecondaire.href}>
+              {accueil.actionSecondaire.libelle}
+            </a>
+          </div>
+          <ul className="preuves" aria-label="Pour qui">
+            {accueil.publics.map((p) => (
+              <li key={p}>{p}</li>
+            ))}
+          </ul>
+        </div>
+        <Schema />
+      </div>
+    </section>
+  );
+}
+
+export function Confiance() {
+  return (
+    <div className="bandeau">
+      <div className="wrap">
+        <ul aria-label="Repères">
+          {contenu.accueil.confiance.map((r) => (
+            <li key={r}>{r}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 }
 
+export function Solutions() {
+  const { solutions } = contenu;
+  return (
+    <section id="solutions" aria-labelledby="titre-solutions">
+      <div className="wrap">
+        <EnTete section={solutions} idTitre="titre-solutions" />
+        <div className="grille-solutions">
+          {solutions.items.map((s) => (
+            <article key={s.titre} className={`carte revele${s.concept ? " concept" : ""}`}>
+              <div className="icone" aria-hidden="true">
+                <Icone nom={s.icone} />
+              </div>
+              <h3>{s.titre}</h3>
+              <p>{s.texte}</p>
+              <span className={`statut${s.concept ? " turquoise" : ""}`}>
+                <span className="sr-seul">Statut : </span>
+                {s.statut}
+              </span>
+            </article>
+          ))}
+        </div>
+        <p className="note-bas">{solutions.note}</p>
+      </div>
+    </section>
+  );
+}
+
+export function CarteService({ pole, Niveau = "h3" }: { pole: Pole; Niveau?: "h2" | "h3" }) {
+  const colonnes: [string, string[]][] = [
+    ["Peut être inclus", pole.detail.inclus],
+    ["Dépend du périmètre", pole.detail.perimetre],
+    ["Non inclus par défaut", pole.detail.nonInclus],
+    ["Pour démarrer", pole.detail.demarrer],
+  ];
+  return (
+    <article className="service revele" id={`pole-${pole.slug}`}>
+      <div className="service-tete">
+        <span className="service-num" aria-hidden="true">
+          {pole.numero}
+        </span>
+        <div>
+          <Niveau>{pole.titre}</Niveau>
+          <p className="probleme">{pole.accroche}</p>
+        </div>
+      </div>
+      <p className="resultat">{pole.resultatRecherche}</p>
+      <ul className="tags" aria-label="Technologies">
+        {pole.etiquettes.map((e) => (
+          <li key={e}>{e}</li>
+        ))}
+      </ul>
+      <details className="detail">
+        <summary>Voir le détail du pôle</summary>
+        <div className="contenu">
+          {colonnes.map(([titre, items]) => (
+            <div key={titre}>
+              <h4>{titre}</h4>
+              <ul>
+                {items.map((i) => (
+                  <li key={i}>{i}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <Link className="lien-pole" href={`/services/${pole.slug}`}>
+          Page complète du pôle <span aria-hidden="true">→</span>
+        </Link>
+      </details>
+    </article>
+  );
+}
+
+export function Services({ Titre = "h2" }: { Titre?: "h1" | "h2" }) {
+  const { services } = contenu;
+  return (
+    <section id="services" className="fond-blanc" aria-labelledby="titre-services">
+      <div className="wrap">
+        <EnTete section={services} idTitre="titre-services" Niveau={Titre} />
+        <div className="grille-services">
+          {services.poles.map((pole) => (
+            <CarteService key={pole.slug} pole={pole} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function Realisations() {
+  const { realisations } = contenu;
+  return (
+    <section id="realisations" aria-labelledby="titre-realisations">
+      <div className="wrap">
+        <EnTete section={realisations} idTitre="titre-realisations" />
+        <div className="grille-realisations">
+          {realisations.items.map((r) => (
+            <article key={r.titre} className="realisation revele">
+              <div className="apercu" aria-hidden="true">
+                <Apercu type={r.apercu} />
+              </div>
+              <span className="statut">
+                <span className="sr-seul">Statut : </span>
+                {r.statut}
+              </span>
+              <h3>{r.titre}</h3>
+              <p>{r.texte}</p>
+            </article>
+          ))}
+        </div>
+        <dl className="legende" aria-label="Légende des statuts">
+          {realisations.legende.map((l) => (
+            <div key={l.terme}>
+              <dt className="mono">{l.terme}</dt>
+              <dd>· {l.sens}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+  );
+}
+
+export function Methode({ sansTete = false }: { sansTete?: boolean }) {
+  const { methode } = contenu;
+  return (
+    <section id="methode" className="methode" aria-labelledby={sansTete ? "titre-etapes" : "titre-methode"}>
+      <div className="wrap">
+        {sansTete ? (
+          <h2 id="titre-etapes" className="sr-seul">
+            Les cinq étapes
+          </h2>
+        ) : (
+          <EnTete section={methode} idTitre="titre-methode" />
+        )}
+        <ol className="grille-methode revele">
+          {methode.etapes.map((e) => (
+            <li key={e.numero}>
+              <div className="num" aria-hidden="true">
+                {e.numero}
+              </div>
+              <h3>
+                <span className="sr-seul">Étape {e.numero} : </span>
+                {e.titre}
+              </h3>
+              <p>{e.texte}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="double revele">
+          {methode.encarts.map((e) => (
+            <div key={e.titre} className="encart">
+              <h3>{e.titre}</h3>
+              <p>{e.texte}</p>
+            </div>
+          ))}
+        </div>
+        <div className="encart revele exemple">
+          <h3>{methode.exemple.titre}</h3>
+          <ol className="calendrier" aria-label="Exemple illustratif de déroulement">
+            {methode.exemple.etapes.map((texte, i) => (
+              <li key={texte}>
+                <span className="etape-num">Étape {i + 1}</span>
+                <span>{texte}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="fictif">{methode.exemple.note}</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function Engagements() {
+  const { engagements } = contenu;
+  return (
+    <section id="engagements" className="engagements sombre" aria-labelledby="titre-engagements">
+      <div className="wrap">
+        <EnTete section={engagements} idTitre="titre-engagements" />
+        <div className="grille-engagements">
+          {[engagements.oui, engagements.non].map((bloc, i) => (
+            <div key={bloc.titre} className={`bloc-eng revele${i === 1 ? " non" : ""}`}>
+              <h3>{bloc.titre}</h3>
+              <ul>
+                {bloc.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function Formules() {
+  const { formules } = contenu;
+  return (
+    <section id="formules" aria-labelledby="titre-formules">
+      <div className="wrap">
+        <EnTete section={formules} idTitre="titre-formules" />
+        <div className="grille-formules">
+          {formules.items.map((f) => (
+            <article key={f.titre} className="formule revele">
+              <span className="statut">{f.statut}</span>
+              <h3>{f.titre}</h3>
+              <p>{f.texte}</p>
+              <a className="btn btn-secondaire fonce" href="#contact">
+                {formules.action}
+                <span className="sr-seul"> : formule {f.titre}</span>
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function Faq() {
+  const { faq } = contenu;
+  return (
+    <section id="faq" className="fond-clair" aria-labelledby="titre-faq">
+      <div className="wrap">
+        <EnTete section={faq} idTitre="titre-faq" />
+        <div className="faq revele">
+          {faq.entrees.map((entree) => (
+            <details key={entree.question}>
+              <summary>{entree.question}</summary>
+              <div className="reponse">
+                <p>{entree.reponse}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function Contact({ mode, Titre = "h2" }: { mode: "mock" | "live" | "off"; Titre?: "h1" | "h2" }) {
+  const { contact, site } = contenu;
+  return (
+    <section id="contact" className="contact" aria-labelledby="titre-contact">
+      <div className="wrap contact-grille">
+        <div className="revele">
+          <p className="surtitre">{contact.surtitre}</p>
+          <Titre id="titre-contact">
+            <TitreMarque titre={contact.titre} />
+          </Titre>
+          <p className="lede">{contact.intro}</p>
+          <div className="contact-coords">
+            <p>
+              <strong>Courriel :</strong> <a href={lienCourriel()}>{site.courriel}</a>
+            </p>
+            <p>{contact.coordonnees}</p>
+          </div>
+        </div>
+        <LeadFlow mode={mode} />
+      </div>
+    </section>
+  );
+}
+
 export function Pied() {
-  const { site, services } = contenu;
+  const { site, services, actionPrincipale } = contenu;
   return (
     <footer className="pied">
-      <div className="enveloppe">
-        <div className="grille">
+      <div className="wrap">
+        <div className="pied-grille">
           <div>
-            <Link className="logo" href="/" aria-label={`${site.nom}, accueil`}>
-              <Monogramme inverse taille={28} />
-              {site.nom}
-            </Link>
-            <p style={{ marginTop: 14, maxWidth: "34ch" }}>{site.descriptionPied}</p>
-            <p style={{ marginTop: 12 }}>
+            <Marque href="/" libelle="NEOXIX, accueil" inverse />
+            <p className="pied-texte">{site.descriptionPied}</p>
+            <p className="pied-texte">
               <a href={lienCourriel()}>{site.courriel}</a>
             </p>
           </div>
@@ -61,36 +371,28 @@ export function Pied() {
             </ul>
           </div>
           <div>
-            <h2>Légal</h2>
+            <h2>Neoxix</h2>
             <ul>
               <li>
-                <Link href="/confidentialite">Confidentialité (texte provisoire)</Link>
+                <Link href="/#solutions">Solutions</Link>
               </li>
               <li>
-                <span>Conditions (à venir)</span>
+                <Link href="/#realisations">Réalisations</Link>
+              </li>
+              <li>
+                <Link href="/methode">Méthode</Link>
+              </li>
+              <li>
+                <Link href={actionPrincipale.href}>{actionPrincipale.libelle}</Link>
               </li>
             </ul>
           </div>
         </div>
-        <div className="bas">
+        <div className="pied-bas">
           <span>{site.lieuPied}</span>
-          <span>{site.mentionPied}</span>
         </div>
       </div>
     </footer>
-  );
-}
-
-export function BarreMobile() {
-  return (
-    <nav className="barre" aria-label="Actions rapides">
-      <Link className="btn btn-ambre-vif" href="/contact">
-        Nous écrire
-      </Link>
-      <Link className="btn btn-nuit-secondaire" href="/services">
-        Services
-      </Link>
-    </nav>
   );
 }
 
@@ -99,269 +401,27 @@ export function EnTetePage({
   titre,
   chapo,
   fil,
-  idTitre,
 }: {
   surtitre: string;
   titre: ReactNode;
   chapo?: string;
-  fil?: { libelle: string; href?: string }[];
-  idTitre: string;
+  fil: { libelle: string; href?: string }[];
 }) {
   return (
-    <section className="page-tete nuit" aria-labelledby={idTitre}>
-      <div className="enveloppe">
-        {fil && (
-          <nav className="fil" aria-label="Fil d'Ariane">
-            {fil.map((etape, i) => (
-              <span key={etape.libelle}>
-                {i > 0 && <span aria-hidden="true">/</span>}
+    <section className="page-tete sombre" aria-labelledby="titre-page">
+      <div className="wrap">
+        <nav className="fil" aria-label="Fil d'Ariane">
+          <ol>
+            {fil.map((etape) => (
+              <li key={etape.libelle}>
                 {etape.href ? <Link href={etape.href}>{etape.libelle}</Link> : <span aria-current="page">{etape.libelle}</span>}
-              </span>
+              </li>
             ))}
-          </nav>
-        )}
-        <p className="surtitre enfant">{surtitre}</p>
-        <h1 id={idTitre} className="enfant" style={retard(0.1)}>
-          {titre}
-        </h1>
-        {chapo && (
-          <p className="chapo enfant" style={retard(0.2)}>
-            {chapo}
-          </p>
-        )}
-      </div>
-    </section>
-  );
-}
-
-export function Questions() {
-  const { questions } = contenu.accueil;
-  return (
-    <section className="bloc" aria-labelledby="t-questions">
-      <div className="enveloppe">
-        <div className="tete">
-          <div className="revele">
-            <p className="surtitre">{questions.surtitre}</p>
-            <h2 id="t-questions">
-              <TitreMarque titre={questions.titre} />
-            </h2>
-          </div>
-          <p className="revele" style={retard(0.1)}>
-            {questions.intro}
-          </p>
-        </div>
-        <div className="questions">
-          {questions.items.map((q, i) => (
-            <article key={q.numero} className="revele" style={retard(i * 0.1)}>
-              <div className="ico" aria-hidden="true">
-                {q.numero}
-              </div>
-              <h3>{q.titre}</h3>
-              <p>{q.texte}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function CarteService({ pole, index, niveau = 3 }: { pole: Pole; index: number; niveau?: 2 | 3 }) {
-  const Titre = niveau === 2 ? "h2" : "h3";
-  return (
-    <Link className="service revele" href={`/services/${pole.slug}`} style={retard(index * 0.08)}>
-      <span className="num">
-        <span>{pole.numero}</span>
-        <span className="go" aria-hidden="true">
-          →
-        </span>
-      </span>
-      <Titre>{pole.titre}</Titre>
-      <p>{pole.resume}</p>
-      <ul className="puces" aria-label="Technologies">
-        {pole.etiquettes.map((e) => (
-          <li key={e}>{e}</li>
-        ))}
-      </ul>
-    </Link>
-  );
-}
-
-export function Services() {
-  const { services } = contenu;
-  return (
-    <section className="bloc fond-lavis" id="services" aria-labelledby="t-services">
-      <div className="enveloppe">
-        <div className="tete">
-          <div className="revele">
-            <p className="surtitre">{services.surtitre}</p>
-            <h2 id="t-services">
-              <TitreMarque titre={services.titre} />
-            </h2>
-          </div>
-          <p className="revele" style={retard(0.1)}>
-            {services.intro}
-          </p>
-        </div>
-        <div className="services">
-          {services.poles.map((pole, i) => (
-            <CarteService key={pole.slug} pole={pole} index={i} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function Methode({ avecChrono = true, sansTete = false }: { avecChrono?: boolean; sansTete?: boolean }) {
-  const { methode } = contenu;
-  return (
-    <section className="bloc" id="methode" aria-labelledby={sansTete ? "t-etapes" : "t-methode"}>
-      <div className="enveloppe">
-        {sansTete ? (
-          <h2 id="t-etapes" className="sr-seul">
-            Les cinq étapes
-          </h2>
-        ) : (
-          <div className="tete">
-            <div className="revele">
-              <p className="surtitre">{methode.surtitre}</p>
-              <h2 id="t-methode">
-                <TitreMarque titre={methode.titre} />
-              </h2>
-            </div>
-            <p className="revele" style={retard(0.1)}>
-              {methode.intro}
-            </p>
-          </div>
-        )}
-        <ol className="methode" data-trace>
-          {methode.etapes.map((etape, i) => (
-            <li key={etape.numero} className="revele" style={retard(i * 0.12)}>
-              <span className="point" aria-hidden="true">
-                {etape.numero}
-              </span>
-              <h3>
-                <span className="sr-seul">Étape {etape.numero} : </span>
-                {etape.titre}
-              </h3>
-              <p>{etape.texte}</p>
-            </li>
-          ))}
-        </ol>
-        {avecChrono && (
-          <figure className="chrono revele">
-            <div className="chrono-entete">
-              <span>{methode.chrono.titre}</span>
-              <span>{methode.chrono.mention}</span>
-            </div>
-            <ol>
-              {methode.chrono.jours.map((j) => (
-                <li key={j.jour} className={j.alerte ? "alerte" : undefined}>
-                  <span className="jour">{j.jour}</span>
-                  <span>{j.texte}</span>
-                </li>
-              ))}
-            </ol>
-            <figcaption className="note">{methode.chrono.note}</figcaption>
-          </figure>
-        )}
-      </div>
-    </section>
-  );
-}
-
-export function Engagements() {
-  const { engagements } = contenu;
-  return (
-    <section className="bloc nuit" id="engagements" aria-labelledby="t-eng">
-      <div className="enveloppe">
-        <div className="tete simple">
-          <div className="revele">
-            <p className="surtitre">{engagements.surtitre}</p>
-            <h2 id="t-eng">
-              <TitreMarque titre={engagements.titre} />
-            </h2>
-          </div>
-        </div>
-        <div className="engagements">
-          {[engagements.oui, engagements.non].map((carte, i) => (
-            <div key={carte.titre} className={`carte-nuit ${i === 0 ? "oui" : "non"} revele`} style={retard(i * 0.12)}>
-              <h3>
-                <span aria-hidden="true" />
-                {carte.titre}
-              </h3>
-              <ul>
-                {carte.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function Faq() {
-  const { faq } = contenu;
-  return (
-    <section className="bloc" id="faq" aria-labelledby="t-faq">
-      <div className="enveloppe">
-        <div className="tete simple">
-          <div className="revele">
-            <p className="surtitre">{faq.surtitre}</p>
-            <h2 id="t-faq">{faq.titre}</h2>
-          </div>
-        </div>
-        <div className="faq revele">
-          {faq.entrees.map((entree) => (
-            <details key={entree.question} open={entree.ouverte}>
-              <summary>{entree.question}</summary>
-              <p>{entree.reponse}</p>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function Contact({ titreNiveau = 2 }: { titreNiveau?: 1 | 2 }) {
-  const { contact, site } = contenu;
-  const Titre = titreNiveau === 1 ? "h1" : "h2";
-  return (
-    <section className="contact" id="contact" aria-labelledby="t-contact">
-      <div className="enveloppe">
-        <div className="boite">
-          <div className="revele">
-            <p className="surtitre">{contact.surtitre}</p>
-            <Titre id="t-contact">
-              {contact.titre}
-              <span className="mot">{contact.titreMarque}</span>
-            </Titre>
-            <p className="lead">{contact.lead}</p>
-          </div>
-          <div className="carte-contact revele" style={retard(0.12)}>
-            <div className="actions">
-              <a className="btn btn-primaire btn-grand" href={lienCourriel()}>
-                {contact.bouton}{" "}
-                <span className="fleche" aria-hidden="true">
-                  →
-                </span>
-              </a>
-            </div>
-            <p className="courriel-texte">
-              <span className="sr-seul">Adresse : </span>
-              {site.courriel}
-            </p>
-            <small>{contact.delai}</small>
-            <p className="attente" role="note">
-              {contact.attente}
-            </p>
-          </div>
-        </div>
+          </ol>
+        </nav>
+        <p className="surtitre">{surtitre}</p>
+        <h1 id="titre-page">{titre}</h1>
+        {chapo && <p className="lede">{chapo}</p>}
       </div>
     </section>
   );
