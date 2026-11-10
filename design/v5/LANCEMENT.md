@@ -36,7 +36,7 @@
 
 **Projet de texte de consentement (à valider) :**
 
-> J'accepte que NEOXIX utilise les renseignements de ce formulaire pour répondre à ma demande et préparer une proposition. Ils sont conservés au plus [durée à décider] sans suite, ne sont ni vendus ni partagés à des fins commerciales, et peuvent être traités hors du Québec par nos fournisseurs (hébergement, automatisation). Voir la politique de confidentialité.
+> J'accepte que NEOXIX utilise les renseignements de ce formulaire pour répondre à ma demande et préparer une proposition. Ils sont conservés au plus 12 mois après le dernier échange lorsqu'aucune suite n'est donnée, ne sont ni vendus ni partagés à des fins commerciales, et peuvent être traités hors du Québec par nos fournisseurs (hébergement, automatisation). Voir la politique de confidentialité.
 
 ## Recette manuelle (5 minutes, iPhone et iPad)
 
