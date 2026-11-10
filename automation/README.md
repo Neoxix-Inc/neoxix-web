@@ -91,11 +91,11 @@ Une même transaction n'est rappelée qu'une fois tous les 3 jours. Le résumé 
 
 - **Coupure immédiate du formulaire :** sur Vercel, `INTAKE_MODE=off`, puis Redeploy. Le formulaire est remplacé par le courriel. Pour couper sans redéployer, désactivez « Lead Intake » dans n8n : le site affiche alors « Erreur temporaire » et le courriel.
 - **Retour arrière du code :** Vercel › Instant Rollback vers le déploiement précédent, ou `git revert` du commit, puis pousser `main`.
-- **Conservation (proposition soumise au propriétaire, non approuvée) :**
+- **Conservation** (la durée de 12 mois pour les demandes sans mandat a été approuvée par le propriétaire le 10 novembre 2026 ; les autres lignes restent des propositions) :
 
   | Données | Lieu | Durée proposée | Justification |
   |---|---|---|---|
-  | Demande sans mandat (contact, transaction, tâches) | HubSpot | 12 mois après le dernier échange, revue trimestrielle | Couvre un cycle budgétaire annuel de PME ; la Loi 25 exige la destruction une fois la finalité atteinte |
+  | Demande sans mandat (contact, transaction, tâches) | HubSpot | **12 mois après le dernier échange (approuvé)**, revue trimestrielle | Couvre un cycle budgétaire annuel de PME ; la Loi 25 exige la destruction une fois la finalité atteinte |
   | Client avec mandat | HubSpot | Durée de la relation, puis 2 ans | Suivi et garantie des travaux ; les pièces comptables suivent leur propre durée légale (6 ans) hors CRM |
   | Courriels échangés | iCloud Mail | Même règle que HubSpot, purge trimestrielle manuelle | Éviter une copie conservée plus longtemps que le CRM |
   | Exécutions n8n réussies | n8n | Aucune conservation | Le contenu est déjà dans HubSpot |
