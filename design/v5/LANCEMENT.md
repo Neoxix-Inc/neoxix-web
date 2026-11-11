@@ -7,7 +7,7 @@
 - **Confidentialité.** La page `/confidentialite` est liée depuis le pied de page. Elle décrit le traitement réel : aucun témoin, journaux de l'hébergeur, courriels. **Aucune validation juridique n'a été faite.**
   - Responsable : la fonction est exercée par défaut par la personne ayant la plus haute autorité (art. 3.1 de la loi), sans nom publié. Décision du propriétaire : publier un nom ou un titre.
   - Durée de conservation des courriels : **non publiée**. Décision du propriétaire à prendre, puis à ajouter à la politique.
-- **Variables Vercel.** Aucune n'est nécessaire en production. N'y ajoutez ni `INTAKE_MODE` ni `N8N_*`.
+- **Variables Vercel.** Les variables `INTAKE_MODE`, `N8N_*` et `INTAKE_*` sont volontaires. Elles restent en place et ne doivent pas être supprimées. `INTAKE_MODE` doit rester à `off` en production : c'est lui qui empêche toute collecte réelle, même si les autres variables sont présentes.
 
 ## Bascule (après autorisation)
 
