@@ -15,6 +15,18 @@
 - `main` local est resté à `cbcf7a1` : il doit être mis à jour avant toute opération.
 - 8 commits de la branche ne sont pas encore sur `main`, dont la correction de la durée de conservation à 12 mois. Leur publication est une décision séparée (voir le dossier de confidentialité).
 
+## Déploiement du 11 nov. 2026 (publication autorisée par le propriétaire)
+
+- Commits publiés sur `main` : `d640000..124c36c`, 11 commits, fast-forward, sans force.
+- Commit de production : `124c36c` ; déploiement Vercel `neoxix-fdo5vaw77-admin-15752192s-projects.vercel.app` : **READY**. Déploiement précédent : `c1aea07` (READY), puis `d640000` (READY, antérieur).
+- Changement applicatif : `src/content/fr/index.ts`, texte « Accès et conservation » à 12 mois. **Ce texte n'est affiché qu'en mode `live`** : la page publique ne montre actuellement aucune durée.
+- Tests : 56/56 ; `tsc --noEmit` sans erreur ; ESLint 0 erreur (8 avertissements) ; `npm run build` réussi.
+- Contrôles publics : `/`, `/services`, `/services/infrastructure`, `/confidentialite`, `/contact`, `/robots.txt` en 200 ; `POST /api/demandes` en 503.
+- Production : `INTAKE_MODE=off` ; variables `N8N_HMAC_SECRET`, `N8N_WEBHOOK_URL`, `INTAKE_VERSION_CONSENTEMENT`, `INTAKE_LIMITE_PARTAGEE` présentes (valeurs non consignées).
+- WAF : « LeadFlow - limite formulaire » active et valide.
+- Retour arrière : `npx vercel@latest rollback neoxix-9ab4f8l6t-admin-15752192s-projects.vercel.app --yes` (déploiement `d640000`).
+- Non fait : archivage des trois objets HubSpot de test (`235523587025`, `289216521205`, `285953924065`) : accès API manquant, non confirmé.
+
 ## Bascule (historique, déjà effectuée le 10 nov. 2026)
 
 1. `git tag portfolio-prod cbcf7a1` (dernière version publique, le portfolio) est déjà poussé.
