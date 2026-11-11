@@ -531,7 +531,7 @@ export const fr: Contenu = {
   },
   confidentialite: {
     titre: "Confidentialité",
-    statut: "Dernière mise à jour : 10 novembre 2026.",
+    statut: "Dernière mise à jour : 11 novembre 2026.",
     sections: [
       {
         titre: "Responsable de la protection des renseignements personnels",
@@ -553,6 +553,11 @@ export const fr: Contenu = {
           "Si vous écrivez à info@neoxix.ca, nous utilisons votre nom, votre adresse et le contenu de votre message uniquement pour vous répondre et, si vous le souhaitez, préparer une proposition. La messagerie est hébergée par un fournisseur de courriel qui peut traiter ces messages hors du Québec. Nous ne vendons pas ces renseignements et ne les communiquons pas à des tiers à des fins commerciales.",
       },
       {
+        titre: "Accès et conservation des demandes",
+        texte:
+          "Seules les personnes de NEOXIX qui traitent les demandes y ont accès. Les demandes reçues par le formulaire en ligne qui n'ont pas donné lieu à un mandat sont supprimées de notre outil de suivi des clients au plus tard 12 mois après le dernier échange. Vous pouvez demander la suppression de vos renseignements à tout moment en écrivant à info@neoxix.ca.",
+      },
+      {
         titre: "Vos droits",
         texte:
           "Vous pouvez demander l'accès à vos renseignements, leur rectification ou leur suppression, et retirer votre consentement, en écrivant à info@neoxix.ca. Vous pouvez aussi vous adresser à la Commission d'accès à l'information du Québec.",
@@ -571,13 +576,7 @@ export const fr: Contenu = {
       {
         titre: "Où vont ces renseignements",
         texte:
-          "Le site transmet votre demande, par une connexion chiffrée et signée, à notre serveur d'automatisation (n8n), qui l'enregistre dans notre outil de suivi des clients, HubSpot. HubSpot est un fournisseur établi hors du Québec : vos renseignements peuvent y être stockés hors du Québec. Le serveur d'automatisation ne conserve pas le contenu des demandes enregistrées avec succès ; en cas d'erreur de traitement, il le garde au plus 7 jours, le temps de corriger le problème.",
-      },
-      {
-        titre: "Accès et conservation",
-        texte:
-          "Seules les personnes de NEOXIX qui traitent les demandes y ont accès. Les demandes qui n'ont pas donné lieu à un mandat sont supprimées de notre outil de suivi et de notre messagerie au plus tard 12 mois après le dernier échange. Un courriel de confirmation peut vous être envoyé depuis info@neoxix.ca. Vous pouvez demander la suppression de vos renseignements à tout moment en écrivant à info@neoxix.ca.",
-
+          "Le site transmet votre demande, par une connexion chiffrée et signée, à notre serveur d'automatisation (n8n), qui l'enregistre dans notre outil de suivi des clients, HubSpot. HubSpot est un fournisseur établi hors du Québec : vos renseignements peuvent y être stockés hors du Québec. Le serveur d'automatisation ne conserve pas le contenu des demandes enregistrées avec succès ; en cas d'erreur de traitement, ce contenu peut être conservé temporairement, le temps de corriger le problème.",
       },
     ],
   },

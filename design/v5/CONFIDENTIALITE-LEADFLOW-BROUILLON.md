@@ -8,10 +8,10 @@
 - Demandes sans mandat (contact, transaction, tâches) conservées **12 mois après le dernier échange**, revue trimestrielle.
 - Texte de consentement avec la durée de 12 mois (section 4).
 
-**Correction de l'état de production (vérifié le 11 nov. 2026 après déploiement de `c1aea07`)**
-- En production, `INTAKE_MODE=off` : la page `/confidentialite` affiche la section « sans formulaire », **qui ne mentionne aucune durée de conservation**. La section « Accès et conservation » (ancien texte : 24 mois ; texte corrigé : 12 mois) n'est rendue qu'en mode `live`.
-- Donc le passage à 12 mois ne change rien à ce que voit le public aujourd'hui. Il devient visible à l'activation de la collecte. Le texte doit être relu avant cette activation.
-- Une version antérieure de ce dossier affirmait à tort que la page publiée indiquait 24 mois. Cette affirmation est retirée.
+**État de la page `/confidentialite` (finalisation de la version initiale)**
+- La section « Accès et conservation des demandes » est désormais **commune à tous les modes** : elle est visible même avec `INTAKE_MODE=off`. Elle ne promet que la durée approuvée (12 mois après le dernier échange, demandes sans mandat). Elle ne mentionne plus la messagerie, dont la durée n'est pas décidée.
+- La promesse de 7 jours de conservation des erreurs (section « Où vont ces renseignements », mode `live`) a été retirée : la purge n'est pas encore appliquée et vérifiée.
+- Une version antérieure affirmait à tort que la page publiée indiquait 24 mois. Cette affirmation est retirée.
 
 **Mis en place et vérifié techniquement**
 - Exécutions n8n réussies non conservées (`saveDataSuccessExecution: none`, relu sur les workflows publiés).

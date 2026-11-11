@@ -1,7 +1,9 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { contenu, lienCourriel, trouverPole } from "@/content";
+import { sectionsConfidentialite } from "@/lib/confidentialite";
+import { modeFormulaire } from "@/lib/demande/traitement";
 
 const MAQUETTE_CHEMIN = "design/v5/index.html";
 const MAQUETTE_SHA256 = "5ad1cd451257280f66c8bcd070a19daf8951a578d44cfdd936ac0c96f245b62a";
@@ -29,13 +31,39 @@ describe("contenu de lancement", () => {
     expect(contenu.realisations.items.find((r) => r.titre === "Ivoire Connect")?.statut).toBe("En développement");
   });
 
-  it("confidentialité : sans formulaire actif, aucune durée de conservation ; jamais de validation juridique affirmée", () => {
+  it("confidentialité : seule la durée approuvée (12 mois) est publiée ; aucune durée non décidée ; jamais de validation juridique affirmée", () => {
     const { sections, sansFormulaire, avecFormulaire } = contenu.confidentialite;
-    expect(chaines([sections, sansFormulaire]).join(" ")).not.toMatch(/\d+ mois/);
+    const texte = chaines([sections, sansFormulaire, avecFormulaire]).join(" ");
+    expect(texte).not.toMatch(/24 mois/);
+    expect(texte).not.toMatch(/\b(2|6) ans\b|30 jours|7 jours/);
     expect(chaines(contenu.confidentialite).join(" ")).not.toMatch(/validée? juridiquement|avis juridique/i);
     // Les sections du mode live décrivent le circuit réel : n8n puis HubSpot, sans usage marketing.
     expect(chaines(avecFormulaire).join(" ")).toMatch(/n8n[\s\S]*HubSpot/);
     expect(chaines(avecFormulaire).join(" ")).toMatch(/jamais utilisés pour vous envoyer des communications marketing/);
+  });
+
+  it("non-régression : la conservation de 12 mois reste visible lorsque INTAKE_MODE=off (aucun formulaire actif)", () => {
+    vi.stubEnv("INTAKE_MODE", "off");
+    try {
+      const mode = modeFormulaire();
+      expect(mode).toBe("off");
+      const visibles = sectionsConfidentialite(contenu.confidentialite, mode);
+      const texte = chaines(visibles).join(" ");
+      expect(visibles.map((s) => s.titre)).toContain("Accès et conservation des demandes");
+      expect(texte).toMatch(/au plus tard 12 mois après le dernier échange/);
+      // Les sections du formulaire actif ne sont pas affichées hors mode live.
+      expect(texte).not.toMatch(/Formulaire de demande/);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+
+  it("le mode live affiche la conservation et les sections du circuit réel", () => {
+    const visibles = sectionsConfidentialite(contenu.confidentialite, "live");
+    const titres = visibles.map((s) => s.titre);
+    expect(titres).toContain("Accès et conservation des demandes");
+    expect(titres).toContain("Formulaire de demande");
+    expect(titres).not.toContain("Formulaire en ligne");
   });
 });
 

@@ -73,6 +73,9 @@
 
 ## Backlog après lancement
 
+- **Différé : nettoyage HubSpot (décision du propriétaire, ne pas considérer comme bloquant)** : archiver, sans suppression définitive, transaction `235523587025`, contact `289216521205`, tâche `285953924065` (recette NX-2026-FBGFS8, portail `343401633`). Vérifier ensuite la fiche de la boîte `info@neoxix.ca`, qui a pu recevoir des champs de test.
+- **Différé : dette de débogage** : 8 avertissements ESLint, tous des variables inutilisées dans `tests/unit/automation.test.ts` (2), `tests/unit/contenu.test.ts` (4) et `tests/unit/demande.test.ts` (2). Aucune erreur. Non bloquant.
+- **Différé : reprise** : la tâche recréée lors d'une nouvelle tentative n'est pas associée au contact (`contactId` vide dans `reprise`). Non bloquant tant que la collecte est désactivée.
 - **P2**
   - Le test « /services/infrastructure » est instable sur 1440 px : un échec sur une exécution, puis 3 réussites sur 3.
   - Le texte de Réalisations sur LeadFlow (« traitement serveur pas encore réalisé ») sera à mettre à jour lors de l'activation.
