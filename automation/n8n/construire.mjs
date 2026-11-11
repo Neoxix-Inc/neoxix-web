@@ -3,7 +3,7 @@
  * Génère les définitions importables des workflows n8n à partir de la logique testée.
  *   node automation/n8n/construire.mjs
  * Sorties : automation/n8n/workflows/*.json (versionnées, sans aucun secret).
- * Les secrets restent dans n8n : identifiant HubSpot (credential « HubSpot App Token »), identifiant SMTP,
+ * Les secrets restent dans n8n : identifiant HubSpot (credential « NEOXIX-HubSpot-CRM »), identifiant SMTP (« SMTP account »),
  * et variable d'environnement NEOXIX_INTAKE_HMAC_SECRET.
  */
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
@@ -25,7 +25,7 @@ const code = (nom, position, corps, logique = INTAKE) => ({
   position,
 });
 
-/** Appel HubSpot authentifié par la credential « HubSpot App Token » (Service Key ou jeton d'application privée). */
+/** Appel HubSpot authentifié par la credential « NEOXIX-HubSpot-CRM » (Service Key ou jeton d'application privée). */
 const hubspot = (nom, position, methode, url, corps, { erreurs = true } = {}) => ({
   parameters: {
     method: methode,
@@ -40,7 +40,7 @@ const hubspot = (nom, position, methode, url, corps, { erreurs = true } = {}) =>
   type: "n8n-nodes-base.httpRequest",
   typeVersion: 4.2,
   position,
-  credentials: { hubspotAppToken: { id: "REMPLACER_APRES_IMPORT", name: "HubSpot NEOXIX" } },
+  credentials: { hubspotAppToken: { id: "REMPLACER_APRES_IMPORT", name: "NEOXIX-HubSpot-CRM" } },
   retryOnFail: true,
   maxTries: 3,
   waitBetweenTries: 1500,
@@ -79,7 +79,7 @@ const courriel = (nom, position, vers, sujet, texte, desactive) => ({
   type: "n8n-nodes-base.emailSend",
   typeVersion: 2.1,
   position,
-  credentials: { smtp: { id: "REMPLACER_APRES_IMPORT", name: "SMTP NEOXIX" } },
+  credentials: { smtp: { id: "REMPLACER_APRES_IMPORT", name: "SMTP account" } },
   disabled: desactive,
   onError: "continueRegularOutput",
 });
@@ -246,15 +246,13 @@ return [{ json: { dealId, tache, notification: notificationInterne(d, dealId, co
       "={{ $('Configuration').first().json.notificationVers }}",
       "={{ $('Préparer la tâche et les messages').first().json.notification.sujet }}",
       "={{ $('Préparer la tâche et les messages').first().json.notification.texte }}",
-      true,
     ),
     courriel(
-      "Accusé de réception (désactivé)",
+      "Accusé de réception",
       [2860, 300],
       "={{ $('Préparer la tâche et les messages').first().json.courriel }}",
       "={{ $('Préparer la tâche et les messages').first().json.accuse.sujet }}",
       "={{ $('Préparer la tâche et les messages').first().json.accuse.texte }}",
-      true,
     ),
     // La tâche a échoué mais la transaction est enregistrée : la demande est durable, on confirme et on alerte.
     courriel(
@@ -263,7 +261,6 @@ return [{ json: { dealId, tache, notification: notificationInterne(d, dealId, co
       "={{ $('Configuration').first().json.notificationVers }}",
       "=Alerte NEOXIX : tâche de suivi non créée ({{ $('Vérifier et normaliser').first().json.demande.reference }})",
       "=La transaction {{ $('Préparer la tâche et les messages').first().json.dealId }} est enregistrée, mais la tâche de suivi n'a pas pu être créée. Créez-la manuellement dans HubSpot.",
-      true,
     ),
     // Échec de la création : la transaction existe peut-être déjà (envoi concurrent, valeur unique). On revérifie.
     hubspot(
@@ -345,7 +342,7 @@ return [{ json: reprise(d, { results: [{ id: dealId }] }, $input.first().json, c
     lien("HubSpot · Créer la tâche de suivi", "Alerte : tâche non créée", 1),
     lien("Alerte : tâche non créée", "Confirmer (enregistrée)"),
     lien("Confirmer (enregistrée)", "Notification interne"),
-    lien("Confirmer (enregistrée)", "Accusé de réception (désactivé)"),
+    lien("Confirmer (enregistrée)", "Accusé de réception"),
   ]),
   settings: PARAMETRES_EXECUTION,
   active: false,

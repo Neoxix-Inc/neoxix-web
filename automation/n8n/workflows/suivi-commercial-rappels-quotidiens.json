@@ -69,7 +69,7 @@
       "credentials": {
         "hubspotAppToken": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "HubSpot NEOXIX"
+          "name": "NEOXIX-HubSpot-CRM"
         }
       },
       "retryOnFail": true,
@@ -140,7 +140,7 @@
       "credentials": {
         "hubspotAppToken": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "HubSpot NEOXIX"
+          "name": "NEOXIX-HubSpot-CRM"
         }
       },
       "retryOnFail": true,
@@ -170,7 +170,7 @@
       "credentials": {
         "hubspotAppToken": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "HubSpot NEOXIX"
+          "name": "NEOXIX-HubSpot-CRM"
         }
       },
       "retryOnFail": true,
@@ -198,7 +198,7 @@
       "credentials": {
         "smtp": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "SMTP NEOXIX"
+          "name": "SMTP account"
         }
       },
       "disabled": true,

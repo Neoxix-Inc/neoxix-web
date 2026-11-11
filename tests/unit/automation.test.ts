@@ -241,14 +241,24 @@ describe("n8n · définitions exportées", () => {
   const intake = charger("lead-intake-website-to-hubspot.json");
   const suivi = charger("suivi-commercial-rappels-quotidiens.json");
 
-  it("aucun secret, exécutions réussies non conservées, envois de courriels désactivés par défaut", () => {
+  it("aucun secret, exécutions réussies non conservées, workflow inactif dans les sources", () => {
     for (const wf of [intake, suivi]) {
       const texte = JSON.stringify(wf);
       expect(texte).not.toMatch(/pat-(na|eu)\d-|sha256=[0-9a-f]{64}|"password"|"apiKey"/);
       expect(wf.settings.saveDataSuccessExecution).toBe("none");
       expect(wf.active).toBe(false);
-      for (const n of wf.nodes.filter((x: { type: string }) => x.type === "n8n-nodes-base.emailSend")) expect(n.disabled).toBe(true);
     }
+  });
+
+  it("notifications LeadFlow activées (intake) ; résumé quotidien du suivi toujours désactivé", () => {
+    const courriels = (wf: { nodes: { type: string; name: string; disabled?: boolean }[] }) =>
+      wf.nodes.filter((x) => x.type === "n8n-nodes-base.emailSend");
+    expect(courriels(intake).map((n) => [n.name, n.disabled === true])).toEqual([
+      ["Notification interne", false],
+      ["Accusé de réception", false],
+      ["Alerte : tâche non créée", false],
+    ]);
+    expect(courriels(suivi).map((n) => [n.name, n.disabled === true])).toEqual([["Résumé quotidien (sans données personnelles)", true]]);
   });
 
   it("chaque connexion relie des nœuds existants ; le code de chaque nœud se compile", () => {

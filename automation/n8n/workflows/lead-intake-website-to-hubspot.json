@@ -121,7 +121,7 @@
       "credentials": {
         "hubspotAppToken": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "HubSpot NEOXIX"
+          "name": "NEOXIX-HubSpot-CRM"
         }
       },
       "retryOnFail": true,
@@ -205,7 +205,7 @@
       "credentials": {
         "hubspotAppToken": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "HubSpot NEOXIX"
+          "name": "NEOXIX-HubSpot-CRM"
         }
       },
       "retryOnFail": true,
@@ -248,7 +248,7 @@
       "credentials": {
         "hubspotAppToken": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "HubSpot NEOXIX"
+          "name": "NEOXIX-HubSpot-CRM"
         }
       },
       "retryOnFail": true,
@@ -279,7 +279,7 @@
       "credentials": {
         "hubspotAppToken": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "HubSpot NEOXIX"
+          "name": "NEOXIX-HubSpot-CRM"
         }
       },
       "retryOnFail": true,
@@ -334,7 +334,7 @@
       "credentials": {
         "hubspotAppToken": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "HubSpot NEOXIX"
+          "name": "NEOXIX-HubSpot-CRM"
         }
       },
       "retryOnFail": true,
@@ -387,10 +387,9 @@
       "credentials": {
         "smtp": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "SMTP NEOXIX"
+          "name": "SMTP account"
         }
       },
-      "disabled": true,
       "onError": "continueRegularOutput"
     },
     {
@@ -404,7 +403,7 @@
           "appendAttribution": false
         }
       },
-      "name": "Accusé de réception (désactivé)",
+      "name": "Accusé de réception",
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
@@ -414,10 +413,9 @@
       "credentials": {
         "smtp": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "SMTP NEOXIX"
+          "name": "SMTP account"
         }
       },
-      "disabled": true,
       "onError": "continueRegularOutput"
     },
     {
@@ -441,10 +439,9 @@
       "credentials": {
         "smtp": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "SMTP NEOXIX"
+          "name": "SMTP account"
         }
       },
-      "disabled": true,
       "onError": "continueRegularOutput"
     },
     {
@@ -470,7 +467,7 @@
       "credentials": {
         "hubspotAppToken": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "HubSpot NEOXIX"
+          "name": "NEOXIX-HubSpot-CRM"
         }
       },
       "retryOnFail": true,
@@ -540,7 +537,7 @@
       "credentials": {
         "hubspotAppToken": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "HubSpot NEOXIX"
+          "name": "NEOXIX-HubSpot-CRM"
         }
       },
       "retryOnFail": true,
@@ -612,7 +609,7 @@
       "credentials": {
         "hubspotAppToken": {
           "id": "REMPLACER_APRES_IMPORT",
-          "name": "HubSpot NEOXIX"
+          "name": "NEOXIX-HubSpot-CRM"
         }
       },
       "retryOnFail": true,
@@ -970,7 +967,7 @@
             "index": 0
           },
           {
-            "node": "Accusé de réception (désactivé)",
+            "node": "Accusé de réception",
             "type": "main",
             "index": 0
           }
