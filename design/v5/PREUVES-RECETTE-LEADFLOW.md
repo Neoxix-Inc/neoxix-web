@@ -17,7 +17,7 @@ Recette réelle contrôlée du 11 nov. 2026, avec données fictives (« TEST NEO
 |---|---|
 | A. Première demande signée | HTTP 202, `enregistree`, référence `NX-2026-FBGFS8` |
 | A. Contact, transaction, tâche | Vérifiés par le propriétaire dans HubSpot, associations comprises |
-| A. Notifications | Deux courriels reçus par le propriétaire (notification interne et accusé) |
+| A. Notifications | **Validé** : les deux courriels (notification interne et accusé de réception) ont été reçus et confirmés par le propriétaire |
 | B. Doublon (même eventId) | HTTP 202, `deja_enregistree`, même référence ; absence de courriel supplémentaire non confirmée (non signalée par le propriétaire) |
 | C1. Signature invalide | HTTP 401, aucune écriture |
 | C2. Horodatage expiré, signature valide | HTTP 401 |

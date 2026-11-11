@@ -11,13 +11,22 @@
 **Écart de production constaté (11 nov. 2026)**
 - La page `/confidentialite` en production (`main`, déploiement `d640000`) indique encore **24 mois**. La version corrigée à 12 mois est sur `feat/services-platform` (commit `99302c7`), **pas encore publiée**. Elle ne sera publiée qu'après autorisation d'un déploiement.
 
-**À confirmer (non approuvé)**
+**Mis en place et vérifié techniquement**
+- Exécutions n8n réussies non conservées (`saveDataSuccessExecution: none`, relu sur les workflows publiés).
+- Signature HMAC, fenêtre de 300 s, dédoublonnage par `eventId`, secrets hors dépôt.
+- Aucune collecte réelle : `INTAKE_MODE=off` en production (vérifié le 11 nov. 2026).
+
+**Proposé, non approuvé (à décider par le propriétaire)**
 - Nom ou titre du responsable (section 1).
 - Durée de conservation des courriels iCloud (section 2).
 - Durée des clients avec mandat et des pièces comptables (section 2).
+- Purge des exécutions n8n en échec après 7 jours (section 2 : à appliquer, non vérifié).
 - Rotation de 30 jours des sauvegardes n8n (section 2).
-- Contrats de traitement et lieux de traitement (section 3).
-- Conclusion de l'EFVP et validation juridique de la politique et du consentement (sections 3 et 4).
+
+**Vérifications juridiques et contractuelles restantes (non faites)**
+- Contrats de traitement et lieux de traitement avec Vercel, Cloudflare, HubSpot et Apple : non vérifiés (section 3).
+- Conclusion de l'EFVP (section 3).
+- Validation juridique de la politique et du texte de consentement (section 4).
 
 ## 1. Responsable de la protection des renseignements personnels
 
