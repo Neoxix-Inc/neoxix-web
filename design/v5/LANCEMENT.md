@@ -9,10 +9,16 @@
   - Durée de conservation des courriels : **non publiée**. Décision du propriétaire à prendre, puis à ajouter à la politique.
 - **Variables Vercel.** Les variables `INTAKE_MODE`, `N8N_*` et `INTAKE_*` sont volontaires. Elles restent en place et ne doivent pas être supprimées. `INTAKE_MODE` doit rester à `off` en production : c'est lui qui empêche toute collecte réelle, même si les autres variables sont présentes.
 
-## Bascule (après autorisation)
+## État réel de la production (vérifié le 11 nov. 2026)
+
+- `origin/main` contient déjà 24 commits au-delà du portfolio (`cbcf7a1`), jusqu'à `d640000`. Le déploiement de production `d640000` est en ligne (READY, créé le 10 nov. à 04:44 UTC). **La bascule a donc déjà eu lieu** : cette fiche ne décrit plus une étape future.
+- `main` local est resté à `cbcf7a1` : il doit être mis à jour avant toute opération.
+- 8 commits de la branche ne sont pas encore sur `main`, dont la correction de la durée de conservation à 12 mois. Leur publication est une décision séparée (voir le dossier de confidentialité).
+
+## Bascule (historique, déjà effectuée le 10 nov. 2026)
 
 1. `git tag portfolio-prod cbcf7a1` (dernière version publique, le portfolio) est déjà poussé.
-2. `git push origin feat/services-platform:main` : avance rapide, sans commit de fusion.
+2. `git push origin feat/services-platform:main` a déjà été effectué (fast-forward) : `origin/main` contient 24 commits au-delà du portfolio.
 3. Vercel construit la production depuis `main`. Contrôles à faire ensuite :
    - HTTPS ;
    - `/`, `/services`, `/services/infrastructure`, `/contact`, `/confidentialite` répondent 200 ;

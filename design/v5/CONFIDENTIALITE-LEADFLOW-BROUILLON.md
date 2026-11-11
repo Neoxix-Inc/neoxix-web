@@ -2,6 +2,23 @@
 
 > **Statut : brouillon. Aucune validation juridique n'a été faite.** À faire valider par une personne qualifiée avant toute collecte réelle.
 
+## 0. Décisions : approuvées et à confirmer
+
+**Approuvé par le propriétaire (10 nov. 2026)**
+- Demandes sans mandat (contact, transaction, tâches) conservées **12 mois après le dernier échange**, revue trimestrielle.
+- Texte de consentement avec la durée de 12 mois (section 4).
+
+**Écart de production constaté (11 nov. 2026)**
+- La page `/confidentialite` en production (`main`, déploiement `d640000`) indique encore **24 mois**. La version corrigée à 12 mois est sur `feat/services-platform` (commit `99302c7`), **pas encore publiée**. Elle ne sera publiée qu'après autorisation d'un déploiement.
+
+**À confirmer (non approuvé)**
+- Nom ou titre du responsable (section 1).
+- Durée de conservation des courriels iCloud (section 2).
+- Durée des clients avec mandat et des pièces comptables (section 2).
+- Rotation de 30 jours des sauvegardes n8n (section 2).
+- Contrats de traitement et lieux de traitement (section 3).
+- Conclusion de l'EFVP et validation juridique de la politique et du consentement (sections 3 et 4).
+
 ## 1. Responsable de la protection des renseignements personnels
 
 - Fonction exercée par défaut par la personne ayant la plus haute autorité dans l'entreprise (art. 3.1 de la Loi 25), sans nom publié.
@@ -23,7 +40,7 @@ Le texte public doit refléter les durées approuvées uniquement. Les autres li
 
 ## 3. Transfert hors Québec (EFVP à compléter)
 
-Fournisseurs qui reçoivent des renseignements de demandes, avec le lieu de traitement à confirmer dans leurs contrats ou documentations :
+Fournisseurs qui reçoivent des renseignements de demandes. **Aucun contrat de traitement, aucun lieu de traitement et aucune garantie de prestataire n'a été vérifié** : toutes les mentions ci-dessous restent des hypothèses à confirmer. Les lieux sont des indications, non des faits établis. La mention « portail app-na3 » pour HubSpot n'est pas vérifiée non plus.
 
 | Fournisseur | Rôle | Renseignements transmis | Lieu à confirmer |
 |---|---|---|---|
