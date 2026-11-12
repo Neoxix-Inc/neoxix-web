@@ -1,4 +1,5 @@
 import { modeFormulaire } from "@/lib/demande/traitement";
+import { Offres } from "@/components/vitrine/offres";
 import {
   APropos,
   AppelAction,
@@ -14,12 +15,13 @@ import {
   Solutions,
 } from "@/components/vitrine/sections";
 
-/** Accueil : identité V5 ; ordre de lancement : prestations d'abord, puis besoins, méthode, preuves, contact. */
+/** Accueil : identité V5 ; ordre : offres de démarrage, prestations, besoins, méthode, preuves, contact. */
 export default function Accueil() {
   return (
     <>
       <Heros />
       <Confiance />
+      <Offres />
       <Services />
       <Solutions />
       <AppelAction />

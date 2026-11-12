@@ -55,6 +55,7 @@ test.describe("accueil : sections V5 dans l'ordre du dossier", () => {
     const titres = await page.locator("main h1, main h2").allInnerTexts();
     expect(titres.map((t) => t.replace(/\s+/g, " ").trim())).toEqual([
       "Des solutions informatiques adaptées à votre entreprise.",
+      "Offres pour démarrer rapidement.",
       "Quatre domaines d'intervention, un seul interlocuteur.",
       "Partez de votre problème.",
       "Un projet, un problème technique ou une simple question ?",
@@ -74,6 +75,8 @@ test.describe("accueil : sections V5 dans l'ordre du dossier", () => {
     await expect(page.locator("body")).not.toContainText(/LeadFlow|non commercialisé/);
     await expect(page.locator(".grille-realisations .realisation")).toHaveCount(3);
     await expect(page.locator(".faq details")).toHaveCount(8);
+    await expect(page.locator("#offres .grille-offres .offre")).toHaveCount(3);
+    await expect(page.locator("#offres .offre .statut")).toHaveText(["Tarif : Sur devis", "Tarif : Sur devis", "Tarif : Sur devis"]);
     await expect(page.getByText("Livré", { exact: true })).toBeVisible();
     await expect(page.locator(".realisation .statut", { hasText: "Livré" })).toHaveCount(0);
   });

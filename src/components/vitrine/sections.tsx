@@ -19,7 +19,7 @@ export function TitreMarque({ titre }: { titre: TitreMarqueType }) {
   );
 }
 
-function EnTete({ section, idTitre, Niveau = "h2" }: { section: EnTeteSection; idTitre: string; Niveau?: "h1" | "h2" }) {
+export function EnTete({ section, idTitre, Niveau = "h2" }: { section: EnTeteSection; idTitre: string; Niveau?: "h1" | "h2" }) {
   return (
     <div className={`entete-section revele${section.intro ? "" : " simple"}`}>
       <div>

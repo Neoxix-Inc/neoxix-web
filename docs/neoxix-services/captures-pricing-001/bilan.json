@@ -1,0 +1,72 @@
+[
+  {
+    "vue": "1440",
+    "chemin": "/",
+    "debordement": 0,
+    "erreurs": 0,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1440-accueil.png"
+  },
+  {
+    "vue": "1440",
+    "chemin": "/tarifs",
+    "debordement": 0,
+    "erreurs": 0,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1440-tarifs.png"
+  },
+  {
+    "vue": "1440",
+    "chemin": "/offres/google-workspace",
+    "debordement": 0,
+    "erreurs": 0,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1440-offre-google-workspace.png"
+  },
+  {
+    "vue": "1440",
+    "chemin": "/offres/support-informatique-pme",
+    "debordement": 0,
+    "erreurs": 0,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1440-offre-support-pme.png"
+  },
+  {
+    "vue": "1440",
+    "chemin": "/offres/reservation-en-ligne",
+    "debordement": 0,
+    "erreurs": 0,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1440-offre-reservation.png"
+  },
+  {
+    "vue": "390",
+    "chemin": "/",
+    "debordement": 0,
+    "erreurs": 0,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/390-accueil.png"
+  },
+  {
+    "vue": "390",
+    "chemin": "/tarifs",
+    "debordement": 0,
+    "erreurs": 0,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/390-tarifs.png"
+  },
+  {
+    "vue": "390",
+    "chemin": "/offres/google-workspace",
+    "debordement": 0,
+    "erreurs": 0,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/390-offre-google-workspace.png"
+  },
+  {
+    "vue": "390",
+    "chemin": "/offres/support-informatique-pme",
+    "debordement": 0,
+    "erreurs": 0,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/390-offre-support-pme.png"
+  },
+  {
+    "vue": "390",
+    "chemin": "/offres/reservation-en-ligne",
+    "debordement": 0,
+    "erreurs": 0,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/390-offre-reservation.png"
+  }
+]

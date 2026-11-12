@@ -1,4 +1,5 @@
 import type { Contenu } from "../types";
+import { offres, tarifs } from "./offres";
 
 /**
  * Contenu français du site vitrine NEOXIX Services.
@@ -21,7 +22,9 @@ export const fr: Contenu = {
   },
   navigation: [
     { libelle: "Services", href: "/#services" },
+    { libelle: "Offres", href: "/#offres" },
     { libelle: "Solutions", href: "/#solutions" },
+    { libelle: "Tarifs", href: "/tarifs" },
     { libelle: "Méthode", href: "/#methode" },
     { libelle: "Réalisations", href: "/#realisations" },
     { libelle: "À propos", href: "/#a-propos" },
@@ -55,6 +58,8 @@ export const fr: Contenu = {
       "Français, anglais sur demande",
     ],
   },
+  offres,
+  tarifs,
   solutions: {
     surtitre: "Solutions",
     titre: { avant: "Partez de ", marque: "votre problème." },

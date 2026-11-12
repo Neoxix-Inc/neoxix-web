@@ -77,6 +77,46 @@ export type Formule = { titre: string; texte: string; statut: string };
 
 export type OptionService = { valeur: string; libelle: string };
 
+/**
+ * Offre de démarrage : prestation courte à périmètre fixe, présentée sur l'accueil, la page Tarifs
+ * et sa propre page. Source unique : `contenu.offres.items`.
+ */
+export type OffreDemarrage = {
+  /** Segment d'URL : `/offres/[slug]`. */
+  slug: string;
+  titre: string;
+  accroche: string;
+  /** Public visé, en une phrase. */
+  pour: string;
+  resultat: string;
+  inclus: string[];
+  nonInclus: string[];
+  deroulement: string[];
+  etiquettes: string[];
+  icone: NomIcone;
+  /**
+   * Montant confirmé par le propriétaire, en texte libre (ex. « 0 $ », jamais inventé).
+   * `null` tant qu'il n'est pas validé : la page affiche « Sur devis ».
+   */
+  prix: string | null;
+  /** Pôle de service qui précise la prestation (lien « Voir le service »). */
+  pole?: string;
+  pourDevis: string;
+  note?: string;
+};
+
+export type Offres = EnTeteSection & {
+  items: OffreDemarrage[];
+  /** Règle de tarification commune, affichée sur la page Tarifs. */
+  tarification: string;
+};
+
+export type Tarifs = EnTeteSection & {
+  /** Mention affichée tant que les montants ne sont pas publiés. */
+  statutMontants: string;
+  engagements: string[];
+};
+
 export type Contenu = {
   langue: Langue;
   site: {
@@ -101,6 +141,8 @@ export type Contenu = {
   };
   solutions: EnTeteSection & { items: Solution[]; note: string };
   services: EnTeteSection & { tarification: string; poles: Pole[] };
+  offres: Offres;
+  tarifs: Tarifs;
   realisations: EnTeteSection & { items: Realisation[]; legende: { terme: string; sens: string }[] };
   appelAction: { titre: string; texte: string };
   apropos: EnTeteSection & { points: { titre: string; texte: string }[] };

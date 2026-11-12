@@ -1,9 +1,10 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
-import { contenu, lienCourriel, trouverPole } from "@/content";
+import { contenu, lienCourriel, trouverOffre, trouverPole } from "@/content";
 import { sectionsConfidentialite } from "@/lib/confidentialite";
 import { modeFormulaire } from "@/lib/demande/traitement";
+import { donneesStructurees } from "@/lib/donnees-structurees";
 
 const MAQUETTE_CHEMIN = "design/v5/index.html";
 const MAQUETTE_SHA256 = "5ad1cd451257280f66c8bcd070a19daf8951a578d44cfdd936ac0c96f245b62a";
@@ -87,6 +88,41 @@ describe("critères d'acceptation V5 (§ 10, points 7 et 8) sur tout le contenu"
 
   it("aucune « demande envoyée » affichée tant que le mode réel n'existe pas", () => {
     expect(chaines(contenu.leadflow.modes.mock).join(" ")).not.toMatch(/envoyée|transmise à NEOXIX/i);
+  });
+});
+
+describe("offres de démarrage et tarifs (lot PRICING-001)", () => {
+  it("trois offres, chacune avec une page, un périmètre exclu et un déroulement", () => {
+    expect(contenu.offres.items.map((o) => o.slug)).toEqual(["google-workspace", "support-informatique-pme", "reservation-en-ligne"]);
+    for (const o of contenu.offres.items) {
+      expect(o.inclus.length).toBeGreaterThan(2);
+      expect(o.nonInclus.length).toBeGreaterThan(0);
+      expect(o.deroulement.length).toBeGreaterThan(1);
+      expect(trouverOffre(o.slug)).toBe(o);
+    }
+  });
+
+  it("aucun montant inventé : chaque tarif reste « Sur devis » (prix null) tant qu'il n'est pas validé", () => {
+    for (const o of contenu.offres.items) expect(o.prix).toBeNull();
+  });
+
+  it("chaque offre liée renvoie à un pôle existant", () => {
+    for (const o of contenu.offres.items) if (o.pole) expect(trouverPole(o.pole)).toBeDefined();
+  });
+
+  it("aucune revendication de partenariat, de revente ou de certification pour les offres et la page Tarifs", () => {
+    const texte = chaines([contenu.offres, contenu.tarifs]).join(" ");
+    expect(texte).not.toMatch(/revendeur|partenaire (agréé|officiel)|Google Partner|certifi[ée]/i);
+    // Google Workspace : mention de marque, sans affiliation.
+    expect(texte).toMatch(/n'est pas affiliée à Google/);
+  });
+
+  it("données structurées : identité locale publiée uniquement, sans téléphone ni prix non validé", () => {
+    const json = JSON.stringify(donneesStructurees());
+    expect(json).toMatch(/"addressLocality":"Gatineau"/);
+    expect(json).toMatch(/info@neoxix\.ca/);
+    expect(json).not.toMatch(/telephone|"price"/);
+    expect(donneesStructurees().hasOfferCatalog.itemListElement).toHaveLength(3);
   });
 });
 
