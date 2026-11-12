@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { contenu, elementsDuPole, lienCourriel, trouverPole } from "@/content";
+import { contenu, lienCourriel, trouverPole } from "@/content";
+import { elementsDuPole } from "@/lib/catalogue";
 import { EnTetePage } from "@/components/vitrine/sections";
 import { metadonneesPage } from "@/lib/metadonnees";
 import { formatMontant } from "@/lib/tarification";

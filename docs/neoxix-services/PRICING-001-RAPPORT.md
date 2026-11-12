@@ -1,5 +1,8 @@
 # Mission NEOXIX-SERVICES-PRICING-001 · Phase 1 · Rapport de livraison
 
+> **REMPLACÉ.** Ce rapport décrit la phase 1 (commit `642bf9c`), dont les tarifs étaient « Sur devis » partout.
+> Voir `PRICING-001-1B-RAPPORT.md` (catalogue) puis `PRICING-001-1C-RAPPORT.md` (corrections de supervision, état actuel).
+
 Statut : maquette locale, non publiée. Aucune fusion, aucun déploiement, aucune intégration définitive.
 Branche : `feat/services-pricing-001`, créée depuis `main` au commit `40c7b3f`.
 

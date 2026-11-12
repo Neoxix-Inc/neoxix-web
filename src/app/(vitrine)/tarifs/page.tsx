@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { contenu, elementsDuPole } from "@/content";
+import { contenu } from "@/content";
+import { catalogue, elementsDuPole } from "@/lib/catalogue";
 import { EnTetePage, TitreMarque } from "@/components/vitrine/sections";
 import { StatutMontants, TableauCategorie } from "@/components/vitrine/offres";
 import { formatMontant } from "@/lib/tarification";
@@ -13,9 +14,9 @@ export const metadata: Metadata = metadonneesPage({
   chemin: "/tarifs",
 });
 
-/** Page Tarifs : compacte, lit tout le catalogue (`contenu.catalogue`) ; ne recopie pas les pôles. */
+/** Page Tarifs : compacte, lit tout le catalogue (`src/lib/catalogue.ts`) ; ne recopie pas les pôles. */
 export default function PageTarifs() {
-  const { actionPrincipale, site, appelAction, tarifs, catalogue, services } = contenu;
+  const { actionPrincipale, site, appelAction, tarifs, services } = contenu;
   return (
     <>
       <EnTetePage

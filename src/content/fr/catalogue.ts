@@ -1,6 +1,18 @@
 import type { Catalogue } from "../types";
 
 /**
+ * Autorisation de publication commerciale : désactivée par défaut.
+ * Double verrou : cette constante doit passer à `true` par commit approuvé par le propriétaire, ET la
+ * variable d'environnement `PUBLICATION_TARIFS=autorisee` doit être présente. Chaque montant publié
+ * doit en plus être approuvé individuellement (`statut: "approuve"` + `approbation`).
+ */
+export const autorisationPublication = {
+  autorisee: false,
+  /** Référence de la décision écrite du propriétaire (à renseigner avant tout passage à `true`). */
+  reference: null as string | null,
+};
+
+/**
  * Catalogue NEOXIX : source unique de tous les montants du site.
  *
  * Montants proposés par le propriétaire dans le cadrage initial (dollars canadiens). Ils sont
@@ -150,6 +162,8 @@ export const catalogue: Catalogue = {
       unite: "forfait",
       aPartirDe: false,
       exclusions: ["Migrations, facturées par boîte", "Licences Google Workspace"],
+      pointArbitrage:
+        "Point commercial à arbitrer : ce forfait remplace-t-il la configuration initiale (500 $ CA) ou s'y ajoute-t-il ? Non tranché dans le cadrage.",
       statut: "propose",
     },
     {
@@ -208,6 +222,8 @@ export const catalogue: Catalogue = {
         "Ne couvre pas les déplacements : modalités à valider",
         "Ne couvre pas les interventions sur place : modalités à valider",
       ],
+      pointArbitrage:
+        "Point commercial à arbitrer : pour un usage à distance seul, cinq heures à 95 $ CA font 475 $ CA ; la banque à 525 $ CA coûte 50 $ CA de plus, sauf prestation supplémentaire.",
       statut: "propose",
     },
     {

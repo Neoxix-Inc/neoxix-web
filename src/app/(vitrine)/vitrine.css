@@ -581,3 +581,4 @@ main section.appel { padding: 64px 0; overflow: hidden; }
   .nav-principale a:not(.btn) { font-size: 14.5px; }
   .nav-principale .btn { padding: 10px 14px; font-size: 14.5px; }
 }
+.tableau-arbitrage { margin: 8px 0 0; padding: 8px 10px; font-size: 13px; color: #6e3416; background: var(--lavis); border-left: 3px solid var(--ambre-fonce); border-radius: 6px; }

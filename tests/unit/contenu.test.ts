@@ -1,11 +1,13 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
-import { contenu, lienCourriel, trouverElement, trouverPole } from "@/content";
+import { contenu, lienCourriel, trouverPole } from "@/content";
+import { catalogue, trouverElement } from "@/lib/catalogue";
 import { sectionsConfidentialite } from "@/lib/confidentialite";
 import { modeFormulaire } from "@/lib/demande/traitement";
 import { donneesStructurees } from "@/lib/donnees-structurees";
-import { formatMontant, montantsAffiches } from "@/lib/tarification";
+import { etiquetteStatut, formatMontant, montantPublieAutorise, montantsAffiches, montantsProposesVisibles } from "@/lib/tarification";
+import { autorisationPublication } from "@/content/fr/catalogue";
 
 const MAQUETTE_CHEMIN = "design/v5/index.html";
 const MAQUETTE_SHA256 = "5ad1cd451257280f66c8bcd070a19daf8951a578d44cfdd936ac0c96f245b62a";
@@ -128,16 +130,16 @@ describe("catalogue et offres de démarrage (lot PRICING-001, phase 1B)", () => 
   });
 
   it("seules la maintenance-supervision automatisation et les applications sur mesure sont sur devis", () => {
-    const surDevis = contenu.catalogue.elements.filter((e) => e.montant === null).map((e) => e.id);
+    const surDevis = catalogue.elements.filter((e) => e.montant === null).map((e) => e.id);
     expect(surDevis.sort()).toEqual(["applications-sur-mesure", "maintenance-supervision-automatisation"]);
   });
 
   it("tous les éléments restent au statut « proposé » : aucun montant approuvé", () => {
-    for (const e of contenu.catalogue.elements) expect(e.statut, e.id).toBe("propose");
+    for (const e of catalogue.elements) expect(e.statut, e.id).toBe("propose");
   });
 
   it("« à partir de » seulement pour les prestations-projet ; jamais pour un tarif horaire, mensuel, par boîte ou par banque", () => {
-    for (const e of contenu.catalogue.elements) {
+    for (const e of catalogue.elements) {
       if (["par-heure", "par-mois", "par-boite", "par-banque"].includes(e.unite)) expect(e.aPartirDe, e.id).toBe(false);
     }
     expect(trouverElement("site-essentiel")?.aPartirDe).toBe(true);
@@ -145,7 +147,7 @@ describe("catalogue et offres de démarrage (lot PRICING-001, phase 1B)", () => 
 
   it("chaque pôle du catalogue existe, et chaque offre ne référence que des éléments existants", () => {
     const slugs = contenu.services.poles.map((p) => p.slug);
-    for (const e of contenu.catalogue.elements) expect(slugs, e.id).toContain(e.pole);
+    for (const e of catalogue.elements) expect(slugs, e.id).toContain(e.pole);
     for (const o of contenu.offres.items) {
       expect(o.references.length, o.slug).toBeGreaterThan(0);
       for (const id of o.references) expect(trouverElement(id), `${o.slug} -> ${id}`).toBeDefined();
@@ -175,14 +177,14 @@ describe("catalogue et offres de démarrage (lot PRICING-001, phase 1B)", () => 
   });
 
   it("aucune promesse 24/7, SLA ou helpdesk garanti dans les offres et les tarifs", () => {
-    const texte = chaines([contenu.offres, contenu.tarifs, contenu.catalogue]).join(" ");
+    const texte = chaines([contenu.offres, contenu.tarifs, catalogue]).join(" ");
     expect(texte).not.toMatch(/24\s?\/\s?7(?!\s*:\s*non incluse)/i);
     expect(texte).not.toMatch(/SLA\s+(garanti|de\s+\d)/i);
     expect(texte).not.toMatch(/helpdesk\s+(24|disponible)/i);
   });
 
   it("aucune revendication de partenariat, de revente ou de certification", () => {
-    const texte = chaines([contenu.offres, contenu.tarifs, contenu.catalogue]).join(" ");
+    const texte = chaines([contenu.offres, contenu.tarifs, catalogue]).join(" ");
     expect(texte).not.toMatch(/revendeur|partenaire (agréé|officiel)|Google Partner|certifi[ée]/i);
     expect(texte).toMatch(/n'est pas affiliée à Google/);
   });
@@ -196,34 +198,63 @@ describe("catalogue et offres de démarrage (lot PRICING-001, phase 1B)", () => 
   });
 });
 
-describe("affichage des montants", () => {
+describe("affichage des montants et publication (trois niveaux)", () => {
   const sitesEssentiel = trouverElement("site-essentiel")!;
   const maintenance = trouverElement("maintenance-web")!;
   const migration = trouverElement("workspace-migration")!;
   const heure = trouverElement("assistance-distance")!;
   const reseau = trouverElement("installation-reseau")!;
   const surDevis = trouverElement("applications-sur-mesure")!;
-  const hors = { VERCEL_ENV: "preview" } as unknown as NodeJS.ProcessEnv;
+  const local = {} as unknown as NodeJS.ProcessEnv;
+  const preview = { VERCEL_ENV: "preview" } as unknown as NodeJS.ProcessEnv;
+  const prod = { VERCEL_ENV: "production" } as unknown as NodeJS.ProcessEnv;
+  const apercuProtege = { VERCEL_ENV: "preview", TARIFS_APERCU: "protege" } as unknown as NodeJS.ProcessEnv;
 
-  it("formate les montants en CAD, avec « à partir de » et l'unité", () => {
-    expect(formatMontant(sitesEssentiel, hors)).toBe("à partir de 900\u00a0$\u00a0CA");
-    expect(formatMontant(reseau, hors)).toBe("à partir de 3\u00a0000\u00a0$\u00a0CA");
-    expect(formatMontant(maintenance, hors)).toBe("149\u00a0$\u00a0CA / mois");
-    expect(formatMontant(migration, hors)).toBe("150\u00a0$\u00a0CA par boîte");
-    expect(formatMontant(heure, hors)).toBe("95\u00a0$\u00a0CA / heure");
-    expect(formatMontant(surDevis, hors)).toBe("Sur devis");
+  it("formate les montants en CAD, avec « à partir de » et l'unité (build local)", () => {
+    expect(formatMontant(sitesEssentiel, local)).toBe("à partir de 900\u00a0$\u00a0CA");
+    expect(formatMontant(reseau, local)).toBe("à partir de 3\u00a0000\u00a0$\u00a0CA");
+    expect(formatMontant(maintenance, local)).toBe("149\u00a0$\u00a0CA / mois");
+    expect(formatMontant(migration, local)).toBe("150\u00a0$\u00a0CA par boîte");
+    expect(formatMontant(heure, local)).toBe("95\u00a0$\u00a0CA / heure");
+    expect(formatMontant(surDevis, local)).toBe("Sur devis");
   });
 
-  it("en production, aucun montant proposé n'est affiché : « Sur devis » partout", () => {
-    const prod = { VERCEL_ENV: "production" } as unknown as NodeJS.ProcessEnv;
-    expect(montantsAffiches(prod)).toBe(false);
+  it("niveau 1 : aucun montant proposé en production", () => {
+    expect(montantsProposesVisibles(prod)).toBe(false);
     expect(formatMontant(sitesEssentiel, prod)).toBe("Sur devis");
     expect(formatMontant(maintenance, prod)).toBe("Sur devis");
   });
 
-  it("hors production (local, aperçu), les montants proposés sont visibles", () => {
-    expect(montantsAffiches({} as NodeJS.ProcessEnv)).toBe(true);
-    expect(montantsAffiches(hors)).toBe(true);
+  it("aperçu : hors production sans protection déclarée, aucun montant de preview public", () => {
+    expect(montantsProposesVisibles(preview)).toBe(false);
+    expect(formatMontant(sitesEssentiel, preview)).toBe("Sur devis");
+    expect(montantsAffiches(preview)).toBe(false);
+  });
+
+  it("aperçu protégé : montants proposés visibles seulement si TARIFS_APERCU=protege est déclaré", () => {
+    expect(montantsProposesVisibles(apercuProtege)).toBe(true);
+    expect(formatMontant(sitesEssentiel, apercuProtege)).toBe("à partir de 900\u00a0$\u00a0CA");
+    expect(etiquetteStatut(sitesEssentiel, apercuProtege)).toBe("Proposé, non approuvé");
+  });
+
+  it("niveau 3 : l'autorisation de publication est désactivée par défaut, et ne s'active pas par la seule variable d'environnement", () => {
+    expect(autorisationPublication.autorisee).toBe(false);
+    const autorise = { PUBLICATION_TARIFS: "autorisee" } as unknown as NodeJS.ProcessEnv;
+    for (const e of catalogue.elements) expect(montantPublieAutorise(e, autorise), e.id).toBe(false);
+    expect(formatMontant(sitesEssentiel, { ...prod, ...autorise })).toBe("Sur devis");
+  });
+
+  it("niveau 2 : aucun élément approuvé sans référence écrite d'approbation", () => {
+    for (const e of catalogue.elements) {
+      if (e.statut === "approuve") expect(e.approbation, e.id).toBeTruthy();
+    }
+    expect(catalogue.elements.filter((e) => e.statut === "approuve")).toHaveLength(0);
+  });
+
+  it("le point commercial de la banque de cinq heures et celui du forfait Workspace sont signalés", () => {
+    expect(trouverElement("assistance-banque-cinq-heures")?.pointArbitrage).toMatch(/475/);
+    expect(trouverElement("assistance-banque-cinq-heures")?.pointArbitrage).toMatch(/50 \$ CA de plus/);
+    expect(trouverElement("workspace-forfait-cinq-utilisateurs")?.pointArbitrage).toMatch(/à arbitrer/);
   });
 });
 

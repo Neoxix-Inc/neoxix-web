@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { contenu, elementsDeLOffre, lienCourriel } from "@/content";
+import { contenu, lienCourriel } from "@/content";
 import type { ElementCatalogue, OffreDemarrage } from "@/content/types";
-import { formatMontant, montantsAffiches } from "@/lib/tarification";
+import { elementsDeLOffre } from "@/lib/catalogue";
+import { etiquetteStatut, formatMontant, montantsAffiches, montantsProposesVisibles } from "@/lib/tarification";
 import { Icone } from "./icones";
 import { EnTete } from "./sections";
 
@@ -81,7 +82,10 @@ export function TableauCategorie({ titre, texte, elements }: { titre: string; te
                   {element.intitule}
                   <span className="tableau-desc">{element.description}</span>
                 </th>
-                <td className="tableau-montant">{formatMontant(element)}</td>
+                <td className="tableau-montant">
+                  {formatMontant(element)}
+                  {etiquetteStatut(element) && <span className="tableau-desc">{etiquetteStatut(element)}</span>}
+                </td>
                 <td>
                   {[...(element.conditions ?? []), ...element.exclusions].length > 0 ? (
                     <ul className="tableau-notes">
@@ -92,6 +96,7 @@ export function TableauCategorie({ titre, texte, elements }: { titre: string; te
                   ) : (
                     <span className="sr-seul">Aucune exclusion particulière</span>
                   )}
+                  {montantsProposesVisibles() && element.pointArbitrage && <p className="tableau-arbitrage">{element.pointArbitrage}</p>}
                 </td>
               </tr>
             ))}

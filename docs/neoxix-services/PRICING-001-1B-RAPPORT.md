@@ -1,5 +1,10 @@
 # NEOXIX-SERVICES-PRICING-001 · Phase 1B · Rapport de correction commerciale
 
+> **CORRIGÉ PAR LE RAPPORT 1C** (`PRICING-001-1C-RAPPORT.md`) sur trois points :
+> - le catalogue compte **23 prestations** (21 numériques + 2 sur devis), et non 22 ;
+> - le bouton principal a un texte **sombre** (`#1b1208`, 6,14:1), et non blanc : l'affirmation de non-conformité est fausse ;
+> - le catalogue fuyait dans le JavaScript public et un montant apparaissait en production : corrigé, et vérifié par `scripts/verifier-publication.sh`.
+
 Branche : `feat/services-pricing-001` (base `642bf9c`). Maquette locale, non publiée.
 Aucune fusion, aucun déploiement, aucun accès créé. Pull request à ouvrir après validation de la maquette par le propriétaire.
 
@@ -7,7 +12,7 @@ Aucune fusion, aucun déploiement, aucun accès créé. Pull request à ouvrir a
 
 | Avant (642bf9c) | Après (phase 1B) |
 |---|---|
-| Aucun montant, « Sur devis » partout | Catalogue de 22 éléments avec les montants du cadrage, en CAD |
+| Aucun montant, « Sur devis » partout | Catalogue de 23 prestations (21 montants + 2 sur devis) avec les montants du cadrage, en CAD |
 | Montants (si ajoutés) recopiés dans chaque composant | Une seule source : `src/content/fr/catalogue.ts`, lue par l'accueil, la page Tarifs, les pages d'offre et les pages de pôle |
 | Trois cartes : « Site web avec réservation », « Google Workspace », « Support PME » | Cartes : « Site web et réservation » (1 400 $ CA), « Google Workspace professionnel » (forfait 1 200 $ CA), « Assistance informatique PME » (PME Essentiel 299 $ CA / mois) |
 | Page Tarifs : quatre cartes de pôle complètes, formules | Page compacte : quatre tableaux par catégorie, hors honoraires, liens vers les pôles avec repère de prix |

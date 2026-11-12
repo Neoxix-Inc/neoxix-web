@@ -108,6 +108,10 @@ export type ElementCatalogue = {
   /** Conditions de facturation (ex. minimum de deux heures sur place). */
   conditions?: string[];
   statut: StatutValidation;
+  /** Référence écrite de l'approbation individuelle du montant (obligatoire si `statut` vaut `approuve`). */
+  approbation?: string;
+  /** Point commercial à arbitrer par le propriétaire, affiché à côté du montant. */
+  pointArbitrage?: string;
 };
 
 export type Catalogue = {
@@ -121,7 +125,7 @@ export type Catalogue = {
 
 /**
  * Offre de démarrage : prestation courte à périmètre fixe, présentée sur l'accueil, la page Tarifs
- * et sa propre page. Les montants viennent exclusivement de `contenu.catalogue` (via `references`).
+ * et sa propre page. Les montants viennent exclusivement du catalogue serveur (`src/lib/catalogue.ts`), via `references`.
  */
 export type OffreDemarrage = {
   /** Segment d'URL : `/offres/[slug]`. */
@@ -180,7 +184,6 @@ export type Contenu = {
   };
   solutions: EnTeteSection & { items: Solution[]; note: string };
   services: EnTeteSection & { tarification: string; poles: Pole[] };
-  catalogue: Catalogue;
   offres: Offres;
   tarifs: Tarifs;
   realisations: EnTeteSection & { items: Realisation[]; legende: { terme: string; sens: string }[] };

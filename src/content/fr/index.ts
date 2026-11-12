@@ -1,6 +1,5 @@
 import type { Contenu } from "../types";
 import { offres, tarifs } from "./offres";
-import { catalogue } from "./catalogue";
 
 /**
  * Contenu français du site vitrine NEOXIX Services.
@@ -59,7 +58,6 @@ export const fr: Contenu = {
       "Français, anglais sur demande",
     ],
   },
-  catalogue,
   offres,
   tarifs,
   solutions: {

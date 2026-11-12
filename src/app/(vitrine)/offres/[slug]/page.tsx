@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { contenu, elementsDeLOffre, trouverOffre, trouverPole } from "@/content";
+import { contenu, trouverOffre, trouverPole } from "@/content";
+import { catalogue, elementsDeLOffre } from "@/lib/catalogue";
 import { EnTetePage } from "@/components/vitrine/sections";
 import { lienDevisOffre, repereOffre, TableauCategorie } from "@/components/vitrine/offres";
 import { metadonneesPage } from "@/lib/metadonnees";
@@ -97,7 +98,7 @@ export default async function PageOffre({ params }: PageProps<"/offres/[slug]">)
                 </div>
               )}
               {offre.note && <p className="note-marques">{offre.note}</p>}
-              <p className="note-marques">{contenu.catalogue.mention}</p>
+              <p className="note-marques">{catalogue.mention}</p>
             </div>
 
             <aside className="encart-pole revele" aria-label="Demander une proposition">
