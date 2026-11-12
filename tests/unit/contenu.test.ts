@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
-import { contenu, lienCourriel, trouverElement, trouverOffre, trouverPole } from "@/content";
+import { contenu, lienCourriel, trouverElement, trouverPole } from "@/content";
 import { sectionsConfidentialite } from "@/lib/confidentialite";
 import { modeFormulaire } from "@/lib/demande/traitement";
 import { donneesStructurees } from "@/lib/donnees-structurees";

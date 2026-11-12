@@ -44,7 +44,7 @@ Les engagements sans source dans le cadrage ont été retirés : formation de l'
 
 | Contrôle | Résultat |
 |---|---|
-| `pnpm lint` | 0 erreur ; 9 avertissements (8 existants, 1 `formatMontant` retiré depuis) |
+| `pnpm lint` | 0 erreur ; 8 avertissements, identiques à la base (tous dans les fichiers de test existants) |
 | `pnpm typecheck` | Réussi après build |
 | `pnpm build` | Réussi |
 | Vitest | 72 / 72 (58 à la base, tests catalogue, montants, production, JSON-LD) |
