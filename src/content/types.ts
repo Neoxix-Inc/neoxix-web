@@ -77,9 +77,51 @@ export type Formule = { titre: string; texte: string; statut: string };
 
 export type OptionService = { valeur: string; libelle: string };
 
+/** Catégorie de facturation, telle que présentée sur la page Tarifs. */
+export type CategorieTarif = "honoraires" | "services-ponctuels" | "forfaits-mensuels" | "tarifs-horaires";
+
+/** Unité de facturation d'un élément du catalogue. */
+export type UniteTarif = "forfait" | "par-boite" | "par-heure" | "par-mois" | "par-banque" | "sur-devis";
+
+/**
+ * Statut commercial. `propose` : montant soumis à validation du propriétaire (jamais publié sur
+ * neoxix.ca en production). `approuve` : réservé à un montant validé par écrit.
+ */
+export type StatutValidation = "propose" | "approuve";
+
+/** Élément du catalogue : une seule source de montant pour tout le site. */
+export type ElementCatalogue = {
+  /** Identifiant stable, utilisé par les offres et les pôles. */
+  id: string;
+  intitule: string;
+  /** Slug du pôle de service associé (`sites-web`, `automatisation`, `infrastructure`, `applications`). */
+  pole: string;
+  categorie: CategorieTarif;
+  description: string;
+  /** Montant en dollars canadiens ; `null` = sur devis. */
+  montant: number | null;
+  devise: "CAD";
+  unite: UniteTarif;
+  /** « à partir de » : prix de départ, selon la portée. */
+  aPartirDe: boolean;
+  exclusions: string[];
+  /** Conditions de facturation (ex. minimum de deux heures sur place). */
+  conditions?: string[];
+  statut: StatutValidation;
+};
+
+export type Catalogue = {
+  /** Mention commune à reprendre sur les pages de tarifs et d'offres. */
+  mention: string;
+  categories: { id: CategorieTarif; titre: string; texte: string }[];
+  /** Coûts hors honoraires, jamais inclus dans les montants ci-dessus sans mention. */
+  horsHonoraires: { titre: string; texte: string }[];
+  elements: ElementCatalogue[];
+};
+
 /**
  * Offre de démarrage : prestation courte à périmètre fixe, présentée sur l'accueil, la page Tarifs
- * et sa propre page. Source unique : `contenu.offres.items`.
+ * et sa propre page. Les montants viennent exclusivement de `contenu.catalogue` (via `references`).
  */
 export type OffreDemarrage = {
   /** Segment d'URL : `/offres/[slug]`. */
@@ -94,11 +136,8 @@ export type OffreDemarrage = {
   deroulement: string[];
   etiquettes: string[];
   icone: NomIcone;
-  /**
-   * Montant confirmé par le propriétaire, en texte libre (ex. « 0 $ », jamais inventé).
-   * `null` tant qu'il n'est pas validé : la page affiche « Sur devis ».
-   */
-  prix: string | null;
+  /** Identifiants d'éléments du catalogue. Le premier sert de repère sur l'accueil. */
+  references: string[];
   /** Pôle de service qui précise la prestation (lien « Voir le service »). */
   pole?: string;
   pourDevis: string;
@@ -141,6 +180,7 @@ export type Contenu = {
   };
   solutions: EnTeteSection & { items: Solution[]; note: string };
   services: EnTeteSection & { tarification: string; poles: Pole[] };
+  catalogue: Catalogue;
   offres: Offres;
   tarifs: Tarifs;
   realisations: EnTeteSection & { items: Realisation[]; legende: { terme: string; sens: string }[] };

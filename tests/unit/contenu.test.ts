@@ -1,10 +1,11 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
-import { contenu, lienCourriel, trouverOffre, trouverPole } from "@/content";
+import { contenu, lienCourriel, trouverElement, trouverOffre, trouverPole } from "@/content";
 import { sectionsConfidentialite } from "@/lib/confidentialite";
 import { modeFormulaire } from "@/lib/demande/traitement";
 import { donneesStructurees } from "@/lib/donnees-structurees";
+import { formatMontant, montantsAffiches } from "@/lib/tarification";
 
 const MAQUETTE_CHEMIN = "design/v5/index.html";
 const MAQUETTE_SHA256 = "5ad1cd451257280f66c8bcd070a19daf8951a578d44cfdd936ac0c96f245b62a";
@@ -91,38 +92,138 @@ describe("critères d'acceptation V5 (§ 10, points 7 et 8) sur tout le contenu"
   });
 });
 
-describe("offres de démarrage et tarifs (lot PRICING-001)", () => {
-  it("trois offres, chacune avec une page, un périmètre exclu et un déroulement", () => {
-    expect(contenu.offres.items.map((o) => o.slug)).toEqual(["google-workspace", "support-informatique-pme", "reservation-en-ligne"]);
-    for (const o of contenu.offres.items) {
-      expect(o.inclus.length).toBeGreaterThan(2);
-      expect(o.nonInclus.length).toBeGreaterThan(0);
-      expect(o.deroulement.length).toBeGreaterThan(1);
-      expect(trouverOffre(o.slug)).toBe(o);
+describe("catalogue et offres de démarrage (lot PRICING-001, phase 1B)", () => {
+  // Montants du cadrage du propriétaire, en dollars canadiens (intégrés pour validation).
+  const cadrage: [string, number][] = [
+    ["site-essentiel", 900],
+    ["site-professionnel-reservation", 1400],
+    ["site-avance-automatisation", 2500],
+    ["maintenance-web", 149],
+    ["workspace-configuration-initiale", 500],
+    ["workspace-migration", 150],
+    ["workspace-forfait-cinq-utilisateurs", 1200],
+    ["workspace-assistance", 199],
+    ["assistance-distance", 95],
+    ["assistance-sur-place", 125],
+    ["assistance-banque-cinq-heures", 525],
+    ["assistance-pme-essentiel", 299],
+    ["assistance-pme-suivi", 699],
+    ["audit-wifi-reseau", 700],
+    ["installation-reseau", 3000],
+    ["nas-sauvegardes", 1500],
+    ["migration-proxmox", 5000],
+    ["automatisation-n8n", 3000],
+    ["hubspot-formulaires", 2000],
+    ["audit-securite-pme", 1500],
+    ["wazuh-supervision-siem", 1000],
+  ];
+
+  it("chaque montant du cadrage figure au catalogue, en CAD, sans altération", () => {
+    for (const [id, montant] of cadrage) {
+      const element = trouverElement(id);
+      expect(element, id).toBeDefined();
+      expect(element?.montant, id).toBe(montant);
+      expect(element?.devise, id).toBe("CAD");
     }
   });
 
-  it("aucun montant inventé : chaque tarif reste « Sur devis » (prix null) tant qu'il n'est pas validé", () => {
-    for (const o of contenu.offres.items) expect(o.prix).toBeNull();
+  it("seules la maintenance-supervision automatisation et les applications sur mesure sont sur devis", () => {
+    const surDevis = contenu.catalogue.elements.filter((e) => e.montant === null).map((e) => e.id);
+    expect(surDevis.sort()).toEqual(["applications-sur-mesure", "maintenance-supervision-automatisation"]);
   });
 
-  it("chaque offre liée renvoie à un pôle existant", () => {
-    for (const o of contenu.offres.items) if (o.pole) expect(trouverPole(o.pole)).toBeDefined();
+  it("tous les éléments restent au statut « proposé » : aucun montant approuvé", () => {
+    for (const e of contenu.catalogue.elements) expect(e.statut, e.id).toBe("propose");
   });
 
-  it("aucune revendication de partenariat, de revente ou de certification pour les offres et la page Tarifs", () => {
-    const texte = chaines([contenu.offres, contenu.tarifs]).join(" ");
+  it("« à partir de » seulement pour les prestations-projet ; jamais pour un tarif horaire, mensuel, par boîte ou par banque", () => {
+    for (const e of contenu.catalogue.elements) {
+      if (["par-heure", "par-mois", "par-boite", "par-banque"].includes(e.unite)) expect(e.aPartirDe, e.id).toBe(false);
+    }
+    expect(trouverElement("site-essentiel")?.aPartirDe).toBe(true);
+  });
+
+  it("chaque pôle du catalogue existe, et chaque offre ne référence que des éléments existants", () => {
+    const slugs = contenu.services.poles.map((p) => p.slug);
+    for (const e of contenu.catalogue.elements) expect(slugs, e.id).toContain(e.pole);
+    for (const o of contenu.offres.items) {
+      expect(o.references.length, o.slug).toBeGreaterThan(0);
+      for (const id of o.references) expect(trouverElement(id), `${o.slug} -> ${id}`).toBeDefined();
+    }
+  });
+
+  it("trois cartes d'accueil : site et réservation, Google Workspace professionnel, assistance PME", () => {
+    expect(contenu.offres.items.map((o) => o.titre)).toEqual([
+      "Site web et réservation",
+      "Google Workspace professionnel",
+      "Assistance informatique PME",
+    ]);
+    expect(contenu.offres.items[0].references[0]).toBe("site-professionnel-reservation");
+  });
+
+  it("Google Workspace : la migration n'est jamais incluse dans la configuration de base ni dans le forfait", () => {
+    expect(trouverElement("workspace-configuration-initiale")?.exclusions.join(" ")).toMatch(/Migration/);
+    expect(trouverElement("workspace-forfait-cinq-utilisateurs")?.exclusions.join(" ")).toMatch(/Migrations/);
+    const offre = contenu.offres.items.find((o) => o.slug === "google-workspace");
+    expect(offre?.nonInclus.join(" ")).toMatch(/Migration des boîtes/);
+    expect(offre?.nonInclus.join(" ")).toMatch(/Licences Google Workspace/);
+  });
+
+  it("assistance : minimum sur place et banque de cinq heures sans couverture supposée des déplacements", () => {
+    expect(trouverElement("assistance-sur-place")?.conditions?.join(" ")).toMatch(/deux heures/);
+    expect(trouverElement("assistance-banque-cinq-heures")?.exclusions.join(" ")).toMatch(/déplacements.*à valider/);
+  });
+
+  it("aucune promesse 24/7, SLA ou helpdesk garanti dans les offres et les tarifs", () => {
+    const texte = chaines([contenu.offres, contenu.tarifs, contenu.catalogue]).join(" ");
+    expect(texte).not.toMatch(/24\s?\/\s?7(?!\s*:\s*non incluse)/i);
+    expect(texte).not.toMatch(/SLA\s+(garanti|de\s+\d)/i);
+    expect(texte).not.toMatch(/helpdesk\s+(24|disponible)/i);
+  });
+
+  it("aucune revendication de partenariat, de revente ou de certification", () => {
+    const texte = chaines([contenu.offres, contenu.tarifs, contenu.catalogue]).join(" ");
     expect(texte).not.toMatch(/revendeur|partenaire (agréé|officiel)|Google Partner|certifi[ée]/i);
-    // Google Workspace : mention de marque, sans affiliation.
     expect(texte).toMatch(/n'est pas affiliée à Google/);
   });
 
-  it("données structurées : identité locale publiée uniquement, sans téléphone ni prix non validé", () => {
+  it("données structurées : identité locale, sans téléphone, sans prix ni zone « Québec » non justifiée", () => {
     const json = JSON.stringify(donneesStructurees());
     expect(json).toMatch(/"addressLocality":"Gatineau"/);
     expect(json).toMatch(/info@neoxix\.ca/);
-    expect(json).not.toMatch(/telephone|"price"/);
+    expect(json).not.toMatch(/telephone|"price"|priceSpecification|"name":"Québec"/);
     expect(donneesStructurees().hasOfferCatalog.itemListElement).toHaveLength(3);
+  });
+});
+
+describe("affichage des montants", () => {
+  const sitesEssentiel = trouverElement("site-essentiel")!;
+  const maintenance = trouverElement("maintenance-web")!;
+  const migration = trouverElement("workspace-migration")!;
+  const heure = trouverElement("assistance-distance")!;
+  const reseau = trouverElement("installation-reseau")!;
+  const surDevis = trouverElement("applications-sur-mesure")!;
+  const hors = { VERCEL_ENV: "preview" } as unknown as NodeJS.ProcessEnv;
+
+  it("formate les montants en CAD, avec « à partir de » et l'unité", () => {
+    expect(formatMontant(sitesEssentiel, hors)).toBe("à partir de 900\u00a0$\u00a0CA");
+    expect(formatMontant(reseau, hors)).toBe("à partir de 3\u00a0000\u00a0$\u00a0CA");
+    expect(formatMontant(maintenance, hors)).toBe("149\u00a0$\u00a0CA / mois");
+    expect(formatMontant(migration, hors)).toBe("150\u00a0$\u00a0CA par boîte");
+    expect(formatMontant(heure, hors)).toBe("95\u00a0$\u00a0CA / heure");
+    expect(formatMontant(surDevis, hors)).toBe("Sur devis");
+  });
+
+  it("en production, aucun montant proposé n'est affiché : « Sur devis » partout", () => {
+    const prod = { VERCEL_ENV: "production" } as unknown as NodeJS.ProcessEnv;
+    expect(montantsAffiches(prod)).toBe(false);
+    expect(formatMontant(sitesEssentiel, prod)).toBe("Sur devis");
+    expect(formatMontant(maintenance, prod)).toBe("Sur devis");
+  });
+
+  it("hors production (local, aperçu), les montants proposés sont visibles", () => {
+    expect(montantsAffiches({} as NodeJS.ProcessEnv)).toBe(true);
+    expect(montantsAffiches(hors)).toBe(true);
   });
 });
 

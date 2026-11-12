@@ -20,7 +20,6 @@ export function donneesStructurees() {
       { "@type": "City", name: "Gatineau" },
       { "@type": "City", name: "Ottawa" },
       { "@type": "AdministrativeArea", name: "Outaouais" },
-      { "@type": "AdministrativeArea", name: "Québec" },
     ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",

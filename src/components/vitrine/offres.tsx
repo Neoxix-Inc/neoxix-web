@@ -1,12 +1,15 @@
 import Link from "next/link";
-import { contenu, lienCourriel, trouverPole } from "@/content";
-import type { OffreDemarrage } from "@/content/types";
+import { contenu, elementsDeLOffre, lienCourriel } from "@/content";
+import type { ElementCatalogue, OffreDemarrage } from "@/content/types";
+import { formatMontant, montantsAffiches } from "@/lib/tarification";
 import { Icone } from "./icones";
 import { EnTete } from "./sections";
 
-/** Montant affiché : valeur validée, ou « Sur devis » tant qu'elle ne l'est pas. */
-export function montantOffre(offre: OffreDemarrage): string {
-  return offre.prix ?? "Sur devis";
+/** Repère de prix d'une offre : son premier élément référencé (prix de départ). */
+export function repereOffre(offre: OffreDemarrage): { intitule: string; montant: string } | null {
+  const [premier] = elementsDeLOffre(offre);
+  if (!premier) return null;
+  return { intitule: premier.intitule, montant: formatMontant(premier) };
 }
 
 /** Lien de demande pré-rempli pour une offre (sujet du courriel = titre de l'offre). */
@@ -22,27 +25,32 @@ export function Offres() {
       <div className="wrap">
         <EnTete section={offres} idTitre="titre-offres" />
         <div className="grille-offres">
-          {offres.items.map((offre) => (
-            <article key={offre.slug} className="carte offre revele">
-              <div className="icone" aria-hidden="true">
-                <Icone nom={offre.icone} />
-              </div>
-              <h3>{offre.titre}</h3>
-              <p>{offre.accroche}</p>
-              <p className="offre-pour">
-                <span className="mono">Pour :</span> {offre.pour}
-              </p>
-              <div className="carte-pied offre-pied">
-                <span className="statut">
-                  <span className="sr-seul">Tarif : </span>
-                  {montantOffre(offre)}
-                </span>
-                <Link className="lien-fleche" href={`/offres/${offre.slug}`}>
-                  Voir l&apos;offre<span className="sr-seul"> : {offre.titre}</span> <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </article>
-          ))}
+          {offres.items.map((offre) => {
+            const repere = repereOffre(offre);
+            return (
+              <article key={offre.slug} className="carte offre revele">
+                <div className="icone" aria-hidden="true">
+                  <Icone nom={offre.icone} />
+                </div>
+                <h3>{offre.titre}</h3>
+                <p>{offre.accroche}</p>
+                <p className="offre-pour">
+                  <span className="mono">Pour :</span> {offre.pour}
+                </p>
+                <div className="carte-pied offre-pied">
+                  {repere && (
+                    <span className="statut">
+                      <span className="sr-seul">Repère tarifaire : </span>
+                      {repere.intitule} : {repere.montant}
+                    </span>
+                  )}
+                  <Link className="lien-fleche" href={`/offres/${offre.slug}`}>
+                    Voir l&apos;offre<span className="sr-seul"> : {offre.titre}</span> <span aria-hidden="true">→</span>
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
         </div>
         <p className="note-bas">{offres.tarification}</p>
       </div>
@@ -50,44 +58,54 @@ export function Offres() {
   );
 }
 
-/** Tableau centralisé des offres de démarrage, page Tarifs. */
-export function TableauTarifs() {
-  const { offres } = contenu;
+/** Tableau d'une catégorie du catalogue, page Tarifs. */
+export function TableauCategorie({ titre, texte, elements }: { titre: string; texte: string; elements: ElementCatalogue[] }) {
   return (
-    <div className="tableau-tarifs-cadre revele">
-      <table className="tableau-tarifs">
-        <caption className="sr-seul">Offres de démarrage et montants</caption>
-        <thead>
-          <tr>
-            <th scope="col">Offre</th>
-            <th scope="col">Public</th>
-            <th scope="col">Montant</th>
-            <th scope="col">
-              <span className="sr-seul">Action</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {offres.items.map((offre) => {
-            const pole = offre.pole ? trouverPole(offre.pole) : undefined;
-            return (
-              <tr key={offre.slug}>
+    <div className="tableau-categorie revele">
+      <h3 className="tableau-categorie-titre">{titre}</h3>
+      <p className="tableau-categorie-texte">{texte}</p>
+      <div className="tableau-tarifs-cadre">
+        <table className="tableau-tarifs">
+          <caption className="sr-seul">{titre}</caption>
+          <thead>
+            <tr>
+              <th scope="col">Prestation</th>
+              <th scope="col">Montant</th>
+              <th scope="col">Exclusions et conditions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {elements.map((element) => (
+              <tr key={element.id}>
                 <th scope="row">
-                  <Link href={`/offres/${offre.slug}`}>{offre.titre}</Link>
-                  {pole && <span className="tableau-pole">Lié au service : {pole.titreCourt}</span>}
+                  {element.intitule}
+                  <span className="tableau-desc">{element.description}</span>
                 </th>
-                <td>{offre.pour}</td>
-                <td className="tableau-montant">{montantOffre(offre)}</td>
+                <td className="tableau-montant">{formatMontant(element)}</td>
                 <td>
-                  <a className="lien-fleche" href={lienDevisOffre(offre)}>
-                    Demander une proposition<span className="sr-seul"> : {offre.titre}</span>
-                  </a>
+                  {[...(element.conditions ?? []), ...element.exclusions].length > 0 ? (
+                    <ul className="tableau-notes">
+                      {[...(element.conditions ?? []), ...element.exclusions].map((note) => (
+                        <li key={note}>{note}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <span className="sr-seul">Aucune exclusion particulière</span>
+                  )}
                 </td>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
+}
+
+/** Mention de statut affichée hors production : montants proposés, non approuvés. */
+export function StatutMontants() {
+  if (!montantsAffiches()) {
+    return <p className="statut-prose">Tarifs sur devis : une proposition écrite précise le montant avant tout travail.</p>;
+  }
+  return <p className="statut-prose">{contenu.tarifs.statutMontants}</p>;
 }

@@ -4,6 +4,7 @@
     "chemin": "/",
     "debordement": 0,
     "erreurs": 0,
+    "h1": 1,
     "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1440-accueil.png"
   },
   {
@@ -11,13 +12,23 @@
     "chemin": "/tarifs",
     "debordement": 0,
     "erreurs": 0,
+    "h1": 1,
     "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1440-tarifs.png"
+  },
+  {
+    "vue": "1440",
+    "chemin": "/offres/reservation-en-ligne",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1440-offre-site-reservation.png"
   },
   {
     "vue": "1440",
     "chemin": "/offres/google-workspace",
     "debordement": 0,
     "erreurs": 0,
+    "h1": 1,
     "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1440-offre-google-workspace.png"
   },
   {
@@ -25,20 +36,95 @@
     "chemin": "/offres/support-informatique-pme",
     "debordement": 0,
     "erreurs": 0,
-    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1440-offre-support-pme.png"
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1440-offre-assistance-pme.png"
   },
   {
-    "vue": "1440",
+    "vue": "1194",
+    "chemin": "/",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1194-accueil.png"
+  },
+  {
+    "vue": "1194",
+    "chemin": "/tarifs",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1194-tarifs.png"
+  },
+  {
+    "vue": "1194",
     "chemin": "/offres/reservation-en-ligne",
     "debordement": 0,
     "erreurs": 0,
-    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1440-offre-reservation.png"
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1194-offre-site-reservation.png"
+  },
+  {
+    "vue": "1194",
+    "chemin": "/offres/google-workspace",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1194-offre-google-workspace.png"
+  },
+  {
+    "vue": "1194",
+    "chemin": "/offres/support-informatique-pme",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/1194-offre-assistance-pme.png"
+  },
+  {
+    "vue": "834",
+    "chemin": "/",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/834-accueil.png"
+  },
+  {
+    "vue": "834",
+    "chemin": "/tarifs",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/834-tarifs.png"
+  },
+  {
+    "vue": "834",
+    "chemin": "/offres/reservation-en-ligne",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/834-offre-site-reservation.png"
+  },
+  {
+    "vue": "834",
+    "chemin": "/offres/google-workspace",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/834-offre-google-workspace.png"
+  },
+  {
+    "vue": "834",
+    "chemin": "/offres/support-informatique-pme",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/834-offre-assistance-pme.png"
   },
   {
     "vue": "390",
     "chemin": "/",
     "debordement": 0,
     "erreurs": 0,
+    "h1": 1,
     "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/390-accueil.png"
   },
   {
@@ -46,13 +132,23 @@
     "chemin": "/tarifs",
     "debordement": 0,
     "erreurs": 0,
+    "h1": 1,
     "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/390-tarifs.png"
+  },
+  {
+    "vue": "390",
+    "chemin": "/offres/reservation-en-ligne",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/390-offre-site-reservation.png"
   },
   {
     "vue": "390",
     "chemin": "/offres/google-workspace",
     "debordement": 0,
     "erreurs": 0,
+    "h1": 1,
     "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/390-offre-google-workspace.png"
   },
   {
@@ -60,13 +156,7 @@
     "chemin": "/offres/support-informatique-pme",
     "debordement": 0,
     "erreurs": 0,
-    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/390-offre-support-pme.png"
-  },
-  {
-    "vue": "390",
-    "chemin": "/offres/reservation-en-ligne",
-    "debordement": 0,
-    "erreurs": 0,
-    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/390-offre-reservation.png"
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-001/390-offre-assistance-pme.png"
   }
 ]

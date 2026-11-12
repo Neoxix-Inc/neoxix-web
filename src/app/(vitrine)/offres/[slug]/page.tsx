@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { contenu, trouverOffre, trouverPole } from "@/content";
+import { contenu, elementsDeLOffre, trouverOffre, trouverPole } from "@/content";
 import { EnTetePage } from "@/components/vitrine/sections";
-import { lienDevisOffre, montantOffre } from "@/components/vitrine/offres";
+import { lienDevisOffre, repereOffre, TableauCategorie } from "@/components/vitrine/offres";
+import { metadonneesPage } from "@/lib/metadonnees";
 
 export const dynamicParams = false;
 
@@ -14,7 +15,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/offres/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const offre = trouverOffre(slug);
-  return offre ? { title: `${offre.titre} · Gatineau et Ottawa`, description: offre.accroche } : {};
+  if (!offre) return {};
+  return metadonneesPage({
+    titre: `${offre.titre} · Gatineau et Ottawa`,
+    description: offre.accroche,
+    chemin: `/offres/${offre.slug}`,
+  });
 }
 
 export default async function PageOffre({ params }: PageProps<"/offres/[slug]">) {
@@ -23,6 +29,8 @@ export default async function PageOffre({ params }: PageProps<"/offres/[slug]">)
   if (!offre) notFound();
   const pole = offre.pole ? trouverPole(offre.pole) : undefined;
   const autres = contenu.offres.items.filter((o) => o.slug !== offre.slug);
+  const elements = elementsDeLOffre(offre);
+  const repere = repereOffre(offre);
 
   return (
     <>
@@ -42,7 +50,7 @@ export default async function PageOffre({ params }: PageProps<"/offres/[slug]">)
                 <p>{offre.resultat}</p>
               </div>
               <div className="rubrique revele">
-                <h2>Ce que comprend l&apos;offre</h2>
+                <h2>Ce qui est inclus</h2>
                 <ul className="liste">
                   {offre.inclus.map((item) => (
                     <li key={item}>{item}</li>
@@ -69,23 +77,40 @@ export default async function PageOffre({ params }: PageProps<"/offres/[slug]">)
                   ))}
                 </ol>
               </div>
+              {elements.length > 0 && (
+                <div className="rubrique revele">
+                  <h2>Tarifs de cette offre</h2>
+                  <TableauCategorie
+                    titre="Éléments de l'offre"
+                    texte="Montants en dollars canadiens, hors licences tierces, matériel, déplacements et taxes applicables."
+                    elements={elements}
+                  />
+                </div>
+              )}
               {pole && (
                 <div className="rubrique revele">
                   <h2>Service associé</h2>
                   <p>
-                    Cette offre relève du pôle{" "}
-                    <Link href={`/services/${pole.slug}`}>{pole.titre}</Link>, qui couvre le périmètre plus large de ce type de mandat.
+                    Cette offre relève du pôle <Link href={`/services/${pole.slug}`}>{pole.titre}</Link>, qui couvre le périmètre plus large de ce
+                    type de mandat.
                   </p>
                 </div>
               )}
               {offre.note && <p className="note-marques">{offre.note}</p>}
+              <p className="note-marques">{contenu.catalogue.mention}</p>
             </div>
 
             <aside className="encart-pole revele" aria-label="Demander une proposition">
               <div>
-                <h2>Tarif</h2>
-                <p className="prix-offre">{montantOffre(offre)}</p>
-                <p>{contenu.offres.tarification}</p>
+                <h2>Repère tarifaire</h2>
+                {repere ? (
+                  <>
+                    <p className="prix-offre">{repere.montant}</p>
+                    <p>{repere.intitule}</p>
+                  </>
+                ) : (
+                  <p className="prix-offre">Sur devis</p>
+                )}
               </div>
               <div>
                 <h2>Pour votre devis</h2>

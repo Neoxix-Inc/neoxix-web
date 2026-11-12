@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { contenu } from "@/content";
 import { CarteService, EnTetePage, TitreMarque } from "@/components/vitrine/sections";
+import { metadonneesPage } from "@/lib/metadonnees";
 
-export const metadata: Metadata = {
-  title: "Services",
-  description: contenu.services.intro,
-};
+export const metadata: Metadata = metadonneesPage({
+  titre: "Services",
+  description: contenu.services.intro ?? contenu.site.description,
+  chemin: "/services",
+});
 
 export default function PageServices() {
   const { services, formules, actionPrincipale } = contenu;

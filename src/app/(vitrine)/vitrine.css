@@ -551,3 +551,33 @@ main section.appel { padding: 64px 0; overflow: hidden; }
   .tableau-tarifs th, .tableau-tarifs td { border: 0; padding: 4px 0; }
   .tableau-tarifs td { margin-top: 6px; }
 }
+
+/* ---- Lot PRICING-001 (phase 1B) : catalogue par catégorie, pôles et repères tarifaires ---- */
+.mention-commune { font-size: 14px; color: var(--encre-2); max-width: 74ch; margin: 0 0 36px; padding: 14px 16px; border-left: 3px solid var(--filet); background: #fff; }
+.tableau-categorie { margin-top: 40px; }
+.tableau-categorie-titre { font-size: 1.35rem; margin-bottom: 6px; }
+.tableau-categorie-texte { color: var(--encre-2); font-size: 15px; margin-bottom: 14px; max-width: 70ch; }
+.tableau-desc { display: block; margin-top: 4px; font-weight: 400; font-size: 13.5px; color: var(--encre-2); }
+.tableau-notes { margin: 0; padding-left: 18px; font-size: 13.5px; }
+.tableau-notes li + li { margin-top: 4px; }
+.grille-hors { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.grille-hors .carte h3 { font-size: 1.05rem; }
+.grille-poles-tarifs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.grille-poles-tarifs .carte { height: 100%; }
+.tarifs-pole { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; max-height: 340px; overflow-y: auto; }
+.tarifs-pole li { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--encre-2); border-bottom: 1px solid var(--filet); padding-bottom: 6px; }
+.tarifs-pole strong { color: var(--texte); white-space: nowrap; font-weight: 600; }
+@media (max-width: 1100px) {
+  .grille-hors, .grille-poles-tarifs { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 620px) {
+  .grille-hors, .grille-poles-tarifs { grid-template-columns: 1fr; }
+  .tarifs-pole li { flex-direction: column; gap: 2px; }
+}
+/* Navigation de bureau entre 961 et 1100 px : sept liens sans retour à la ligne, espacement resserré. */
+.nav-principale a { white-space: nowrap; }
+@media (max-width: 1100px) and (min-width: 961px) {
+  .nav-principale { gap: 16px; }
+  .nav-principale a:not(.btn) { font-size: 14.5px; }
+  .nav-principale .btn { padding: 10px 14px; font-size: 14.5px; }
+}

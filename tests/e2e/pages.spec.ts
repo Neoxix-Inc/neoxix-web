@@ -76,7 +76,11 @@ test.describe("accueil : sections V5 dans l'ordre du dossier", () => {
     await expect(page.locator(".grille-realisations .realisation")).toHaveCount(3);
     await expect(page.locator(".faq details")).toHaveCount(8);
     await expect(page.locator("#offres .grille-offres .offre")).toHaveCount(3);
-    await expect(page.locator("#offres .offre .statut")).toHaveText(["Tarif : Sur devis", "Tarif : Sur devis", "Tarif : Sur devis"]);
+    await expect(page.locator("#offres .offre .statut")).toHaveText([
+      /Site Professionnel avec réservation : à partir de 1\s400\s\$\sCA/,
+      /Workspace Google professionnel|Forfait jusqu'à cinq utilisateurs : 1\s200\s\$\sCA/,
+      /PME Essentiel : 299\s\$\sCA \/ mois/,
+    ]);
     await expect(page.getByText("Livré", { exact: true })).toBeVisible();
     await expect(page.locator(".realisation .statut", { hasText: "Livré" })).toHaveCount(0);
   });

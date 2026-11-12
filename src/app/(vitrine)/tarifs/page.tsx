@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { contenu } from "@/content";
-import { CarteService, EnTetePage, TitreMarque } from "@/components/vitrine/sections";
-import { TableauTarifs } from "@/components/vitrine/offres";
+import { contenu, elementsDuPole } from "@/content";
+import { EnTetePage, TitreMarque } from "@/components/vitrine/sections";
+import { StatutMontants, TableauCategorie } from "@/components/vitrine/offres";
+import { formatMontant } from "@/lib/tarification";
+import { metadonneesPage } from "@/lib/metadonnees";
 
-export const metadata: Metadata = {
-  title: "Tarifs",
+export const metadata: Metadata = metadonneesPage({
+  titre: "Tarifs",
   description:
-    "Tarifs NEOXIX : offres de démarrage, accompagnement et pôles de services. Périmètre écrit, exclusions précisées et montant sur devis, à Gatineau, à Ottawa et à distance.",
-};
+    "Tarifs NEOXIX : honoraires, services ponctuels, forfaits mensuels et tarifs horaires pour les PME de Gatineau, d'Ottawa et à distance. Périmètre écrit et exclusions précisées.",
+  chemin: "/tarifs",
+});
 
-/** Page Tarifs : source unique (`contenu.offres`, `contenu.formules`, `contenu.services`). */
+/** Page Tarifs : compacte, lit tout le catalogue (`contenu.catalogue`) ; ne recopie pas les pôles. */
 export default function PageTarifs() {
-  const { formules, services, actionPrincipale, site, appelAction, tarifs } = contenu;
+  const { actionPrincipale, site, appelAction, tarifs, catalogue, services } = contenu;
   return (
     <>
       <EnTetePage
@@ -22,51 +25,70 @@ export default function PageTarifs() {
         fil={[{ libelle: "Accueil", href: "/" }, { libelle: "Tarifs" }]}
       />
 
-      <section aria-labelledby="titre-offres-tarifs">
+      <section aria-labelledby="titre-catalogue">
         <div className="wrap">
-          <h2 id="titre-offres-tarifs" className="rubrique-titre">
-            Offres de démarrage
+          <h2 id="titre-catalogue" className="sr-seul">
+            Catalogue des tarifs
           </h2>
-          <p className="statut-prose">{tarifs.statutMontants}</p>
-          <TableauTarifs />
-          <p className="note-bas">{contenu.offres.tarification}</p>
+          <StatutMontants />
+          <p className="mention-commune">{catalogue.mention}</p>
+
+          {catalogue.categories.map((categorie) => (
+            <TableauCategorie
+              key={categorie.id}
+              titre={categorie.titre}
+              texte={categorie.texte}
+              elements={catalogue.elements.filter((e) => e.categorie === categorie.id)}
+            />
+          ))}
         </div>
       </section>
 
-      <section className="fond-blanc" aria-labelledby="titre-accompagnement">
+      <section className="fond-blanc" aria-labelledby="titre-hors-honoraires">
         <div className="wrap">
           <div className="entete-section simple revele">
             <div>
-              <p className="surtitre">{formules.surtitre}</p>
-              <h2 id="titre-accompagnement">
-                <TitreMarque titre={formules.titre} />
+              <p className="surtitre">Hors honoraires</p>
+              <h2 id="titre-hors-honoraires">
+                Ce qui <span className="accent">n&apos;est pas dans nos honoraires.</span>
               </h2>
             </div>
-            <p className="lede">{formules.intro}</p>
           </div>
-          <div className="grille-formules">
-            {formules.items.map((formule) => (
-              <article key={formule.titre} className="carte revele">
-                <h3>{formule.titre}</h3>
-                <p>{formule.texte}</p>
-                <span className="statut">{formule.statut}</span>
-              </article>
+          <ul className="grille-hors">
+            {catalogue.horsHonoraires.map((item) => (
+              <li key={item.titre} className="carte revele">
+                <h3>{item.titre}</h3>
+                <p>{item.texte}</p>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
       <section aria-labelledby="titre-poles-tarifs">
         <div className="wrap">
           <h2 id="titre-poles-tarifs" className="rubrique-titre">
-            Pôles de services
+            Par pôle de service
           </h2>
-          <p className="lede-court">{services.tarification}.</p>
-          <div className="grille-services">
-            {services.poles.map((pole) => (
-              <CarteService key={pole.slug} pole={pole} />
-            ))}
-          </div>
+          <p className="lede-court">Le détail des périmètres est à la page de chaque service.</p>
+          <ul className="grille-poles-tarifs">
+            {services.poles.map((pole) => {
+              const [premier] = elementsDuPole(pole.slug);
+              return (
+                <li key={pole.slug}>
+                  <Link className="carte lien-carte" href={`/services/${pole.slug}`}>
+                    <span className="service-num" aria-hidden="true">
+                      {pole.numero}
+                    </span>
+                    <span className="lien-carte-titre">{pole.titre}</span>
+                    <span className="statut">
+                      {premier ? `${premier.intitule} : ${formatMontant(premier)}` : "Sur devis"}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </section>
 
