@@ -5,7 +5,7 @@
 # Usage : VERCEL_ENV=production pnpm build && bash scripts/verifier-publication.sh
 set -u
 cd "$(dirname "$0")/.."
-motifs='montant:[0-9]|à partir de|\$ ?CA|\\u00a0\$|525 \$|525\\u00a0\$|1 400|1\\u00a0400|2 500|2\\u00a0500|3 000|3\\u00a0000|5 000|5\\u00a0000'
+motifs='montant:[0-9]|à partir de|\$ ?CA|\\u00a0\$|525 \$|525\\u00a0\$|1 400|1\\u00a0400|2 500|2\\u00a0500|3 000|3\\u00a0000|5 000|5\\u00a0000|495 \$|475 \$'
 echo "Vérification : JavaScript public (.next/static)"
 js=$(grep -rlE "$motifs" .next/static 2>/dev/null | wc -l)
 echo "  fichiers contenant un motif : $js"

@@ -42,6 +42,9 @@ export type DetailPole = {
   demarrer: string[];
 };
 
+/** Choix d'une technologie par besoin (ex. n8n principal, Zapier étudié pour des connexions SaaS). */
+export type ChoixTechnologique = { titre: string; texte: string; avis: string[] };
+
 export type Pole = {
   slug: string;
   numero: string;
@@ -65,6 +68,8 @@ export type Pole = {
   pourDevis: string;
   ensuite?: string;
   note?: string;
+  /** Présentation mesurée d'une technologie alternative, affichée sur la page du pôle. */
+  choixTechnologique?: ChoixTechnologique;
 };
 
 export type Realisation = { titre: string; statut: string; texte: string; apercu: "plateforme" | "laboratoire" | "flux" | "site" };
@@ -110,8 +115,10 @@ export type ElementCatalogue = {
   statut: StatutValidation;
   /** Référence écrite de l'approbation individuelle du montant (obligatoire si `statut` vaut `approuve`). */
   approbation?: string;
-  /** Point commercial à arbitrer par le propriétaire, affiché à côté du montant. */
+  /** Point commercial à arbitrer par le propriétaire, affiché à côté du montant (aperçu uniquement). */
   pointArbitrage?: string;
+  /** Périmètre de référence d'une offre forfaitaire (ce qui est compris). */
+  perimetre?: string[];
 };
 
 export type Catalogue = {

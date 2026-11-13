@@ -582,3 +582,5 @@ main section.appel { padding: 64px 0; overflow: hidden; }
   .nav-principale .btn { padding: 10px 14px; font-size: 14.5px; }
 }
 .tableau-arbitrage { margin: 8px 0 0; padding: 8px 10px; font-size: 13px; color: #6e3416; background: var(--lavis); border-left: 3px solid var(--ambre-fonce); border-radius: 6px; }
+.tableau-perimetre { margin: 6px 0 0; padding-left: 18px; font-weight: 400; font-size: 13px; color: var(--encre-2); }
+.tableau-perimetre li + li { margin-top: 2px; }

@@ -31,3 +31,29 @@ test.describe("parcours commercial (lot PRICING-001, phase 1C)", () => {
     await expect(page.locator('a[href^="mailto:info@neoxix.ca"]').first()).toBeVisible();
   });
 });
+
+test.describe("catalogue 26 prestations et option Zapier (PRICING-002)", () => {
+  test("tarifs : trois offres Express présentes, avec leur périmètre", async ({ page }) => {
+    await page.goto("/tarifs");
+    await expect(page.getByText("Google Workspace Express").first()).toBeVisible();
+    await expect(page.getByText("Installation Wi-Fi petite entreprise").first()).toBeVisible();
+    await expect(page.getByText("Automatisation Express").first()).toBeVisible();
+    await expect(page.locator(".tableau-perimetre")).toHaveCount(3);
+  });
+
+  test("tarifs : Wazuh/SIEM et prestations sur devis sans montant", async ({ page }) => {
+    await page.goto("/tarifs");
+    const ligne = page.locator("tr", { hasText: "Wazuh ou supervision SIEM" });
+    await expect(ligne.locator(".tableau-montant")).toContainText("Sur devis");
+  });
+
+  test("pôle Automatisation : n8n reste le socle, Zapier est présenté comme option étudiée", async ({ page }) => {
+    await page.goto("/services/automatisation");
+    const bloc = page.locator(".choix-techno");
+    await expect(bloc).toContainText("n8n");
+    await expect(bloc).toContainText("Zapier");
+    await expect(bloc).toContainText("sélectionnée après analyse de vos besoins");
+    await expect(bloc).not.toContainText(/certifi|partenaire officiel/i);
+    await expect(page.locator("body")).not.toContainText(/Zapier\s+Partner|expert Zapier/i);
+  });
+});

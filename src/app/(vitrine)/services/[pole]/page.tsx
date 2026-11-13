@@ -104,6 +104,17 @@ export default async function PagePole({ params }: PageProps<"/services/[pole]">
                   <p>{pole.ensuite}</p>
                 </div>
               )}
+              {pole.choixTechnologique && (
+                <div className="rubrique revele choix-techno">
+                  <h2>{pole.choixTechnologique.titre}</h2>
+                  <p>{pole.choixTechnologique.texte}</p>
+                  <ul className="liste">
+                    {pole.choixTechnologique.avis.map((a) => (
+                      <li key={a}>{a}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               {pole.note && <p className="note-marques">{pole.note}</p>}
             </div>
             <aside className="encart-pole revele" aria-label="Demander une proposition">

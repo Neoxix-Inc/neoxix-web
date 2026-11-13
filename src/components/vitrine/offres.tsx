@@ -81,6 +81,13 @@ export function TableauCategorie({ titre, texte, elements }: { titre: string; te
                 <th scope="row">
                   {element.intitule}
                   <span className="tableau-desc">{element.description}</span>
+                  {element.perimetre && (
+                    <ul className="tableau-perimetre">
+                      {element.perimetre.map((p) => (
+                        <li key={p}>{p}</li>
+                      ))}
+                    </ul>
+                  )}
                 </th>
                 <td className="tableau-montant">
                   {formatMontant(element)}

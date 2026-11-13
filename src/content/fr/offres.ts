@@ -45,17 +45,19 @@ export const offres: Offres = {
     {
       slug: "google-workspace",
       titre: "Google Workspace professionnel",
-      accroche: "Courriel professionnel, documents partagés et agenda, configurés pour votre équipe.",
+      accroche: "Courriel professionnel, documents partagés et agenda, configurés pour votre équipe. Une option Express existe pour une seule boîte.",
       pour: "PME qui utilisent encore des comptes personnels ou une messagerie mal configurée.",
       resultat: "Votre équipe travaille dans un environnement unique, avec des comptes et un courriel qui appartiennent à votre entreprise.",
       inclus: [
-        "Configuration initiale du domaine et des comptes",
-        "Forfait jusqu'à cinq utilisateurs, pour la mise en place",
+        "Forfait cinq utilisateurs : configuration initiale standard comprise",
+        "Option Express : un domaine existant et une boîte professionnelle configurée et vérifiée",
+        "Migration des boîtes courriel, facturée par boîte",
         "Assistance Workspace mensuelle, si vous la choisissez",
       ],
       nonInclus: [
         "Licences Google Workspace : souscrites et facturées par Google ou le client, en dehors des honoraires NEOXIX",
-        "Migration des boîtes courriel : facturée par boîte, non comprise dans la configuration de base",
+        "Achat du domaine",
+        "Migration non prévue au forfait ou à l'option Express",
         "Intégrations avec des logiciels tiers : sur devis",
       ],
       deroulement: [
@@ -66,7 +68,13 @@ export const offres: Offres = {
       ],
       etiquettes: ["Gmail", "Drive", "Agenda", "Meet", "Domaine"],
       icone: "clients",
-      references: ["workspace-forfait-cinq-utilisateurs", "workspace-configuration-initiale", "workspace-migration", "workspace-assistance"],
+      references: [
+        "workspace-forfait-cinq-utilisateurs",
+        "workspace-express",
+        "workspace-configuration-initiale",
+        "workspace-migration",
+        "workspace-assistance",
+      ],
       pole: "infrastructure",
       pourDevis: "Nombre d'utilisateurs, domaine existant ou non, nombre de boîtes à migrer, outils actuels.",
       note: "Google et Google Workspace sont des marques de Google LLC. NEOXIX n'est pas affiliée à Google.",
