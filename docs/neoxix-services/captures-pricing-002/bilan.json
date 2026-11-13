@@ -1,0 +1,326 @@
+[
+  {
+    "serie": "mouvement-reduit",
+    "vue": "1440",
+    "chemin": "/",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/1440-accueil.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "1440",
+    "chemin": "/tarifs",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/1440-tarifs.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "1440",
+    "chemin": "/offres/reservation-en-ligne",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/1440-offre-site-reservation.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "1440",
+    "chemin": "/offres/google-workspace",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/1440-offre-google-workspace.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "1440",
+    "chemin": "/offres/support-informatique-pme",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/1440-offre-assistance-pme.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "1440",
+    "chemin": "/services/automatisation",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/1440-pole-automatisation-zapier.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "1194",
+    "chemin": "/",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/1194-accueil.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "1194",
+    "chemin": "/tarifs",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/1194-tarifs.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "1194",
+    "chemin": "/offres/reservation-en-ligne",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/1194-offre-site-reservation.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "1194",
+    "chemin": "/offres/google-workspace",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/1194-offre-google-workspace.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "1194",
+    "chemin": "/offres/support-informatique-pme",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/1194-offre-assistance-pme.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "1194",
+    "chemin": "/services/automatisation",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/1194-pole-automatisation-zapier.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "834",
+    "chemin": "/",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/834-accueil.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "834",
+    "chemin": "/tarifs",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/834-tarifs.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "834",
+    "chemin": "/offres/reservation-en-ligne",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/834-offre-site-reservation.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "834",
+    "chemin": "/offres/google-workspace",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/834-offre-google-workspace.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "834",
+    "chemin": "/offres/support-informatique-pme",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/834-offre-assistance-pme.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "834",
+    "chemin": "/services/automatisation",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/834-pole-automatisation-zapier.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "390",
+    "chemin": "/",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/390-accueil.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "390",
+    "chemin": "/tarifs",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/390-tarifs.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "390",
+    "chemin": "/offres/reservation-en-ligne",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/390-offre-site-reservation.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "390",
+    "chemin": "/offres/google-workspace",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/390-offre-google-workspace.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "390",
+    "chemin": "/offres/support-informatique-pme",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/390-offre-assistance-pme.png"
+  },
+  {
+    "serie": "mouvement-reduit",
+    "vue": "390",
+    "chemin": "/services/automatisation",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/mouvement-reduit/390-pole-automatisation-zapier.png"
+  },
+  {
+    "serie": "normal",
+    "vue": "1440",
+    "chemin": "/",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/normal/1440-accueil.png"
+  },
+  {
+    "serie": "normal",
+    "vue": "1440",
+    "chemin": "/tarifs",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/normal/1440-tarifs.png"
+  },
+  {
+    "serie": "normal",
+    "vue": "1440",
+    "chemin": "/offres/reservation-en-ligne",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/normal/1440-offre-site-reservation.png"
+  },
+  {
+    "serie": "normal",
+    "vue": "1440",
+    "chemin": "/offres/google-workspace",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/normal/1440-offre-google-workspace.png"
+  },
+  {
+    "serie": "normal",
+    "vue": "1440",
+    "chemin": "/offres/support-informatique-pme",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/normal/1440-offre-assistance-pme.png"
+  },
+  {
+    "serie": "normal",
+    "vue": "1440",
+    "chemin": "/services/automatisation",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/normal/1440-pole-automatisation-zapier.png"
+  },
+  {
+    "serie": "normal",
+    "vue": "390",
+    "chemin": "/",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/normal/390-accueil.png"
+  },
+  {
+    "serie": "normal",
+    "vue": "390",
+    "chemin": "/tarifs",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/normal/390-tarifs.png"
+  },
+  {
+    "serie": "normal",
+    "vue": "390",
+    "chemin": "/offres/reservation-en-ligne",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/normal/390-offre-site-reservation.png"
+  },
+  {
+    "serie": "normal",
+    "vue": "390",
+    "chemin": "/offres/google-workspace",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/normal/390-offre-google-workspace.png"
+  },
+  {
+    "serie": "normal",
+    "vue": "390",
+    "chemin": "/offres/support-informatique-pme",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/normal/390-offre-assistance-pme.png"
+  },
+  {
+    "serie": "normal",
+    "vue": "390",
+    "chemin": "/services/automatisation",
+    "debordement": 0,
+    "erreurs": 0,
+    "h1": 1,
+    "fichier": "/home/user/neoxix-web/docs/neoxix-services/captures-pricing-002/normal/390-pole-automatisation-zapier.png"
+  }
+]

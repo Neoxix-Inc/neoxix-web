@@ -12,7 +12,7 @@ test.describe("clavier", () => {
     await expect(page.locator("main#contenu")).toBeFocused();
   });
 
-  for (const chemin of ["/", "/services/automatisation", "/contact"]) {
+  for (const chemin of ["/", "/services/automatisation", "/contact", "/tarifs", "/offres/reservation-en-ligne"]) {
     test(`${chemin} : chaque élément atteint au Tab a un focus visible d'au moins 2 px`, async ({ page }) => {
       await page.goto(chemin);
       const vus = new Set<string>();

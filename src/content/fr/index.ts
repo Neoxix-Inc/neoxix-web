@@ -1,4 +1,5 @@
 import type { Contenu } from "../types";
+import { offres, tarifs } from "./offres";
 
 /**
  * Contenu français du site vitrine NEOXIX Services.
@@ -21,7 +22,9 @@ export const fr: Contenu = {
   },
   navigation: [
     { libelle: "Services", href: "/#services" },
+    { libelle: "Offres", href: "/#offres" },
     { libelle: "Solutions", href: "/#solutions" },
+    { libelle: "Tarifs", href: "/tarifs" },
     { libelle: "Méthode", href: "/#methode" },
     { libelle: "Réalisations", href: "/#realisations" },
     { libelle: "À propos", href: "/#a-propos" },
@@ -55,6 +58,8 @@ export const fr: Contenu = {
       "Français, anglais sur demande",
     ],
   },
+  offres,
+  tarifs,
   solutions: {
     surtitre: "Solutions",
     titre: { avant: "Partez de ", marque: "votre problème." },
@@ -191,6 +196,16 @@ export const fr: Contenu = {
         pourDevis:
           "Description du processus actuel, outils utilisés, volume approximatif, tâches manuelles, résultat souhaité et contraintes sur les données.",
         note: "Les licences des logiciels tiers (CRM, n8n Cloud, etc.) restent à la charge du client.",
+        choixTechnologique: {
+          titre: "Quelle technologie pour votre besoin ?",
+          texte:
+            "Nous concevons des automatisations avec n8n et évaluons, selon vos outils et votre budget, des solutions SaaS comme Zapier pour simplifier les échanges entre vos applications. La technologie est sélectionnée après analyse de vos besoins.",
+          avis: [
+            "n8n : workflows complexes, API personnalisées et orchestration interne, dans un environnement que nous administrons.",
+            "Zapier : connexions simples entre applications SaaS, lorsque les connecteurs natifs permettent une mise en place rapide.",
+            "Les abonnements et les tâches Zapier sont facturés par Zapier, séparément de nos honoraires. Ses limites de formule et de connecteurs sont vérifiées avant chaque proposition.",
+          ],
+        },
       },
       {
         slug: "infrastructure",

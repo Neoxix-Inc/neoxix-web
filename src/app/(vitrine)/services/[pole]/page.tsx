@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { contenu, lienCourriel, trouverPole } from "@/content";
+import { elementsDuPole } from "@/lib/catalogue";
 import { EnTetePage } from "@/components/vitrine/sections";
+import { metadonneesPage } from "@/lib/metadonnees";
+import { formatMontant } from "@/lib/tarification";
 
 export const dynamicParams = false;
 
@@ -13,7 +16,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/services/[pole]">): Promise<Metadata> {
   const { pole: slug } = await params;
   const pole = trouverPole(slug);
-  return pole ? { title: pole.titre, description: pole.resume } : {};
+  return pole ? metadonneesPage({ titre: pole.titre, description: pole.resume, chemin: `/services/${pole.slug}` }) : {};
 }
 
 export default async function PagePole({ params }: PageProps<"/services/[pole]">) {
@@ -21,6 +24,7 @@ export default async function PagePole({ params }: PageProps<"/services/[pole]">
   const pole = trouverPole(slug);
   if (!pole) notFound();
   const autres = contenu.services.poles.filter((p) => p.slug !== pole.slug);
+  const tarifs = elementsDuPole(pole.slug);
   const colonnes: [string, string[]][] = [
     ["Peut être inclus", pole.detail.inclus],
     ["Dépend du périmètre", pole.detail.perimetre],
@@ -100,6 +104,17 @@ export default async function PagePole({ params }: PageProps<"/services/[pole]">
                   <p>{pole.ensuite}</p>
                 </div>
               )}
+              {pole.choixTechnologique && (
+                <div className="rubrique revele choix-techno">
+                  <h2>{pole.choixTechnologique.titre}</h2>
+                  <p>{pole.choixTechnologique.texte}</p>
+                  <ul className="liste">
+                    {pole.choixTechnologique.avis.map((a) => (
+                      <li key={a}>{a}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               {pole.note && <p className="note-marques">{pole.note}</p>}
             </div>
             <aside className="encart-pole revele" aria-label="Demander une proposition">
@@ -108,8 +123,20 @@ export default async function PagePole({ params }: PageProps<"/services/[pole]">
                 <p>{pole.pourDevis}</p>
               </div>
               <div>
-                <h2>Tarification</h2>
-                <p>{contenu.services.tarification}</p>
+                <h2>Tarifs de référence</h2>
+                {tarifs.length > 0 ? (
+                  <ul className="tarifs-pole">
+                    {tarifs.map((element) => (
+                      <li key={element.id}>
+                        <span>{element.intitule}</span>
+                        <strong>{formatMontant(element)}</strong>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>Sur devis</p>
+                )}
+                <p className="encart-mention">Montants en dollars canadiens, hors licences tierces, matériel, déplacements et taxes applicables.</p>
               </div>
               <Link className="btn btn-principal" href="/contact">
                 {contenu.actionPrincipale.libelle}

@@ -42,6 +42,9 @@ export type DetailPole = {
   demarrer: string[];
 };
 
+/** Choix d'une technologie par besoin (ex. n8n principal, Zapier étudié pour des connexions SaaS). */
+export type ChoixTechnologique = { titre: string; texte: string; avis: string[] };
+
 export type Pole = {
   slug: string;
   numero: string;
@@ -65,6 +68,8 @@ export type Pole = {
   pourDevis: string;
   ensuite?: string;
   note?: string;
+  /** Présentation mesurée d'une technologie alternative, affichée sur la page du pôle. */
+  choixTechnologique?: ChoixTechnologique;
 };
 
 export type Realisation = { titre: string; statut: string; texte: string; apercu: "plateforme" | "laboratoire" | "flux" | "site" };
@@ -76,6 +81,91 @@ export type EntreeFaq = { question: string; reponse: string };
 export type Formule = { titre: string; texte: string; statut: string };
 
 export type OptionService = { valeur: string; libelle: string };
+
+/** Catégorie de facturation, telle que présentée sur la page Tarifs. */
+export type CategorieTarif = "honoraires" | "services-ponctuels" | "forfaits-mensuels" | "tarifs-horaires";
+
+/** Unité de facturation d'un élément du catalogue. */
+export type UniteTarif = "forfait" | "par-boite" | "par-heure" | "par-mois" | "par-banque" | "sur-devis";
+
+/**
+ * Statut commercial. `propose` : montant soumis à validation du propriétaire (jamais publié sur
+ * neoxix.ca en production). `approuve` : réservé à un montant validé par écrit.
+ */
+export type StatutValidation = "propose" | "approuve";
+
+/** Élément du catalogue : une seule source de montant pour tout le site. */
+export type ElementCatalogue = {
+  /** Identifiant stable, utilisé par les offres et les pôles. */
+  id: string;
+  intitule: string;
+  /** Slug du pôle de service associé (`sites-web`, `automatisation`, `infrastructure`, `applications`). */
+  pole: string;
+  categorie: CategorieTarif;
+  description: string;
+  /** Montant en dollars canadiens ; `null` = sur devis. */
+  montant: number | null;
+  devise: "CAD";
+  unite: UniteTarif;
+  /** « à partir de » : prix de départ, selon la portée. */
+  aPartirDe: boolean;
+  exclusions: string[];
+  /** Conditions de facturation (ex. minimum de deux heures sur place). */
+  conditions?: string[];
+  statut: StatutValidation;
+  /** Référence écrite de l'approbation individuelle du montant (obligatoire si `statut` vaut `approuve`). */
+  approbation?: string;
+  /** Point commercial à arbitrer par le propriétaire, affiché à côté du montant (aperçu uniquement). */
+  pointArbitrage?: string;
+  /** Périmètre de référence d'une offre forfaitaire (ce qui est compris). */
+  perimetre?: string[];
+};
+
+export type Catalogue = {
+  /** Mention commune à reprendre sur les pages de tarifs et d'offres. */
+  mention: string;
+  categories: { id: CategorieTarif; titre: string; texte: string }[];
+  /** Coûts hors honoraires, jamais inclus dans les montants ci-dessus sans mention. */
+  horsHonoraires: { titre: string; texte: string }[];
+  elements: ElementCatalogue[];
+};
+
+/**
+ * Offre de démarrage : prestation courte à périmètre fixe, présentée sur l'accueil, la page Tarifs
+ * et sa propre page. Les montants viennent exclusivement du catalogue serveur (`src/lib/catalogue.ts`), via `references`.
+ */
+export type OffreDemarrage = {
+  /** Segment d'URL : `/offres/[slug]`. */
+  slug: string;
+  titre: string;
+  accroche: string;
+  /** Public visé, en une phrase. */
+  pour: string;
+  resultat: string;
+  inclus: string[];
+  nonInclus: string[];
+  deroulement: string[];
+  etiquettes: string[];
+  icone: NomIcone;
+  /** Identifiants d'éléments du catalogue. Le premier sert de repère sur l'accueil. */
+  references: string[];
+  /** Pôle de service qui précise la prestation (lien « Voir le service »). */
+  pole?: string;
+  pourDevis: string;
+  note?: string;
+};
+
+export type Offres = EnTeteSection & {
+  items: OffreDemarrage[];
+  /** Règle de tarification commune, affichée sur la page Tarifs. */
+  tarification: string;
+};
+
+export type Tarifs = EnTeteSection & {
+  /** Mention affichée tant que les montants ne sont pas publiés. */
+  statutMontants: string;
+  engagements: string[];
+};
 
 export type Contenu = {
   langue: Langue;
@@ -101,6 +191,8 @@ export type Contenu = {
   };
   solutions: EnTeteSection & { items: Solution[]; note: string };
   services: EnTeteSection & { tarification: string; poles: Pole[] };
+  offres: Offres;
+  tarifs: Tarifs;
   realisations: EnTeteSection & { items: Realisation[]; legende: { terme: string; sens: string }[] };
   appelAction: { titre: string; texte: string };
   apropos: EnTeteSection & { points: { titre: string; texte: string }[] };
